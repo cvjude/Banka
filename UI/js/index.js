@@ -1,14 +1,3 @@
-function addtoclass(activelink, uppperLimit, lowerLimit) {
-    var winY = window.innerHeight || document.documentElement.clientHeight,
-    distTop = home.getBoundingClientRect().top;
-    distPercent = Math.round((distTop / winY) * 100);
-    if (distPercent <= uppperLimit && distPercent >= lowerLimit) {
-        activelink.className = 'nav-link active';
-    }
-    else activelink.className = 'nav-link';
-}
-
-
 let holdFlag = true;
 
 function colornav(){
@@ -18,7 +7,7 @@ function colornav(){
 
         nav.style.top = '0';
         
-        logo.classList.remove("black");
+        logo.classList.remove("addcolor");
         links.forEach((member) => {
             return member.classList.remove("black");
         });
@@ -36,7 +25,7 @@ function colornav(){
         links.forEach((member) => {
             return member.classList.add("black");
         });
-        logo.classList.add("black");
+        logo.classList.add("addcolor");
         nav.classList.add("applyshadow");
     }
     if(Math.round(home.getBoundingClientRect().top) === 0)
@@ -44,33 +33,62 @@ function colornav(){
 }
 
 var home = document.getElementById('home')
-// var signup = document.getElementById('signup')
-// var signin = document.getElementById('signin')
-// var footer = document.getElementById('footer')
+var signup = document.getElementById('signup')
+var signin = document.getElementById('signin')
+var footer = document.getElementById('footer')
 var links = document.querySelectorAll('.nav-link')
-homelink = links[0];
-signuplink = links[1];
-signinlink = links[2];
-footerlink = links[3];
 let nav = document.querySelector('.custom-nav')
 let logo = document.querySelector('.logo')
 let navbar = document.querySelector('nav');
 
-nav.addEventListener('click' ,function() {
-    addtoclass(homelink, 0, -90) // as top of element hits top of viewport
-    addtoclass(signuplink, -225, -326);
-    addtoclass(signinlink, -326, -350);
-    addtoclass(footerlink, -350, -400);
-    colornav();
-}, false);
 
-window.addEventListener('scroll', function() {
-    addtoclass(homelink, 0, -90) // as top of element hits top of viewport
-    addtoclass(signuplink, -225, -326);
-    addtoclass(signinlink, -326, -350);
-    addtoclass(footerlink, -350, -400);
+function Get_Offset_From_Start (object, offset) { 
+  offset = offset || {x : 0, y : 0};
+  offset.x += object.offsetLeft;       offset.y += object.offsetTop;
+  if(object.offsetParent) {
+      offset = Get_Offset_From_Start (object.offsetParent, offset);
+  }
+  return offset;
+}
+
+function Get_Offset_From_CurrentView (myElement) {
+  if (!myElement) return;
+  var offset = Get_Offset_From_Start (myElement);
+  var scrolled = GetScrolled (myElement.parentNode);
+  var posX = offset.x - scrolled.x;   var posY = offset.y - scrolled.y;
+  return posY;
+}
+//helper
+function GetScrolled (object, scrolled) {
+  scrolled = scrolled || {x : 0, y : 0};
+  scrolled.x += object.scrollLeft;    scrolled.y += object.scrollTop;
+  if (object.tagName.toLowerCase () != "html" && object.parentNode) { scrolled=GetScrolled (object.parentNode, scrolled); }
+  return scrolled;
+}
+
+let a = [home, signup, signin, footer];
+
+// live monitoring
+window.addEventListener('scroll', function (evt) {
+    var count = 0;
+
+    a.forEach((member) => {
+      var position = Get_Offset_From_CurrentView(member);
+      if(position <= 0.77 && position >= -100){
+        links[count].className = 'nav-link active';
+      }
+      else links[count].className = 'nav-link';
+      if(member == footer){
+        if(position < 593)
+        {
+          links[count].className = 'nav-link active';
+        }
+        else links[count].className = 'nav-link';
+      }
+      count++;
+    })
     colornav();
-}, false);
+});
 
 $(document).ready(function(){
   // Add smooth scrolling to all links

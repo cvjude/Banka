@@ -110,6 +110,10 @@ button {
     color: black;
 }
 
+.addcolor{
+    color: #F24259;
+}
+
 .navbar-brand {
     display: inline-block;
     padding-top: .3125rem;
@@ -239,10 +243,6 @@ label{
     background-color:#58a;
 }
 
-#signin{
-    background-color:#fff;
-}
-
 /*Info styles*/
 .info{
     padding: 80px 0;
@@ -342,6 +342,146 @@ label{
     background-position: center center;
     background-size: cover;
     background-attachment: fixed; 
+}
+/*Sign up styles*/
+
+
+/*sign in styles*/
+#signin{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* background-color: #eceef0; */
+    background-image: linear-gradient(rgba(31, 33, 37, 0.5) 
+    100%, transparent 0),
+    url(./../img/Background.jpg);
+    background-size: cover;
+    background-position: center center;
+}
+
+.login-container{
+    max-width: 700px;
+    height: 500px;
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+    background-color: #fff;
+    box-shadow: 2px 2px 6px 2px rgba(0,0,0,0.1);
+}
+
+.login-container .img{
+    background-image: linear-gradient(rgba(31, 33, 37, 0.1) 
+    100%, transparent 0),
+    url(./../img/Background.jpg);
+    background-size: cover;
+    background-position: center center;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container .form-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+}
+
+.login-container .text-center .header_subtitle{
+    padding-top: .5em;
+}
+
+.login-container .text-center .header_title{
+    font-size: 40px;
+    font-weight: normal;
+}
+
+.form-container input{
+    position: relative;
+    max-width: 300px;
+    padding: .5em;
+    font-size: 125%;
+    margin-bottom: 1em;
+    outline: none;
+    border: 1px solid #655;
+    background-color: transparent;
+    border-radius: 4px;
+    z-index:2;
+}
+
+.form_inputs{
+    position: relative;
+}
+
+.form_inputs label{
+    width: auto;
+    display: inline-block;
+    position: absolute;
+    top: 9px;
+    margin-left: 5px;
+    font-size: 1.2em;
+    font-weight: 500;
+    padding: 0 .2em;
+    background-color: white;
+    background-clip: padding-box;
+	font-family: "segoe UI";
+	color: #e53739;
+    outline: none;
+    z-index: 1;
+    transition: top .5s ease;
+}
+
+.form_inputs input:focus + label,
+.form_inputs input:valid + label,
+input[value=""] + label{
+    top: -20px;
+    z-index: 2;
+}
+
+.form_inputs input:focus{
+    border-color: #e53739;
+}
+
+.container .form_button{
+    background-color: #fff;
+    display: inline-block;
+    padding: 0;
+    border: 0;
+}
+
+@media only screen and (max-width: 790px){
+    .login-container{
+        display: block;
+        max-width: 450px;
+    }
+    
+    .login-container .img{
+        width: 100%;
+        max-width: 450px;
+        height: 150px;
+    }
+    
+    .login-container .form-container{
+        width: 100%;
+        height: 350px;
+    }
+    
+    .login-container .text-center .header_title{
+        font-size: 30px;
+    }
+
+    .login-container .text-center .header_subtitle{
+        font-size: 15px;
+    }
 }
 
 /*footer styles*/
@@ -449,7 +589,7 @@ footer li, footer li a{
     }
 
     .logo{
-        color: black!important;
+        color: #F24259!important;
     }
 
     /*footer styles*/
@@ -476,5 +616,7 @@ footer li, footer li a{
         font-size: 25px;
     }
 
-    
+    .form-container input{
+        max-width: 200px;
+    }
 }
