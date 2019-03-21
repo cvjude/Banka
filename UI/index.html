@@ -22,8 +22,8 @@
             <div class = "collapse navbar-collapse" id = navbarCollapse>
                 <ul class = "navbar-nav">
                     <li><a class = "nav-link active" href="#home">Home</a></li>
-                    <li><a class = "nav-link" href="#signup">Signup</a></li>
                     <li><a class = "nav-link" href="#signin">Login</a></li>
+                    <li><a class = "nav-link" href="#signup">Signup</a></li>
                     <li><a class = "nav-link" href="#footer">Contact</a></li>
                 </ul>
             </div>
@@ -49,6 +49,34 @@
                         </div>
                 </div>
         </div>
+    </section>
+
+    <section id = "signin" class = "h-100vh panel">
+            <div class = container>
+                <div class = login-container>
+                    <div class = "img text-center">
+                        <h2 class = "header_title">Welcome back</h2>
+                        <p class = "header_subtitle">
+                            Login to continue
+                        </p>
+                    </div>
+                    <div class = form-container>    
+                        <form class = "signin" action="">
+                            <div class = form_inputs>
+                                <input type="text" id = "email" required>
+                                <label class = "form-label" for = "email">Email</label>
+                            </div>
+                            <div class = form_inputs>
+                                <input type="password" id = "password" required>
+                                <label class = "form-label" for = "Password">Password</label>
+                            </div>
+                            <button class= "form_button">
+                                <a class = "btn btn-custom" href = "main.html">Login</a>
+                            </button>
+                        </form> 
+                    </div>
+                </div>
+            </div>
     </section>
 
     <section class = info>
@@ -100,7 +128,7 @@
             </div>
         </div>
     </section>
-
+    
     <section class = "info section_img">
         <div class = container>
             <div class = row>
@@ -114,34 +142,39 @@
     </section>
 
     <section id = "signup" class = "h-100vh panel">
-    </section>
-
-    <section id = "signin" class = "h-100vh panel">
-            <div class = container>
-                <div class = login-container>
-                    <div class = "img text-center">
-                        <h2 class = "header_title">Welcome back</h2>
-                        <p class = "header_subtitle">
-                            Login to continue
-                        </p>
-                    </div>
-                    <div class = form-container>    
-                        <form action="">
-                            <div class = form_inputs>
-                                <input type="text" id = "email" required>
-                                <label class = "form-label" for = "email">Email</label>
-                            </div>
-                            <div class = form_inputs>
-                                <input type="password" id = "password" required>
-                                <label class = "form-label" for = "Password">Password</label>
-                            </div>
-                            <button class= "form_button">
-                                <a class = "btn btn-custom" href = "main.html">Login</a>
-                            </button>
-                        </form> 
-                    </div>
+        <div class = container>
+            <div class = login-container>
+                <div class = "img text-center">
+                    <h2 class = "header_title">Welcome to Banka</h2>
+                    <p class = "header_subtitle">
+                        Sign in
+                    </p>
+                </div>
+                <div class = form-container>    
+                    <form class = "signup" action="">
+                        <div class = form_inputs>
+                            <input type="text" id = "firstname" required>
+                            <label class = "form-label" for = "firstname">First name</label>
+                        </div>
+                        <div class = form_inputs>
+                            <input type="text" id = "lastname" required>
+                            <label class = "form-label" for = "lastname">Last name</label>
+                        </div>
+                        <div class = form_inputs>
+                            <input type="text" id = "email" required>
+                            <label class = "form-label" for = "email">Email</label>
+                        </div>
+                        <div class = form_inputs>
+                            <input type="password" id = "password" required>
+                            <label class = "form-label" for = "Password">Password</label>
+                        </div>
+                        <button class= "form_button">
+                            <a class = "btn btn-custom" href = "main.html">Login</a>
+                        </button>
+                    </form> 
                 </div>
             </div>
+        </div>
     </section>
 
     <footer id = footer class = panel>

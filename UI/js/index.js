@@ -66,7 +66,7 @@ function GetScrolled (object, scrolled) {
   return scrolled;
 }
 
-let a = [home, signup, signin, footer];
+let a = [home, signin, signup, footer];
 
 // live monitoring
 window.addEventListener('scroll', function (evt) {
