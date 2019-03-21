@@ -347,11 +347,15 @@ label{
 
 
 /*sign in styles*/
-#signin{
+#signin, #signup{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    /* background-color: #eceef0; */
+    background-color: #eceef0;
+    height: 110vh;
+}
+
+#signup{
     background-image: linear-gradient(rgba(31, 33, 37, 0.5) 
     100%, transparent 0),
     url(./../img/Background.jpg);
@@ -370,9 +374,9 @@ label{
 }
 
 .login-container .img{
-    background-image: linear-gradient(rgba(31, 33, 37, 0.1) 
+    background-image: linear-gradient(rgba(31, 33, 37, 0.6) 
     100%, transparent 0),
-    url(./../img/Background.jpg);
+    url(./../img/login.jpg);
     background-size: cover;
     background-position: center center;
     width: 50%;
@@ -381,6 +385,12 @@ label{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+#signup .login-container .img{
+    background-image: linear-gradient(rgba(31, 33, 37, 0.8) 
+    100%, transparent 0),
+    url(./../img/Background.jpg);
 }
 
 .login-container .form-container{
@@ -401,7 +411,7 @@ form{
 }
 
 .login-container .text-center .header_title{
-    font-size: 40px;
+    font-size: 30px;
     font-weight: normal;
 }
 
@@ -434,7 +444,7 @@ form{
     background-color: white;
     background-clip: padding-box;
 	font-family: "segoe UI";
-	color: #e53739;
+	color: #655;
     outline: none;
     z-index: 1;
     transition: top .5s ease;
