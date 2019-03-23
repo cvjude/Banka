@@ -1,0 +1,269 @@
+body{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+
+/*nav styles*/
+.custom-nav{
+    background-color: #24292e;
+    box-shadow: 0px 1px 12px 1px rgba(0,0,0,0.2);
+}
+
+.navbar .container{
+    max-width: 100%;
+}
+
+
+/*main content*/
+main{
+    flex-grow: 1;
+}
+
+main .container{
+    max-width: 960px;
+    padding-top: 30px;
+    padding-bottom: 20px;
+    text-align: center;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 10px;
+    font-family: "Segoe UI",",Arial";
+    
+    /* grid-auto-rows: 200px; */
+}
+
+/*user profile*/
+.userprofile{
+    grid-column: 1/2;
+    position: fixed;
+}
+
+.userprofile img{
+    height: 200px;
+    width: 200px;
+}
+
+.userprofile p{
+    color: #24292e;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.info{
+    min-height: 500px;
+    grid-column: 2/5;
+}
+
+.info nav{
+    display: flex;
+    padding: 10px 20px;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    justify-content: space-between;
+}
+
+.info .navbar-nav{
+    display: flex;
+    flex-direction: row;
+}
+
+.info .navbar-nav li{
+    position: relative;
+    top: 10px;
+    padding-left: 50px; 
+}
+
+.transactheader{
+    position: sticky;
+    top: 50px;
+    background: #fff;
+    z-index: 1;
+}
+
+.before::before{
+    position: absolute;
+    content: '';
+    top: 8px;
+    right:45px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: greenyellow;
+    box-shadow: 0 0 .1em, 0 0 .3em greenyellow;
+}
+
+.bactive::before{
+    background: greenyellow;
+    box-shadow: 0 0 .1em, 0 0 .3em greenyellow;
+}
+
+.bdormant::before{
+    background: yellow;
+    box-shadow: 0 0 .1em, 0 0 .3em yellow;
+}
+
+.bdraft::before{
+    background: black;
+    box-shadow: 0 0 .1em, 0 0 .3em black;
+}
+
+.accounts{
+    padding: 10px 0px;
+    /* background: red; */
+}
+
+.info nav > h4,
+.accounts h4 {
+    font-size: 1.5em;
+    text-transform: capitalize;
+    font-weight: 400;
+    /* padding-bottom: 7px; */
+}
+
+.accounts h4{
+    margin-bottom: 10px;
+}
+
+.accounts ul{
+    display: inline-block;
+    overflow: auto;
+    width: 100%;
+    height: 13em;
+    /* padding: .3em .5em; */
+    border: 1px solid silver;
+}
+
+.accounts ul li{
+    font-size: .8em;
+    text-align: left;
+    padding: 10px 5px;
+    border-bottom: 1px solid silver;
+    border-left: 4px solid #24292e;
+    margin-bottom: 1px;
+}
+
+.accounts ul li:nth-child(even),
+.transactions >div:nth-child(odd){
+    background-color: rgba(31, 33, 37, 0.2);
+}
+
+.transactions{
+    text-align: left;
+}
+
+.transactions > div{
+    padding: 10px;
+    margin-bottom: 1px;
+    border-bottom: 1px solid silver;
+}
+
+.transactions > div:nth-of-type(2n+1){
+    border-left: 4px solid #58a;
+    border-right: 4px solid #58a
+}
+
+.transactions > div:nth-child(2n+2){
+    border-left: 4px solid #655a;
+    border-right: 4px solid #655a;
+}
+
+.transactions > div:nth-child(2n+3){
+    border-left: 4px solid yellowgreen;
+    border-right: 4px solid yellowgreen;
+}
+
+.spacebetween{
+    display: flex;
+    justify-content: space-between;
+}
+
+.transactions p{
+    font-size: .8em;
+    padding-bottom: .2em;
+}
+
+.accounts ul::-webkit-scrollbar {
+   width: 10px;
+   height: 20px;
+}
+
+.accounts ul::-webkit-scrollbar-track,
+.accounts ul::-webkit-scrollbar-thumb {
+    border-right: 2px solid rgba(255,255,255,0);
+    border-left: 2px solid rgba(255,255,255,0);
+    border-radius: 5px;
+    background-clip: padding-box;
+}
+
+.accounts ul::-webkit-scrollbar-thumb {
+    background-color: silver;
+}
+
+.debit{
+    color: red;
+}
+
+.credit{
+    color: blue;
+}
+
+/*footer styles*/
+footer{
+    margin-top: 50px;
+    font-family: "Segoe UI";
+    padding: 0 15px 15px 15px;
+}
+
+footer .container{
+    padding-top: 15px;
+    border-top: 1px solid #24292e;
+    max-width: 400px;
+}
+
+.footerinfo p{
+    text-align: center;
+    color: #24292e;
+}
+
+@media only screen and (max-width: 790px){
+    .username{
+        position: relative;
+        top: 13px;
+    }
+    
+    .info nav{
+        display: block;
+    }
+
+    .info .navbar-nav li:first-child{
+        padding: 0 0 0 0px;
+    }
+
+    main .container .info{
+        text-align: left;
+    }
+
+    main .container{
+        display: block;
+    }
+
+    .userprofile{
+        display: flex;
+        position: initial;
+    }
+    
+    .accounts{
+        flex-grow: 1;
+        max-height: 500px;
+        overflow-y: hidden;
+        padding: 0px 10px;
+    }
+}
+
+@media only screen and (max-width: 600px){    
+    .userprofile img{
+        height: 100px;
+        width: 100px;
+    }
+}
