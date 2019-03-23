@@ -1,0 +1,299 @@
+*, *::before, *::after{
+    box-sizing: border-box;
+    margin:  0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+    background-color: #fff;
+}
+
+section{
+    display: block;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+button {
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+/*Nav styles*/
+.navbar{
+    display: flex;
+    align-items: center;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    background-clip: padding-box;
+}
+
+.custom-nav{
+    padding: 5px 5px;
+    width: 100%;
+    border-radius: 0px;
+    z-index: 999;
+    margin-bottom: 0px;
+    transition: color 0.5s ease-in-out;
+    background-color: transparent;
+    clear: both;
+}
+
+.fixed-top{
+    position: fixed;
+    top:0;
+}
+
+.sticky{
+    position: sticky;
+    top: 0;
+}
+
+.navbar >.container{
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    max-width: 960px;
+    justify-content: space-between;
+}
+
+.applyshadow{
+    box-shadow: 2px 1px 12px 1px rgba(0,0,0,0.2);
+}
+
+.container{
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.collapse{
+    display: flex;
+    flex-basis: auto;
+    /* flex-grow: 1; */
+    align-items: center;
+}
+
+.navbar-nav{
+    display: flex;
+    margin-top: 0; 
+    /* margin-left: auto!important; */
+    padding-left: 0px;
+    margin-bottom: 0px;
+    list-style: none;
+    text-align: center;
+}
+
+.custom-nav .navbar-nav li a {
+    font-size: 17px;
+    background-color: transparent !important;
+    padding: 7px 0 !important;
+    position: relative;
+    margin: 0 12px;
+    transition: all 0.4s;
+}
+
+.custom-nav .navbar-nav li a:hover ,
+.custom-nav .navbar-nav li .active{
+    color: #e53739;
+}
+
+.black{
+    color: black;
+}
+
+.addcolor{
+    color: #F24259;
+}
+
+.navbar-brand {
+    display: inline-block;
+    padding-top: .3125rem;
+    padding-bottom: .3125rem;
+    margin-right: 1rem;
+    font-size: 1.5rem;
+    line-height: inherit;
+    white-space: nowrap;
+}
+
+.btn {
+    padding: 12px 28px!important;
+}
+
+.btn {
+    display: inline-block;
+    font-weight: 400;
+    color: #212529;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.btn-custom {
+    background-color: #F24259;
+    border: 2px solid #F24259;
+    color: #fff;
+    font-size: 13px;
+    transition: all 0.5s;
+    border-radius: 5px;
+    letter-spacing: 1px;
+    text-transform: capitalize;
+}
+
+.btn-rounded{
+    border-radius: 30px!important;
+}
+
+#toggle {
+    display: none;
+}
+
+label{
+    display: none;
+    color: white;
+    width: 26px;
+    float: right;
+    font-size: 150%;
+    font-weight: bold;
+    padding-top: .1em;
+}
+
+.spinner::before{
+    content: "";
+    z-index: 2000;
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60px;
+    height: 60px;
+    margin-top: -30px;
+    margin-left: -30px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-top-color: #F24259;
+    animation: spinner 0.7s linear infinite;
+}
+
+.spinner::after{
+    content: "";
+    z-index: 1999;
+    background: rgba(0,0,0,0.2);
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80px;
+    height: 80px;
+    margin-top: -40px;
+    margin-left: -40px;
+    border-radius: 3px;
+}
+
+@keyframes spinner{
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes autofill{
+    to {
+        color: #655;
+        background: transparent;
+    }
+}
+
+input:-webkit-autofill{
+    -webkit-animation-name: autofill;
+    -webkit-animation-fill-mode: both;
+}
+
+/*Media Queries*/
+@media only screen and (max-width: 790px){
+    /*nav Styles*/
+    label{
+        display: block;
+        cursor: pointer;
+        color: black;
+    }
+
+    .collapse {
+        display:flex;
+        flex-direction: column;
+        position: absolute;
+        top: -500px;
+        left: 0px;
+        right: 0;
+        transition: all .5s;
+        overflow: hidden;
+        z-index: -1;
+        box-shadow: 0px 1px 12px 1px rgba(0,0,0,0.2);
+    }
+
+    .custom-nav{
+        padding: 0;
+    }
+
+    .custom-nav .container{
+        position: relative;
+    }
+
+    .custom-nav .container, .btn-custom,
+    .custom-nav, .nav-link, .navbar-nav{
+        display: block;
+    }
+    
+    #toggle:checked + .collapse,
+    #toggle:checked + .collapse .navbar-nav{
+        top: 50px;
+    }
+
+    .nav-link a{
+        margin: 0px;
+    }
+
+    .btn-custom{
+        margin: auto;
+    }
+
+    .navbar{
+        height: auto;
+        width: 100%;
+    }
+
+    .nav-container, .collapse{
+        background-color: white;
+        padding: 5px 30px;
+    }
+
+    .custom-nav .navbar-nav li a{
+        color: black;
+    }
+
+    .logo{
+        color: #F24259;
+    }
+}
