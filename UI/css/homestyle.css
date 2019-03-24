@@ -61,10 +61,6 @@
     margin-top: 1.5rem;
 }
 
-#signup {
-    background-color:#58a;
-}
-
 /*Info styles*/
 .info{
     padding: 80px 0;
@@ -176,11 +172,27 @@
 }
 
 #signup{
+    position: relative;
+    background-color: transparent;
+}
+
+#signup::before{
+    content:'';
     background-image: linear-gradient(rgba(31, 33, 37, 0.5) 
     100%, transparent 0),
     url(./../img/Background.jpg);
     background-size: cover;
     background-position: center center;
+    
+    background-attachment: fixed; 
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    z-index: -1;
 }
 
 .login-container{
@@ -233,59 +245,6 @@ form{
 .login-container .text-center .header_title{
     font-size: 30px;
     font-weight: normal;
-}
-
-.form-container input{
-    position: relative;
-    max-width: 300px;
-    padding: .5em;
-    font-size: 125%;
-    margin-bottom: 1em;
-    outline: none;
-    border: 1px solid #655;
-    background-color: transparent;
-    border-radius: 4px;
-    z-index:2;
-}
-
-.form_inputs{
-    position: relative;
-}
-
-.form_inputs label{
-    width: auto;
-    display: inline-block;
-    position: absolute;
-    top: 9px;
-    margin-left: 5px;
-    font-size: 1.2em;
-    font-weight: 500;
-    padding: 0 .2em;
-    background-color: white;
-    background-clip: padding-box;
-	font-family: "segoe UI";
-	color: #655;
-    outline: none;
-    z-index: 1;
-    transition: top .5s ease;
-}
-
-.form_inputs input:focus + label,
-.form_inputs input:valid + label,
-input[value=""] + label{
-    top: -20px;
-    z-index: 2;
-}
-
-.form_inputs input:focus{
-    border-color: #e53739;
-}
-
-.container .form_button{
-    background-color: #fff;
-    display: inline-block;
-    padding: 0;
-    border: 0;
 }
 
 @media only screen and (max-width: 790px){
