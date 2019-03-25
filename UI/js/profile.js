@@ -29,14 +29,14 @@ function drawOnCanvas(filein) {
     }
 }
 
-dialog.addEventListener('focusout',(event) => {
-    dialog.close()
-    dialog.classList.remove('dialog-scale');
-})
+// dialog.addEventListener('focusout',(event) => {
+//     dialog.close()
+//     dialog.classList.remove('dialog-scale');
+// })
 
 let close = document.querySelector('.close')
 
-close.addEventListener('focusout',(event) => {
+close.addEventListener('click',(event) => {
     dialog.close()
     dialog.classList.remove('dialog-scale');
 })
