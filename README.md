@@ -1,7 +1,7 @@
 # Banka
 
 [![Build Status](https://travis-ci.org/cvjude/Banka.svg?branch=develop)](https://travis-ci.org/cvjude/Banka)
-[![Coverage Status](https://coveralls.io/repos/github/cvjude/Questioner/badge.svg?branch=Develope)](https://coveralls.io/github/cvjude/Questioner?branch=Develope)
+[![Coverage Status](https://coveralls.io/repos/github/cvjude/Banka/badge.svg?branch=ch-update-readme-and-add-badges-164893909)](https://coveralls.io/github/cvjude/Banka?branch=ch-update-readme-and-add-badges-164893909)
 [![Coverage Status](https://coveralls.io/repos/github/cvjude/Banka/badge.svg?branch=develop)](https://coveralls.io/github/cvjude/Banka?branch=develop)
 
 # Project Description
