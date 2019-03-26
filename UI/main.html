@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+    <meta charset="UTF-8">
+	<meta name="description" content="Banka.com">
+	<meta name="keywords" content="HTML,CSS,XML,JavaScript">
+	<meta name="author" content="Jude Violet">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/sharedstyle.css">
+    <link rel="stylesheet" type="text/css" href="css/mainstyle.css">
+    <link rel="stylesheet" type="text/css" href="css/fontawesome-free-5.7.2-web/css/all.css">
+</head>
+
+<body>
+    <nav class = "navbar sticky custom-nav">
+        <div class = "container nav-container">
+            <a class = "logo navbar-brand" href="index.html">Banka</a>
+
+            <label for="toggle">&#9776;</label>
+            <input type = "checkbox" id = "toggle"/>
+            
+            <div class = "collapse navbar-collapse" id = navbarCollapse>
+                <ul class = "navbar-nav">
+                    <li><a class = "nav-link" href="profile.html">Profile</a></li>
+                    <li><a class = "nav-link" href="index.html">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class = "mainview">
+        <div class = container>
+            <aside class = userprofile>
+                <div class = "username">
+                    <p class = "name">James dehi</p>
+                    <img class = "applyshadow"src="./img/user.jpg" alt="Upload image">
+                </div>
+                <div class = accounts>
+                    <h4>Accounts</h4>
+                    <div class = accountpane>
+                        <ul>
+                            <li>
+                                <div>0001</div>
+                                <div>Balance: 65000</div>
+                            </li>
+                            <li>
+                                <div>0002</div>
+                                <div>Balance: 2000</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+
+            <section class = info>
+                <nav class  = transactheader>
+                    <h4>Transactions</h4>
+                    <ul class = navbar-nav>
+                        <li>000001</li>
+                        <li class = "before bactive">active</li>
+                    </ul>
+                </nav>
+                <div class = transactions>
+                    <div>
+                        <p>28th Feburary 2019</p>
+                        <div class = "spacebetween">
+                            <span>
+                                <h4>Electricity Bill</h4>
+                                <small class = "debit">-2000</small>
+                            </span>
+                            <span>
+                                <p>Old balance: 4000</p>
+                                <p>Current Balance: 2000</p>
+                            </span>
+                        </div>
+                    </div>
+                    <div>
+                        <p>28th Feburary 2019</p>
+                        <div class = "spacebetween">
+                            <span>
+                                <h4>Credit from Jude</h4>
+                                <small class = "credit">+20000</small>
+                            </span>
+                            <span>
+                                <p>Old balance: 2000</p>
+                                <p>Current Balance: 22000</p>
+                            </span>
+                        </div>
+                    </div>
+                    <div>
+                        <p>1th March 2019</p>
+                        <div class = "spacebetween">
+                            <span>
+                                <h4>Debit self</h4>
+                                <small class = "debit">-5000</small>
+                            </span>
+                            <span>
+                                <p>Old balance: 22000</p>
+                                <p>Current Balance: 17000</p>
+                            </span>
+                        </div>
+                    </div>
+                    <div>
+                        <p>18th March 2019</p>
+                        <div class = "spacebetween">
+                            <span>
+                                <h4>Airtime</h4>
+                                <small class = "debit">-2000</small>
+                            </span>
+                            <span>
+                                <p>Old balance: 17000</p>
+                                <p>Current Balance: 15000</p>
+                            </span>
+                        </div>
+                    </div>
+                    <div>
+                        <p>28th March 2019</p>
+                        <div class = "spacebetween">
+                            <span>
+                                <h4>March Salaries</h4>
+                                <small class = "credit">+50000</small>
+                            </span>
+                            <span>
+                                <p>Old balance: 15000</p>
+                                <p>Current Balance: 65000</p>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <footer class = "footer">
+        <div class = container>
+            <div class = "footerinfo">
+                <p>2019 &copy;Designed by jude</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/shared.js"></script>
+    </body>
+</html>

@@ -1,0 +1,408 @@
+*, *::before, *::after{
+    box-sizing: border-box;
+    margin:  0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,
+    "Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji",
+    "Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+    background-color: #fff;
+}
+
+section{
+    display: block;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+button {
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+/*Nav styles*/
+.navbar{
+    display: flex;
+    align-items: center;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    background-clip: padding-box;
+}
+
+.custom-nav{
+    padding: 5px 5px;
+    width: 100%;
+    border-radius: 0px;
+    z-index: 999;
+    margin-bottom: 0px;
+    transition: color 0.5s ease-in-out;
+    background-color: transparent;
+    clear: both;
+}
+
+.fixed-top{
+    position: fixed;
+    top:0;
+}
+
+.sticky{
+    position: sticky;
+    top: 0;
+}
+
+.navbar >.container{
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    max-width: 960px;
+    justify-content: space-between;
+}
+
+.applyshadow{
+    box-shadow: 2px 1px 12px 1px rgba(0,0,0,0.2);
+}
+
+.container{
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.collapse{
+    display: flex;
+    flex-basis: auto;
+    align-items: center;
+}
+
+.navbar-nav{
+    display: flex;
+    margin-top: 0; 
+    padding-left: 0px;
+    margin-bottom: 0px;
+    list-style: none;
+    text-align: center;
+}
+
+.custom-nav .navbar-nav li a {
+    font-size: 17px;
+    background-color: transparent !important;
+    padding: 7px 0 !important;
+    position: relative;
+    margin: 0 12px;
+    transition: all 0.4s;
+}
+
+.custom-nav .navbar-nav li a:hover ,
+.custom-nav .navbar-nav li .active{
+    color: #e53739;
+}
+
+.black{
+    color: black;
+}
+
+.addcolor{
+    color: #F24259;
+}
+
+.navbar-brand {
+    display: inline-block;
+    padding-top: .3125rem;
+    padding-bottom: .3125rem;
+    margin-right: 1rem;
+    font-size: 1.5rem;
+    line-height: inherit;
+    white-space: nowrap;
+}
+
+.btn {
+    padding: 12px 28px!important;
+}
+
+.btn {
+    display: inline-block;
+    font-weight: 400;
+    color: #212529;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    transition: all .15s ease-in-out;
+}
+
+.btn:hover{
+    box-shadow: 0px 5px 15px -4px rgba(0, 0, 0, .5); 
+    cursor: pointer;
+}
+
+.btn-custom {
+    background-color: #F24259;
+    border: 2px solid #F24259;
+    color: #fff;
+    font-size: 13px;
+    transition: all 0.5s;
+    border-radius: 5px;
+    letter-spacing: 1px;
+    text-transform: capitalize;
+}
+
+.btn-rounded{
+    border-radius: 30px!important;
+}
+
+#toggle {
+    display: none;
+}
+
+.navbar .nav-container label{
+    display: none;
+    color: white;
+    width: 26px;
+    float: right;
+    font-size: 150%;
+    font-weight: bold;
+    padding-top: .1em;
+}
+
+.spinner::before{
+    content: "";
+    z-index: 2000;
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30px;
+    height: 30px;
+    margin-top: -15px;
+    margin-left: -15px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-top-color: #F24259;
+    animation: spinner 0.7s linear infinite;
+}
+
+.hidden{
+    overflow: hidden;
+}
+
+.spinner::after{
+    content: "";
+    z-index: 1999;
+    background: rgba(0,0,0,0.2);
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    margin-top: -20px;
+    margin-left: -20px;
+    border-radius: 3px;
+}
+
+.form-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.form-container input,
+select{
+    position: relative;
+    max-width: 300px;
+    padding: .5em;
+    font-size: 125%;
+    margin-bottom: 1em;
+    outline: none;
+    border: 1px solid #655;
+    background-color: transparent;
+    border-radius: 4px;
+    z-index:2;
+}
+
+.form_inputs{
+    position: relative;
+}
+
+.form_inputs label{
+    width: auto;
+    display: inline-block;
+    position: absolute;
+    top: 9px;
+    margin-left: 5px;
+    font-size: 1.2em;
+    font-weight: 500;
+    padding: 0 .2em;
+    background-color: white;
+    background-clip: padding-box;
+	font-family: "segoe UI";
+	color: #655;
+    outline: none;
+    z-index: 1;
+    transition: top .5s ease;
+}
+
+.form_inputs input:focus + label,
+.form_inputs input:valid + label,
+input[value=""] + label{
+    top: -20px;
+    z-index: 2;
+}
+
+.form_inputs input:focus{
+    border-color: #e53739;
+}
+
+.container .form_button{
+    background-color: #fff;
+    display: inline-block;
+    padding: 0;
+    border: 0;
+}
+
+.form_button {
+    background-color: #fff;
+    display: inline-block;
+    padding: 0;
+    border: 0;
+}
+
+@keyframes spinner{
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes autofill{
+    to {
+        color: #655;
+        background: transparent;
+    }
+}
+
+input:-webkit-autofill{
+    -webkit-animation-name: autofill;
+    -webkit-animation-fill-mode: both;
+}
+
+/*Media Queries*/
+@media only screen and (max-width: 790px){
+    /*nav Styles*/
+    .navbar .nav-container label{
+        display: block;
+        cursor: pointer;
+        color: black;
+    }
+
+    .collapse {
+        display:flex;
+        flex-direction: column;
+        position: absolute;
+        top: -500px;
+        left: 0px;
+        right: 0;
+        transition: all .5s;
+        overflow: hidden;
+        z-index: -1;
+        box-shadow: 0px 1px 12px 1px rgba(0,0,0,0.2);
+    }
+
+    .custom-nav{
+        padding: 0;
+    }
+
+    .custom-nav .container{
+        position: relative;
+    }
+
+    .custom-nav .container, .btn-custom,
+    .custom-nav, .nav-link, .navbar-nav{
+        display: block;
+    }
+    
+    #toggle:checked + .collapse,
+    #toggle:checked + .collapse .navbar-nav{
+        top: 50px;
+    }
+
+    .nav-link a{
+        margin: 0px;
+    }
+
+    .btn-custom{
+        margin: auto;
+    }
+
+    .navbar{
+        height: auto;
+        width: 100%;
+    }
+
+    .nav-container, .collapse{
+        background-color: white;
+        padding: 5px 30px;
+    }
+
+    .custom-nav .navbar-nav li a{
+        color: black;
+    }
+
+    .logo{
+        color: #F24259;
+    }
+}
+
+.tip{
+	font-size: 80%;
+	font-family: "segoe UI";
+	position: absolute;
+	padding: 0.5em;
+	width: 180px;
+	left: 105px;
+	top: 22px;
+	color: white;
+	background: #655;
+	border-radius: 5px;
+    box-shadow: 5px 5px 4px -4px rgba(0, 0, 0, .5); 
+    transform: scale(0);
+}
+
+.tip::before {
+	content: '';
+	position: absolute;
+	top: -6px;
+	left: 0;
+	background: #655;
+	width: 180px;
+	height: 6px;
+	clip-path: polygon(0px 6px, 20px 6px, 
+					   25px 0px, 30px 6px, 
+					   100% 6px, 100% 100%, 
+					   0px 100%);
+}
+
+.callout {
+	transform-origin: 1.4em -.4em;
+	transition: .5s cubic-bezier(.25,.1,.3,1.5);
+}
