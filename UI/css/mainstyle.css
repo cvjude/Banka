@@ -151,10 +151,6 @@ main .container{
     height: 13em;
 }
 
-.accountpane{
-    /* border: 1px solid silver; */
-}
-
 .accounts ul li{
     font-size: .8em;
     text-align: left;

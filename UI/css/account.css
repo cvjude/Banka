@@ -127,6 +127,9 @@ main .container{
     position: relative;
 }
 
+.accountform span{
+    margin-bottom: 20px;
+}
 
 @media only screen and (max-width: 960px){
 
