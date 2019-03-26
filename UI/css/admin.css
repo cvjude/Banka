@@ -11,3 +11,7 @@
 .dialogbtn span{
     min-width: 100px;;
 }
+
+#opendialog:hover{
+    cursor: pointer;
+}

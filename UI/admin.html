@@ -17,7 +17,34 @@
 
 <body>
 
-    <dialog>
+    <dialog id = addaccount>
+        <div class = "form-container">
+            <form class = "accountform" action = "">
+                <span class = "close">X</span>
+                <h4>Add an Account</h4>
+                <div class = form_inputs>
+                    <select name="accounttype">
+                        <option disabled>Select account type</option>
+                        <option value="Savings">Admin</option>
+                        <option value="Current">Staff</option>
+                    </select>
+                </div>
+                <div class = form_inputs>
+                    <input type="text" id = "email" required>
+                    <label class = "form-label" for = "email">Email</label>
+                </div>
+                <div class = form_inputs>
+                    <input type="password" id = "password" required>
+                    <label class = "form-label" for = "password">Password</label>
+                </div>
+                <button class= "form_button">
+                    <a class = "btn btn-custom" href = "">Create</a>
+                </button>
+            </form>
+        </div>
+    </dialog>
+
+    <dialog id = showaccount>
         <div class = "form-container">
             <form class = "accountform" action = "">
                 <span class = "close">X</span>
@@ -53,6 +80,7 @@
             
             <div class = "collapse navbar-collapse" id = navbarCollapse>
                 <ul class = "navbar-nav">
+                    <li><a id = "opendialog" class = "nav-link">Add account</a></li>
                     <li><a class = "nav-link" href="index.html">Logout</a></li>
                 </ul>
             </div>
