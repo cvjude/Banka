@@ -1,16 +1,27 @@
 accounts = document.querySelector('.accounts');
-dialog = document.querySelector('dialog');
+accountdialog = document.querySelector('#showaccount');
+adddialog = document.querySelector('#addaccount');
 
 document.getElementById("accountul").addEventListener("click",function(e) {
     if (e.target && e.target.matches("li") || e.target.parentElement.matches('li') || e.target.parentElement.parentElement.matches('li')) {
-        dialog.showModal();
-        dialog.classList.add('dialog-scale');
+        accountdialog.showModal();
+        accountdialog.classList.add('dialog-scale');
       }
   });
 
-  let close = document.querySelector('.close')
+  document.getElementById("opendialog").addEventListener("click",function(e) {
+            adddialog.showModal();
+        adddialog.classList.add('dialog-scale');
+  });
 
-close.addEventListener('click',(event) => {
-    dialog.close()
-    dialog.classList.remove('dialog-scale');
+  let close = document.querySelectorAll('.close')
+
+close[1].addEventListener('click',(event) => {
+    accountdialog.close()
+    accountdialog.classList.remove('dialog-scale');
+})
+
+close[0].addEventListener('click',(event) => {
+    adddialog.close()
+    adddialog.classList.remove('dialog-scale');
 })
