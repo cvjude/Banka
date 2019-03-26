@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/cvjude/Banka.svg?branch=develop)](https://travis-ci.org/cvjude/Banka)
 [![Coverage Status](https://coveralls.io/repos/github/cvjude/Banka/badge.svg?branch=ch-update-readme-and-add-badges-164893909)](https://coveralls.io/github/cvjude/Banka?branch=ch-update-readme-and-add-badges-164893909)
-[![Coverage Status](https://coveralls.io/repos/github/cvjude/Banka/badge.svg?branch=develop)](https://coveralls.io/github/cvjude/Banka?branch=develop)
+[![Maintainability](https://api.codeclimate.com/v1/badges/8a9845ae1ad1fd4d7906/maintainability)](https://codeclimate.com/github/cvjude/Banka/maintainability)
 
 # Project Description
 Banka is a light-weight core banking application that powers banking operations like account
