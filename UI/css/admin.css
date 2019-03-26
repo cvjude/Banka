@@ -3,15 +3,31 @@
     flex-direction: row;
     flex-wrap: nowrap;
 
-    justify-content: start;
-    width: 200px;
+    justify-content: space-between;
+    min-width: 200px;
 
 }
 
 .dialogbtn span{
-    min-width: 100px;;
+    min-width: 100px;
+}
+
+.dialogbtn div{
+    margin: auto;
+    width: 100%;
 }
 
 #opendialog:hover{
     cursor: pointer;
+}
+
+.detials{
+    display: none;
+    margin-top: 10px;
+}
+
+.accounts ul li:hover > div > div{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 }

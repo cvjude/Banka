@@ -11,36 +11,60 @@
     <link rel="stylesheet" type="text/css" href="css/mainstyle.css">
     <link rel="stylesheet" type="text/css" href="css/profile.css">
     <link rel="stylesheet" type="text/css" href="css/account.css">
+    <link rel="stylesheet" type="text/css" href="css/admin.css">
     <link rel="stylesheet" type="text/css" href="css/fontawesome-free-5.7.2-web/css/all.css">
 </head>
 
 <body>
 
-        <dialog>
-            <div class = "form-container">
-                <form class = "accountform" action = "">
-                    <span class = "close">X</span>
-                    <h4>Account detials</h4>
-                    <span>
-                    <dt>Owner:</dt>
-                    <dd>John Dehi</dd>
-                    <dt>Account number:</dt>
-                    <dd>000001</dd>
-                    <dt>Balance:</dt>
-                    <dd>65000.00</dd>
-                    <dt>Created:</dt> 
-                    <dd>1th september 2017</dd>
-                    <dt>Transactions conducted:</dt>
-                    <dd>10</dd>
-                    <dt>Opening balance:</dt>
-                    <dd>1000.00</dd>
-                    </span>
-                    <span class= "form_button">
-                        <span class = "btn btn-custom">Delete account</span>
-                    </span>
-                </form>
-            </div>
-        </dialog>
+    <dialog id = addaccount>
+        <div class = "form-container">
+            <form class = "accountform" action = "">
+                <span class = "close">X</span>
+                <h4>Transact</h4>
+                <div class = form_inputs>
+                    <select name="accounttype">
+                        <option disabled>Select Transaction Type</option>
+                        <option value="Savings">Credit</option>
+                        <option value="Current">Debit</option>
+                    </select>
+                </div>
+                <div class = form_inputs>
+                    <input type="text" id = "amount" required>
+                    <label class = "form-label" for = "amount">Amount</label>
+                </div>
+                <div class = dialogbtn>
+                        <div class = "btn btn-custom">Perform</div>
+                    </div>
+            </form>
+        </div>
+    </dialog>
+
+    <dialog id = showaccount>
+        <div class = "form-container">
+            <form class = "accountform" action = "">
+                <span class = "close">X</span>
+                <h4>Account detials</h4>
+                <span>
+                <dt>Owner:</dt>
+                <dd>John Dehi</dd>
+                <dt>Account number:</dt>
+                <dd>000001</dd>
+                <dt>Balance:</dt>
+                <dd>65000.00</dd>
+                <dt>Created:</dt> 
+                <dd>1th september 2017</dd>
+                <dt>Transactions conducted:</dt>
+                <dd>10</dd>
+                <dt>Opening balance:</dt>
+                <dd>1000.00</dd>
+                </span>
+                <div class = dialogbtn>
+                    <div class = "btn btn-custom">Delete</div>
+                </div>
+            </form>
+        </div>
+    </dialog>
 
     <nav class = "navbar sticky custom-nav">
         <div class = "container nav-container">
@@ -68,6 +92,7 @@
                         </div>
                     </div>
                     <p class = "black">staff Amos</p>
+                    <small>Amos.inspire@gmail.com</small>
                 </section>
 
                 <section class = accounts>
@@ -81,6 +106,10 @@
                                     <dd>John Dehi</dd>
                                     <dt>Account number:</dt>
                                     <dd>000001</dd>
+                                    <div class = detials>
+                                        <div id = "detail" class = "btn btn-custom">Details</div>
+                                        <div id = "trans"class = "btn btn-custom">Transact</div>
+                                    </div>
                                 </div>
                                 <div class="accoutli">
                                     <div class = "before bactive">Active</div>
@@ -92,9 +121,43 @@
                                     <dd>John Dehi</dd>
                                     <dt>Account number:</dt>
                                     <dd>000002</dd>
+                                    <div class = detials>
+                                        <div id = "detail" class = "btn btn-custom">Details</div>
+                                        <div id = "trans"class = "btn btn-custom">Transact</div>
+                                    </div>
                                 </div>
                                 <div class="accoutli">
-                                   <div class = "before bdormant">Dormant</div>
+                                    <div class = "before bdormant">Dormant</div>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <dt>Owner:</dt>
+                                    <dd>James doe</dd>
+                                    <dt>Account number:</dt>
+                                    <dd>000003</dd>
+                                    <div class = detials>
+                                        <div id = "detail" class = "btn btn-custom">Details</div>
+                                        <div id = "trans"class = "btn btn-custom">Transact</div>
+                                    </div>
+                                </div>
+                                <div class="accoutli">
+                                    <div class = "before bactive">Active</div>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <dt>Owner:</dt>
+                                    <dd>Jane Obaseki</dd>
+                                    <dt>Account number:</dt>
+                                    <dd>000004</dd>
+                                    <div class = detials>
+                                        <div id = "detail" class = "btn btn-custom">Details</div>
+                                        <div id = "trans"class = "btn btn-custom">Transact</div>
+                                    </div>
+                                </div>
+                                <div class="accoutli">
+                                    <div class = "before bactive">Active</div>
                                 </div>
                             </li>
                             <li>
@@ -102,10 +165,14 @@
                                     <dt>Owner:</dt>
                                     <dd>John Dehi</dd>
                                     <dt>Account number:</dt>
-                                    <dd>000002</dd>
+                                    <dd>000005</dd>
+                                    <div class = detials>
+                                        <div id = "detail" class = "btn btn-custom">Details</div>
+                                        <div id = "trans"class = "btn btn-custom">Transact</div>
+                                    </div>
                                 </div>
                                 <div class="accoutli">
-                                   <div class = "before bdormant">Dormant</div>
+                                    <div class = "before bactive">Active</div>
                                 </div>
                             </li>
                             <li>
@@ -113,21 +180,14 @@
                                     <dt>Owner:</dt>
                                     <dd>John Dehi</dd>
                                     <dt>Account number:</dt>
-                                    <dd>000002</dd>
+                                    <dd>000001</dd>
+                                    <div class = detials>
+                                        <div id = "detail" class = "btn btn-custom">Details</div>
+                                        <div id = "trans"class = "btn btn-custom">Transact</div>
+                                    </div>
                                 </div>
                                 <div class="accoutli">
-                                   <div class = "before bdormant">Dormant</div>
-                                </div>
-                            </li>
-                            <li>
-                                <div>
-                                    <dt>Owner:</dt>
-                                    <dd>John Dehi</dd>
-                                    <dt>Account number:</dt>
-                                    <dd>000002</dd>
-                                </div>
-                                <div class="accoutli">
-                                   <div class = "before bdormant">Dormant</div>
+                                    <div class = "before bactive">Active</div>
                                 </div>
                             </li>
                         </ul>

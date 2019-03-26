@@ -3,7 +3,7 @@ accountdialog = document.querySelector('#showaccount');
 adddialog = document.querySelector('#addaccount');
 
 document.getElementById("accountul").addEventListener("click",function(e) {
-    if (e.target && e.target.matches("li") || e.target.parentElement.matches('li') || e.target.parentElement.parentElement.matches('li')) {
+    if (e.target.classList[0]==='btn') {
         accountdialog.showModal();
         accountdialog.classList.add('dialog-scale');
       }
