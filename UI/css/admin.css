@@ -1,0 +1,13 @@
+.dialogbtn{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+    justify-content: start;
+    width: 200px;
+
+}
+
+.dialogbtn span{
+    min-width: 100px;;
+}
