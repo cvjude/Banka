@@ -40,7 +40,7 @@ main .container{
 }
 
 .accounts ul{
-    min-height: 75vh;
+    min-height: 74vh;
 }
 
 .info{
@@ -137,6 +137,10 @@ main .container{
 
 .accountform span{
     margin-bottom: 20px;
+}
+
+.accounts ul{
+    padding-right: 10px;
 }
 
 @media only screen and (max-width: 960px){
