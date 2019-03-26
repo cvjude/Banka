@@ -35,6 +35,10 @@ main .container{
     height: 400px;
 }
 
+.userprofile{
+    top: 200px;
+}
+
 .accounts ul{
     min-height: 75vh;
 }
@@ -71,6 +75,10 @@ main .container{
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.accounts{
+    margin-bottom: 100px;
 }
 
 .black{
