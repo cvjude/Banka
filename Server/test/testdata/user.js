@@ -35,6 +35,15 @@ const Users = [
     type: 'client',
     isadmin: false,
   },
+  {
+    id: 1,
+    firstname: 'James',
+    lastname: 'Chidima',
+    email: 'jchidima@gmail.com',
+    password: 'judes',
+    type: 'staff',
+    isadmin: true,
+  },
 ];
 
 export default Users;

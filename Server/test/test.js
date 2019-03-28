@@ -29,7 +29,7 @@ describe('Banka App', () => {
   });
 
   describe('/auth signup', () => {
-    it('signup a non existing user', (done) => {
+    it('should signup a non existing user', (done) => {
       chai.request(app)
         .post('/api/v1/auth/signup')
         .send(users[0])
@@ -39,7 +39,7 @@ describe('Banka App', () => {
         });
     });
 
-    it('should not sign in an existing user', (done) => {
+    it('should not sign up an existing user', (done) => {
       chai.request(app)
         .post('/api/v1/auth/signup')
         .send(users[1])
@@ -63,6 +63,48 @@ describe('Banka App', () => {
       chai.request(app)
         .post('/api/v1/auth/signup')
         .send(users[3])
+        .end((err, res) => {
+          expect(res.statusCode).to.equal(400);
+          done();
+        });
+    });
+  });
+
+  describe('/auth signup', () => {
+    it('should signin an existing user', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/signin')
+        .send(users[0])
+        .end((err, res) => {
+          expect(res.statusCode).to.equal(200);
+          done();
+        });
+    });
+
+    it('should not signin on invalid user input', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/signin')
+        .send(users[2])
+        .end((err, res) => {
+          expect(res.statusCode).to.equal(400);
+          done();
+        });
+    });
+
+    it('should not signin on invalid email', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/signin')
+        .send(users[3])
+        .end((err, res) => {
+          expect(res.statusCode).to.equal(400);
+          done();
+        });
+    });
+
+    it('should not signin on invalid password', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/signin')
+        .send(users[4])
         .end((err, res) => {
           expect(res.statusCode).to.equal(400);
           done();
