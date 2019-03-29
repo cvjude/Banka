@@ -1,6 +1,6 @@
 import Userdata from '../model/userdata';
 import Util from '../helper/Utilities';
-import hash from '../helper/passwordhash';
+import { hash, checkPassword } from '../helper/passwordhash';
 import token from '../helper/token';
 
 class User {
@@ -41,6 +41,45 @@ class User {
     const tokenObj = { id };
 
     Userdata.push(Userobj);
+    return res.status(200).json({
+      status: 200,
+      data: {
+        token: token(tokenObj),
+        id,
+        firstname,
+        lastname,
+        email,
+      },
+    });
+  }
+
+  /**
+  * @static
+  * @description Allow a user to signup
+  * @param {object} req - Request object
+  * @param {object} res - Response object
+  * @returns {object} Json
+  * @memberof Controllers
+  */
+  static signin(req, res) {
+    const {
+      email, password,
+    } = req.body;
+
+    const user = Userdata.find(users => users.email === email);
+    if (!user) {
+      return Util.errorstatus(res, 400, 'User doesn\'t exist');
+    }
+
+    if (!checkPassword(password.trim(), user.hashpassword)) {
+      return Util.errorstatus(res, 400, 'password not correct');
+    }
+
+    const {
+      id, firstname, lastname,
+    } = user;
+
+    const tokenObj = { id };
     return res.status(200).json({
       status: 200,
       data: {

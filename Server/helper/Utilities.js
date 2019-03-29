@@ -28,7 +28,7 @@ class Util {
   * @description Returns message based on the status
   * @param {Object} res - Response object
   * @param {integer} statusCode - status code to be sent
-  * @param {Object} schemadata - the appropraite error message
+  * @param {Object} errormessage - the appropraite error message
   * @memberof Controllers
   */
 
