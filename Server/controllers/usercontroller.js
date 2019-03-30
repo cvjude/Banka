@@ -41,16 +41,16 @@ class User {
     const tokenObj = { id };
 
     Userdata.push(Userobj);
-    return res.status(200).json({
-      status: 200,
-      data: {
-        token: token(tokenObj),
-        id,
-        firstname,
-        lastname,
-        email,
-      },
-    });
+
+    const datas = {
+      token: token(tokenObj),
+      id,
+      firstname,
+      lastname,
+      email,
+    };
+
+    return Util.successStatus(res, 201, datas);
   }
 
   /**
@@ -80,16 +80,16 @@ class User {
     } = user;
 
     const tokenObj = { id };
-    return res.status(200).json({
-      status: 200,
-      data: {
-        token: token(tokenObj),
-        id,
-        firstname,
-        lastname,
-        email,
-      },
-    });
+
+    const datas = {
+      token: token(tokenObj),
+      id,
+      firstname,
+      lastname,
+      email,
+    };
+
+    return Util.successStatus(res, 200, datas);
   }
 }
 

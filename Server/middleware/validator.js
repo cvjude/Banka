@@ -51,6 +51,31 @@ class Validate {
     }
     return next();
   }
+
+  /**
+  * @static
+  * @description Validates account creation details
+  * @param {Object} req - Request object
+  * @param {Object} res - Response object
+  * @param {Object} next - Next function call
+  * @memberof Controllers
+  */
+
+  static createAccount(req, res, next) {
+    const {
+      type, balance,
+    } = req.body;
+
+    const validateObject = {
+      type, balance,
+    };
+
+    const error = Util.validateJoi(validateObject, schema.account);
+    if (error) {
+      return Util.errorstatus(res, 400, error);
+    }
+    return next();
+  }
 }
 
 export default Validate;
