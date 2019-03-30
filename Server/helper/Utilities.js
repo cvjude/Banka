@@ -38,6 +38,22 @@ class Util {
       error: errormessage,
     });
   }
+
+  /**
+  * @static
+  * @description Returns message based on the status
+  * @param {Object} res - Response object
+  * @param {integer} statusCode - status code to be sent
+  * @param {Object} errormessage - the appropraite error message
+  * @memberof Controllers
+  */
+
+  static successStatus(res, statusCode, datas) {
+    return res.status(statusCode).json({
+      status: statusCode,
+      data: datas,
+    });
+  }
 }
 
 export default Util;

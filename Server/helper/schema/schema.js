@@ -14,6 +14,12 @@ const schema = {
     email: Joi.string().email().lowercase().required(),
     password: Joi.required(),
   }),
+
+  account: Joi.object().keys({
+    type: Joi.string().trim().valid('savings', 'current')
+      .required(),
+    balance: Joi.number().required(),
+  }),
 };
 
 export default schema;
