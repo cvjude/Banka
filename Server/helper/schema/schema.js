@@ -24,7 +24,15 @@ const schema = {
   setAccount: Joi.object().keys({
     status: Joi.string().trim().valid('active', 'dormant')
       .required(),
-    accountnumber: Joi.number().required().min(10),
+    accountnumber: Joi.number().integer().required().min(10),
+  }),
+
+  id: Joi.object().keys({
+    id: Joi.number().required(),
+  }),
+
+  checkAccount: Joi.object().keys({
+    accountnumber: Joi.number().min(10).integer().required(),
   }),
 };
 
