@@ -63,7 +63,7 @@ class Controller {
     };
 
     Accounts.push(accountobj);
-    return Util.successStatus(res, 201, datas);
+    return Util.successStatus(res, 201, 'data', datas);
   }
 
   /**
@@ -76,8 +76,7 @@ class Controller {
     */
 
   static setAccount(req, res) {
-    const { status, thisUser } = req.body;
-    const accountnumber = Number(req.params.accountnumber);
+    const { status, thisUser, accountnumber } = req.body;
     const useraccount = Accounts.find(account => account.accountnumber === accountnumber);
     if (useraccount === undefined) {
       return Util.errorstatus(res, 400, 'Account number not found');
@@ -95,7 +94,32 @@ class Controller {
       status,
     };
 
-    return Util.successStatus(res, 200, datas);
+    return Util.successStatus(res, 200, 'data', datas);
+  }
+
+  /**
+    * @static
+    * @description Allows Admin/Staff to delete an account
+    * @param {object} req - Request object
+    * @param {object} res - Response object
+    * @returns {object} Json
+    * @memberof Controller
+    */
+
+  static deleteAccount(req, res) {
+    const { thisUser, accountnumber } = req.body;
+    const useraccount = Accounts.find(account => account.accountnumber === accountnumber);
+    if (useraccount === undefined) {
+      return Util.errorstatus(res, 400, 'Account number not found');
+    }
+
+    if (!thisUser.isadmin) {
+      return Util.errorstatus(res, 403, 'Forbidden');
+    }
+
+    const index = Accounts.findIndex(account => account.accountnumber === accountnumber);
+    Accounts.splice(index, 1);
+    return Util.successStatus(res, 200, 'message', 'Account successfully deleted');
   }
 }
 

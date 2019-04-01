@@ -50,7 +50,7 @@ class User {
       email,
     };
 
-    return Util.successStatus(res, 201, datas);
+    return Util.successStatus(res, 201, 'data', datas);
   }
 
   /**
@@ -89,7 +89,7 @@ class User {
       email,
     };
 
-    return Util.successStatus(res, 200, datas);
+    return Util.successStatus(res, 200, 'data', datas);
   }
 }
 

@@ -101,6 +101,26 @@ class Validate {
     if (error) {
       return Util.errorstatus(res, 400, error);
     }
+    req.body.accountnumber = accountnumber;
+    return next();
+  }
+
+  /**
+  * @static
+  * @description Validates account account number
+  * @param {Object} req - Request object
+  * @param {Object} res - Response object
+  * @param {Object} next - Next function call
+  * @memberof Controllers
+  */
+  static accountnumber(req, res, next) {
+    const accountnumber = Number(req.params.accountnumber);
+
+    const error = Util.validateJoi({ accountnumber }, schema.checkAccount);
+    if (error) {
+      return Util.errorstatus(res, 400, error);
+    }
+    req.body.accountnumber = accountnumber;
     return next();
   }
 }

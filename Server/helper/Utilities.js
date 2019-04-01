@@ -48,11 +48,11 @@ class Util {
   * @memberof Controllers
   */
 
-  static successStatus(res, statusCode, datas) {
-    return res.status(statusCode).json({
-      status: statusCode,
-      data: datas,
-    });
+  static successStatus(res, status, key, object) {
+    const response = { status };
+    response[key] = object;
+
+    return res.status(status).json(response);
   }
 }
 
