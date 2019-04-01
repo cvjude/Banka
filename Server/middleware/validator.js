@@ -29,7 +29,7 @@ class Validate {
 
   /**
   * @static
-  * @description Validates a signup request
+  * @description Validates a signin request
   * @param {Object} req - Request object
   * @param {Object} res - Response object
   * @param {Object} next - Next function call
@@ -71,6 +71,33 @@ class Validate {
     };
 
     const error = Util.validateJoi(validateObject, schema.account);
+    if (error) {
+      return Util.errorstatus(res, 400, error);
+    }
+    return next();
+  }
+
+
+  /**
+  * @static
+  * @description Validates account activation or deactivation details
+  * @param {Object} req - Request object
+  * @param {Object} res - Response object
+  * @param {Object} next - Next function call
+  * @memberof Controllers
+  */
+  static setAccount(req, res, next) {
+    const {
+      status,
+    } = req.body;
+
+    const accountnumber = Number(req.params.accountnumber);
+
+    const validateObject = {
+      status, accountnumber,
+    };
+
+    const error = Util.validateJoi(validateObject, schema.setAccount);
     if (error) {
       return Util.errorstatus(res, 400, error);
     }
