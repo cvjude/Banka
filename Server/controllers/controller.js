@@ -11,7 +11,7 @@ class Controller {
     * @param {object} req - Request object
     * @param {object} res - Response object
     * @returns {object} Json
-    * @memberof questionerController
+    * @memberof Controller
     */
 
   static welcome(req, res) {
@@ -20,25 +20,20 @@ class Controller {
 
   /**
     * @static
-    * @description Display a welcome message
+    * @description Creates an account
     * @param {object} req - Request object
     * @param {object} res - Response object
     * @returns {object} Json
-    * @memberof questionerController
+    * @memberof Controller
     */
 
   static creatAccount(req, res) {
-    const { type, balance, decoded } = req.body;
+    const { type, openingbalance, thisUser } = req.body;
     const createdon = new Date();
     const status = 'active';
-    const owner = decoded.id;
-    const useraccount = Users.find(user => user.id === owner);
+    const owner = thisUser.id;
 
-    if (useraccount === undefined) {
-      return Util.errorstatus(res, 400, 'User not found');
-    }
-
-    if (useraccount.isadmin) {
+    if (thisUser.isadmin) {
       return Util.errorstatus(res, 403, 'Forbidden');
     }
 
@@ -51,12 +46,12 @@ class Controller {
       owner,
       type,
       status,
-      balance,
+      openingbalance,
     };
 
     const {
       firstname, lastname, email,
-    } = useraccount;
+    } = thisUser;
 
     const datas = {
       accountnumber,
@@ -64,10 +59,43 @@ class Controller {
       lastname,
       email,
       type,
+      openingbalance,
     };
 
     Accounts.push(accountobj);
     return Util.successStatus(res, 201, datas);
+  }
+
+  /**
+    * @static
+    * @description Sets account status to either active or dormant
+    * @param {object} req - Request object
+    * @param {object} res - Response object
+    * @returns {object} Json
+    * @memberof Controller
+    */
+
+  static setAccount(req, res) {
+    const { status, thisUser } = req.body;
+    const accountnumber = Number(req.params.accountnumber);
+    const useraccount = Accounts.find(account => account.accountnumber === accountnumber);
+    if (useraccount === undefined) {
+      return Util.errorstatus(res, 400, 'Account number not found');
+    }
+
+    if (!thisUser.isadmin) {
+      return Util.errorstatus(res, 403, 'Forbidden');
+    }
+
+    const { owner } = useraccount;
+
+    Users[owner - 1].type = status;
+    const datas = {
+      accountnumber,
+      status,
+    };
+
+    return Util.successStatus(res, 200, datas);
   }
 }
 

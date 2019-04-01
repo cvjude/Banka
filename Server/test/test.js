@@ -32,7 +32,7 @@ describe('Banka App', () => {
     });
   });
 
-  describe('/auth signup', () => {
+  describe('POST/auth signup', () => {
     it('should signup a non existing user(client)', (done) => {
       chai.request(app)
         .post('/api/v1/auth/signup')
@@ -75,7 +75,7 @@ describe('Banka App', () => {
     });
   });
 
-  describe('/auth signin', () => {
+  describe('POST/auth signin', () => {
     it('should signin an existing user', (done) => {
       chai.request(app)
         .post('/api/v1/auth/signin')
@@ -118,7 +118,7 @@ describe('Banka App', () => {
     });
   });
 
-  describe('/accounts', () => {
+  describe('POST/accounts', () => {
     it('should create an account for a user', (done) => {
       chai.request(app)
         .post('/api/v1/accounts')
@@ -169,6 +169,52 @@ describe('Banka App', () => {
         .send(accounts[0])
         .end((err, res) => {
           expect(res.statusCode).to.equal(403);
+          done();
+        });
+    });
+  });
+
+  describe('PATCH/accounts/accountnumber', () => {
+    it('should activate a user account', (done) => {
+      chai.request(app)
+        .patch('/api/v1/account/1010101010')
+        .set('authorization', `Bearer ${adminToken}`)
+        .send({ status: 'active' })
+        .end((err, res) => {
+          expect(res.statusCode).to.equal(200);
+          done();
+        });
+    });
+
+    it('should allow only admin/staff to perform action', (done) => {
+      chai.request(app)
+        .patch('/api/v1/account/1010101010')
+        .set('authorization', `Bearer ${userToken}`)
+        .send({ status: 'active' })
+        .end((err, res) => {
+          expect(res.statusCode).to.equal(403);
+          done();
+        });
+    });
+
+    it('should flag an error is the account number does not exist', (done) => {
+      chai.request(app)
+        .patch('/api/v1/account/1010101017')
+        .set('authorization', `Bearer ${userToken}`)
+        .send({ status: 'active' })
+        .end((err, res) => {
+          expect(res.statusCode).to.equal(400);
+          done();
+        });
+    });
+
+    it('should flag an error is the account number is not correctly entered', (done) => {
+      chai.request(app)
+        .patch('/api/v1/account/10101advovno')
+        .set('authorization', `Bearer ${userToken}`)
+        .send({ status: 'active' })
+        .end((err, res) => {
+          expect(res.statusCode).to.equal(400);
           done();
         });
     });
