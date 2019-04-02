@@ -6,6 +6,7 @@ import accounts from './testdata/accounts';
 
 let userToken;
 let adminToken;
+let staffToken;
 
 const { expect } = chai;
 chai.use(chaiHttp);
@@ -76,12 +77,23 @@ describe('Banka App', () => {
   });
 
   describe('POST/auth signin', () => {
-    it('should signin an existing user', (done) => {
+    it('should signin an existing user(Admin)', (done) => {
       chai.request(app)
         .post('/api/v1/auth/signin')
         .send(users[6])
         .end((err, res) => {
           adminToken = res.body.data.token;
+          expect(res.statusCode).to.equal(200);
+          done();
+        });
+    });
+
+    it('should signin an existing user(Staff)', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/signin')
+        .send(users[7])
+        .end((err, res) => {
+          staffToken = res.body.data.token;
           expect(res.statusCode).to.equal(200);
           done();
         });
@@ -254,6 +266,51 @@ describe('Banka App', () => {
     it('should flag an error is the account number is not correctly entered', (done) => {
       chai.request(app)
         .delete('/api/v1/accounts/101010ugwgidus')
+        .set('authorization', `Bearer ${userToken}`)
+        .end((err, res) => {
+          expect(res.statusCode).to.equal(400);
+          done();
+        });
+    });
+  });
+
+  describe('POST/transactions/:accountnumber/debit', () => {
+    it('should debit a user account', (done) => {
+      chai.request(app)
+        .post('/api/v1/transactions/1010101011/debit')
+        .send({ amount: 3000 })
+        .set('authorization', `Bearer ${staffToken}`)
+        .end((err, res) => {
+          expect(res.statusCode).to.equal(200);
+          done();
+        });
+    });
+
+    it('should allow only staff to perform action', (done) => {
+      chai.request(app)
+        .post('/api/v1/transactions/1010101011/debit')
+        .set('authorization', `Bearer ${adminToken}`)
+        .send({ amount: 3000 })
+        .end((err, res) => {
+          expect(res.statusCode).to.equal(403);
+          done();
+        });
+    });
+
+    it('should flag an error is the account number does not exist', (done) => {
+      chai.request(app)
+        .post('/api/v1/transactions/1010101111/debit')
+        .set('authorization', `Bearer ${staffToken}`)
+        .send({ amount: 3000 })
+        .end((err, res) => {
+          expect(res.statusCode).to.equal(400);
+          done();
+        });
+    });
+
+    it('should flag an error is the account number is not correctly entered', (done) => {
+      chai.request(app)
+        .post('/api/v1/transactions/101010ugwgidus/debit')
         .set('authorization', `Bearer ${userToken}`)
         .end((err, res) => {
           expect(res.statusCode).to.equal(400);

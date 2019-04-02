@@ -1,11 +1,11 @@
 const accounts = [
   {
     type: 'savings',
-    balance: 1000.00,
+    openingbalance: 1000.00,
   },
   {
     type: 'sav',
-    balance: 'yhyh',
+    openingbalance: 'yhyh',
   },
 ];
 

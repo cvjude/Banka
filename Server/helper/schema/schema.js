@@ -18,7 +18,7 @@ const schema = {
   account: Joi.object().keys({
     type: Joi.string().trim().valid('savings', 'current')
       .required(),
-    balance: Joi.number().required(),
+    openingbalance: Joi.number().required(),
   }),
 
   setAccount: Joi.object().keys({
@@ -33,6 +33,11 @@ const schema = {
 
   checkAccount: Joi.object().keys({
     accountnumber: Joi.number().min(10).integer().required(),
+  }),
+
+  transaction: Joi.object().keys({
+    amount: Joi.number().required(),
+    accountnumber: Joi.number().integer().required().min(10),
   }),
 };
 

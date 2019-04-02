@@ -63,11 +63,11 @@ class Validate {
 
   static createAccount(req, res, next) {
     const {
-      type, balance,
+      type, openingbalance,
     } = req.body;
 
     const validateObject = {
-      type, balance,
+      type, openingbalance,
     };
 
     const error = Util.validateJoi(validateObject, schema.account);
@@ -117,6 +117,28 @@ class Validate {
     const accountnumber = Number(req.params.accountnumber);
 
     const error = Util.validateJoi({ accountnumber }, schema.checkAccount);
+    if (error) {
+      return Util.errorstatus(res, 400, error);
+    }
+    req.body.accountnumber = accountnumber;
+    return next();
+  }
+
+  /**
+  * @static
+  * @description Validates account account number
+  * @param {Object} req - Request object
+  * @param {Object} res - Response object
+  * @param {Object} next - Next function call
+  * @memberof Controllers
+  */
+  static transaction(req, res, next) {
+    const accountnumber = Number(req.params.accountnumber);
+    const { amount } = req.body;
+    const validateObject = {
+      amount, accountnumber,
+    };
+    const error = Util.validateJoi(validateObject, schema.transaction);
     if (error) {
       return Util.errorstatus(res, 400, error);
     }

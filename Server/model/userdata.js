@@ -17,6 +17,15 @@ const Users = [
     type: 'client',
     isadmin: false,
   },
+  {
+    id: 3,
+    firstname: 'Staff',
+    lastname: 'Staffiene',
+    email: 'staff@gmail.com',
+    hashpassword: '$2a$10$lf1y043YOpqhh5y4EeDYPeVb7PjjsJj4n9FBb5CAUFSOoJGWpAxbe',
+    type: 'staff',
+    isadmin: false,
+  },
 ];
 
 export default Users;
