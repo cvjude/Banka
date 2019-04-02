@@ -15,6 +15,7 @@ router.post('/auth/signin', Validate.Signin, User.signin);
 
 router.post('/accounts', Authenticator.user, Validate.createAccount, Controller.creatAccount);
 router.post('/transactions/:accountnumber/debit', Authenticator.user, Validate.transaction, Controller.transactions);
+router.post('/transactions/:accountnumber/credit', Authenticator.user, Validate.transaction, Controller.transactions);
 
 router.patch('/account/:accountnumber', Authenticator.user, Validate.setAccount, Controller.setAccount);
 

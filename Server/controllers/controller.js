@@ -1,6 +1,5 @@
 /* eslint-disable linebreak-style */
 import Accounts from '../model/accounts';
-import Users from '../model/userdata';
 import Util from '../helper/Utilities';
 import Transactions from '../model/transaction';
 
@@ -87,9 +86,9 @@ class Controller {
       return Util.errorstatus(res, 403, 'Forbidden');
     }
 
-    const { owner } = useraccount;
+    const index = Accounts.findIndex(account => account.accountnumber === accountnumber);
+    Accounts[index].status = status;
 
-    Users[owner - 1].type = status;
     const datas = {
       accountnumber,
       status,
@@ -141,12 +140,14 @@ class Controller {
     }
 
     const oldbalance = useraccount.balance;
-    const newbalance = (oldbalance - amount).toFixed(2);
+    let newbalance;
     const createdon = new Date();
     const type = req.url.endsWith('debit') ? 'debit' : 'credit';
     const transactionid = Transactions.length + 1;
     const cashier = thisUser.id;
     if (!thisUser.isadmin && thisUser.type === 'staff') {
+      const acbalance = (type === 'debit') ? (oldbalance - amount) : (oldbalance + amount);
+      newbalance = acbalance;
       const transactionobj = {
         id: transactionid,
         createdon,
@@ -157,6 +158,8 @@ class Controller {
         oldbalance,
         newbalance,
       };
+      const index = Accounts.findIndex(account => account.accountnumber === accountnumber);
+      Accounts[index].balance = newbalance;
       Transactions.push(transactionobj);
       const datas = {
         transactionid,

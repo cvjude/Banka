@@ -274,10 +274,21 @@ describe('Banka App', () => {
     });
   });
 
-  describe('POST/transactions/:accountnumber/debit', () => {
+  describe('POST/transactions/:accountnumber/debit and credit', () => {
     it('should debit a user account', (done) => {
       chai.request(app)
         .post('/api/v1/transactions/1010101011/debit')
+        .send({ amount: 3000 })
+        .set('authorization', `Bearer ${staffToken}`)
+        .end((err, res) => {
+          expect(res.statusCode).to.equal(200);
+          done();
+        });
+    });
+
+    it('should credit a user account', (done) => {
+      chai.request(app)
+        .post('/api/v1/transactions/1010101011/credit')
         .send({ amount: 3000 })
         .set('authorization', `Bearer ${staffToken}`)
         .end((err, res) => {
