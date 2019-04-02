@@ -2,6 +2,7 @@
 import Accounts from '../model/accounts';
 import Users from '../model/userdata';
 import Util from '../helper/Utilities';
+import Transactions from '../model/transaction';
 
 
 class Controller {
@@ -33,7 +34,7 @@ class Controller {
     const status = 'active';
     const owner = thisUser.id;
 
-    if (thisUser.isadmin) {
+    if (thisUser.type === 'staff') {
       return Util.errorstatus(res, 403, 'Forbidden');
     }
 
@@ -46,7 +47,7 @@ class Controller {
       owner,
       type,
       status,
-      openingbalance,
+      balance: openingbalance,
     };
 
     const {
@@ -82,7 +83,7 @@ class Controller {
       return Util.errorstatus(res, 400, 'Account number not found');
     }
 
-    if (!thisUser.isadmin) {
+    if (thisUser.type !== 'staff') {
       return Util.errorstatus(res, 403, 'Forbidden');
     }
 
@@ -113,13 +114,61 @@ class Controller {
       return Util.errorstatus(res, 400, 'Account number not found');
     }
 
-    if (!thisUser.isadmin) {
+    if (thisUser.type !== 'staff') {
       return Util.errorstatus(res, 403, 'Forbidden');
     }
 
     const index = Accounts.findIndex(account => account.accountnumber === accountnumber);
     Accounts.splice(index, 1);
     return Util.successStatus(res, 200, 'message', 'Account successfully deleted');
+  }
+
+  /**
+    * @static
+    * @description Allows Staff to debit an account
+    * @param {object} req - Request object
+    * @param {object} res - Response object
+    * @returns {object} Json
+    * @memberof Controller
+    */
+
+  static transactions(req, res) {
+    const { thisUser, accountnumber, amount } = req.body;
+    const useraccount = Accounts.find(account => account.accountnumber === accountnumber);
+
+    if (useraccount === undefined) {
+      return Util.errorstatus(res, 400, 'Account number not found');
+    }
+
+    const oldbalance = useraccount.balance;
+    const newbalance = (oldbalance - amount).toFixed(2);
+    const createdon = new Date();
+    const type = req.url.endsWith('debit') ? 'debit' : 'credit';
+    const transactionid = Transactions.length + 1;
+    const cashier = thisUser.id;
+    if (!thisUser.isadmin && thisUser.type === 'staff') {
+      const transactionobj = {
+        id: transactionid,
+        createdon,
+        type,
+        accountnumber,
+        cashier,
+        amount,
+        oldbalance,
+        newbalance,
+      };
+      Transactions.push(transactionobj);
+      const datas = {
+        transactionid,
+        accountnumber,
+        amount,
+        cashier,
+        transactionType: type,
+        accountBalance: newbalance,
+      };
+      return Util.successStatus(res, 200, 'data', datas);
+    }
+    return Util.errorstatus(res, 403, 'Forbidden');
   }
 }
 
