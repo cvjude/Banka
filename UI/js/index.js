@@ -40,7 +40,36 @@ var links = document.querySelectorAll('.nav-link')
 let nav = document.querySelector('.custom-nav')
 let logo = document.querySelector('.logo')
 let navbar = document.querySelector('nav');
+let body = document.querySelector('body')
 
+let signupForm = document.getElementById('signupForm');
+let signinForm = document.getElementById('signinForm');
+
+signupForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  let inputs = signupForm.querySelectorAll('input');
+  const elements = Array.from(inputs)
+  const valid = elements.find(element => {
+    return element.className === 'invalid';
+  });
+  if(!valid){
+    body.classList.add('spinner');
+    window.location.href = "main.html";
+  }
+});
+
+signinForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  let inputs = signinForm.querySelectorAll('input');
+  const elements = Array.from(inputs)
+  const valid = elements.find(element => {
+    return element.className === 'invalid';
+  });
+  if(!valid){
+    body.classList.add('spinner');
+    window.location.href = "main.html";
+  }
+});
 
 function Get_Offset_From_Start (object, offset) { 
   offset = offset || {x : 0, y : 0};

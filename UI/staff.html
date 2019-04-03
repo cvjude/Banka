@@ -30,12 +30,13 @@
                     </select>
                 </div>
                 <div class = form_inputs>
-                    <input type="text" id = "amount" required>
+                    <input type="text" name = "amount" required>
                     <label class = "form-label" for = "amount">Amount</label>
+                    <div class = error>should be in digits, of the form xxx.xx</div>
                 </div>
-                <div class = dialogbtn>
+                <button class = dialogbtn>
                         <div class = "btn btn-custom">Perform</div>
-                    </div>
+                </button>
             </form>
         </div>
     </dialog>
@@ -347,6 +348,7 @@
         </div>
     </footer>
 
+    <script type="text/javascript" src="js/validation.js"></script>
     <script type="text/javascript" src="js/staff.js"></script>
     </body>
 </html>

@@ -25,3 +25,16 @@ close[0].addEventListener('click',(event) => {
     adddialog.close()
     adddialog.classList.remove('dialog-scale');
 })
+
+accountForm = document.querySelector('.accountform');
+accountForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    let inputs = accountForm.querySelectorAll('input');
+    const elements = Array.from(inputs)
+    const valid = elements.find(element => {
+        return element.className === 'invalid';
+    });
+    if(!valid){
+        adddialog.close();
+    }
+});
