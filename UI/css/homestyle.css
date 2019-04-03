@@ -168,7 +168,8 @@
     flex-direction: column;
     justify-content: center;
     background-color: #eceef0;
-    height: 110vh;
+    min-height: 110vh;
+    max-height: auto;
 }
 
 #signup{
@@ -248,9 +249,15 @@ form{
 }
 
 @media only screen and (max-width: 790px){
+    form{
+        height: auto;
+    }
+
     .login-container{
         display: block;
         max-width: 450px;
+        min-height: 350px;
+        height: auto;
     }
     
     .login-container .img{
@@ -261,7 +268,8 @@ form{
     
     .login-container .form-container{
         width: 100%;
-        height: 350px;
+        height: auto;
+        padding: 1.5em;
     }
     
     .login-container .text-center .header_title{
@@ -406,6 +414,14 @@ footer li, footer li a{
     }
 
     .form-container input{
-        max-width: 200px;
+        min-width: 100px;
     }
+}
+
+.form_inputs:hover + .callout { transform: scale(1); 
+    transition: .25s;}
+
+.tip{
+top: 40px;
+left: -4px;
 }

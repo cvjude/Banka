@@ -185,22 +185,25 @@ button {
     font-weight: bold;
     padding-top: .1em;
 }
-
+.spinner{
+    position: relative!important;
+    overflow: hidden;
+}
 .spinner::before{
     content: "";
     z-index: 2000;
     box-sizing: border-box;
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
-    width: 30px;
-    height: 30px;
-    margin-top: -15px;
-    margin-left: -15px;
+    width: 60px;
+    height: 60px;
+    margin-top: -30px;
+    margin-left: -30px;
     border-radius: 50%;
-    border: 2px solid transparent;
+    border: 4px solid white;
     border-top-color: #F24259;
-    animation: spinner 0.7s linear infinite;
+    animation: spinner 1s linear infinite;
 }
 
 .hidden{
@@ -212,14 +215,13 @@ button {
     z-index: 1999;
     background: rgba(0,0,0,0.2);
     box-sizing: border-box;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 40px;
-    height: 40px;
-    margin-top: -20px;
-    margin-left: -20px;
-    border-radius: 3px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
 }
 
 .form-container{
@@ -233,7 +235,6 @@ select{
     max-width: 300px;
     padding: .5em;
     font-size: 125%;
-    margin-bottom: 1em;
     outline: none;
     border: 1px solid #655;
     background-color: transparent;
@@ -243,11 +244,12 @@ select{
 
 .form_inputs{
     position: relative;
+    margin-bottom: 1.5em;
 }
 
 .form_inputs label{
     width: auto;
-    display: inline-block;
+    display: block;
     position: absolute;
     top: 9px;
     margin-left: 5px;
@@ -270,8 +272,23 @@ input[value=""] + label{
     z-index: 2;
 }
 
-.form_inputs input:focus{
-    border-color: #e53739;
+.error{
+    color: orange;
+    font-size: .8em;
+    display: none;
+    width: 250px;
+}
+
+input.valid{
+    border-color: green;
+}
+
+input.invalid ~ .error{
+    display:block;
+}
+
+input.invalid{
+    border-color: red;
 }
 
 .container .form_button{
@@ -297,7 +314,7 @@ input[value=""] + label{
 @-webkit-keyframes autofill{
     to {
         color: #655;
-        background: transparent;
+        background: white;
     }
 }
 

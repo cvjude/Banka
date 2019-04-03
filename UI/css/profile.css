@@ -145,7 +145,7 @@ input[type="file"]{
 }
 
 dialog{
-    position: absolute;
+    position: fixed;
     width: 350px;
     min-height: 350px;
     top: 50%;
@@ -225,7 +225,12 @@ select:focus{
     border-color: #F24259;
 }
 
+.accounts{
+    padding-bottom: 1.5em;
+}
+
 @media only screen and (max-width: 790px){
+    
     .username{
         position: initial;
     }

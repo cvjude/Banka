@@ -30,11 +30,12 @@
                     </select>
                 </div>
                 <div class = form_inputs>
-                    <input type="text" id = "openingbalance" required>
+                    <input type="text" name = "openingbalance" required>
                     <label class = "form-label" for = "openingbalance">Opening Balance</label>
+                    <div class = error>should be in digits with an amount of at least 999.99</div>
                 </div>
                 <button class= "form_button">
-                    <a class = "btn btn-custom" href = "">Create</a>
+                    <a class = "btn btn-custom">Create</a>
                 </button>
             </form>
         </div>
@@ -167,6 +168,7 @@
         </div>
     </footer>
 
+    <script type="text/javascript" src="js/validation.js"></script>
     <script type="text/javascript" src="js/profile.js"></script>
     </body>
 </html>
