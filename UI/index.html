@@ -61,17 +61,19 @@
                         </p>
                     </div>
                     <div class = form-container>    
-                        <form class = "signin" action="">
+                        <form id = "signinForm" action="">
                             <div class = form_inputs>
-                                <input type="text" id = "email" required>
+                                <input type="text" name = "email" required>
                                 <label class = "form-label" for = "email">Email</label>
+                                <div class = error>email should follow janedoe@jan.com</div>
                             </div>
                             <div class = form_inputs>
-                                <input type="password" id = "password" required>
+                                <input type="password" name = "password" required>
                                 <label class = "form-label" for = "Password">Password</label>
+                                <div class = error>password should be alphanumeric with @_.- included and must be 6 - 15 characters long</div>
                             </div>
                             <button class= "form_button">
-                                <a class = "btn btn-custom" href = "main.html">Login</a>
+                                <a class = "btn btn-custom" >Login</a>
                             </button>
                         </form> 
                     </div>
@@ -151,25 +153,29 @@
                     </p>
                 </div>
                 <div class = form-container>    
-                    <form class = "signup" action="">
+                    <form id = "signupForm" action="">
                         <div class = form_inputs>
-                            <input type="text" id = "firstname" required>
+                            <input type="text" name = "firstname" required>
                             <label class = "form-label" for = "firstname">First name</label>
+                            <div class = error>use only letters a-z example format "jane", minimum of 3 characters</div>
                         </div>
                         <div class = form_inputs>
-                            <input type="text" id = "lastname" required>
+                            <input type="text" name = "lastname" required>
                             <label class = "form-label" for = "lastname">Last name</label>
+                            <div class = error>use only letters a-z example format "jane", minimum of 3 characters</div>
                         </div>
                         <div class = form_inputs>
-                            <input type="text" id = "signup-email" required>
+                            <input type="text" name = "signupEmail" required>
                             <label class = "form-label" for = "signup-email">Email</label>
+                            <div class = error>email should follow janedoe@jan.com</div>
                         </div>
                         <div class = form_inputs>
-                            <input type="password" id = "signup-password" required>
+                            <input type="password" name = "signupPassword" required>
                             <label class = "form-label" for = "signup-Password">Password</label>
+                            <div class = error>password should be alhanumeric with @_.- included and must be 6 - 15 characters long</div>
                         </div>
                         <button class= "form_button">
-                            <a class = "btn btn-custom" href = "main.html">Signup</a>
+                            <a class = "btn btn-custom">Signup</a>
                         </button>
                     </form> 
                 </div>
@@ -203,6 +209,7 @@
         </div>
     </footer>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/validation.js"></script>
     <script type="text/javascript" src="js/shared.js"></script>
     <script type="text/javascript" src = "js/index.js"></script>
 </body>

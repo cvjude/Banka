@@ -1,7 +1,12 @@
+body{
+    overflow: initial;
+}
+
 .userprofile{
     position: inherit;
     display: block;
     margin-bottom: 20px;
+    padding-top: 30px;
 }
 
 main .container{
@@ -64,7 +69,8 @@ form{
 
 .profileimg > img{
     height: 150px;
-    width: 150px
+    width: 150px;
+    margin-bottom: 0;
 }
 
 .nameplate{
@@ -81,25 +87,8 @@ form{
     margin: auto;
 }
 
-.accounts ul li{
-    display: flex;
-    justify-content: space-between;
-}
-
-.accounts ul li > div{
-    position: relative;
-    top: 10px;
-    right: 0;
-    left: 0px;
-    padding: 0 10px 20px 20px;
-}
-
-.before::before{
-    top: 6px;
-}
-
 .transactions{
-    min-height: 200px;
+    height: 209px;
 }
 
 .info nav{
@@ -109,13 +98,6 @@ form{
 
 .info{
     min-height: 0;
-}
-
-dt, dd { display: inline; }
-
-dd + dt::before {
-    content: '\A';
-    white-space: pre;
 }
 
 dd + dd::before {
@@ -145,7 +127,7 @@ input[type="file"]{
 }
 
 dialog{
-    position: absolute;
+    position: fixed;
     width: 350px;
     min-height: 350px;
     top: 50%;
@@ -225,7 +207,12 @@ select:focus{
     border-color: #F24259;
 }
 
+.accounts{
+    padding-bottom: 1.5em;
+}
+
 @media only screen and (max-width: 790px){
+    
     .username{
         position: initial;
     }

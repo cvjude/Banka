@@ -5,6 +5,10 @@ main .container{
     justify-content: space-between;
 }
 
+.transactions{
+    height: 74.5vh;
+}
+
 .viewcontainer{
     flex-grow: 1;
     display: flex;

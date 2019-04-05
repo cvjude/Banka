@@ -3,6 +3,7 @@ body{
     flex-direction: column;
     min-height: 100vh;
     /* background: rgba(0,0,0,0.02); */
+    overflow: hidden;
 }
 
 /*nav styles*/
@@ -25,48 +26,88 @@ main{
 }
 
 main .container{
-    max-width: 960px;
-    padding-top: 10px;
-    padding-bottom: 20px;
+    max-width: 90%;
     text-align: center;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-gap: 10px;
+    grid-template-columns: repeat(6, 1fr);
+    grid-gap: 20px;
     font-family: "Segoe UI",",Arial";
-    
-    /* grid-auto-rows: 200px; */
 }
 
 /*user profile*/
+
+.profileimg{
+    margin-top: 10px;
+}
+
 .userprofile{
     grid-column: 1/2;
-    position: fixed;
+    padding-top:40px;
 }
 
 .userprofile img{
     height: 200px;
     width: 200px;
+    margin-bottom: 15px;
+}
+
+.advert{
+    grid-column: 6/7;
+    width: 200px;
+    height: 75vh;
+    margin-top: 20px;
+    margin-top: 8vh;
+    background: linear-gradient(135deg, rgba(242, 66, 89, 0.8) 33.3%,
+     rgba(0,0,0,0.2) 0,
+     rgba(0,0,0,0.2) 66.6%, rgba(242, 66, 89, 0.8) 0);
+    display: flex;
+    border: 1px solid rgba(242, 66, 89, 0.7);
+    animation: rotate 7s cubic-bezier(.1,.25,1,.25) infinite;
+}
+
+@keyframes rotate{
+    to {
+        background-position: 0px 500px;
+    }
+}
+
+.advert > div{
+    margin: auto;
+    font-size: 40px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+    font-weight: 500;
 }
 
 .info{
-    min-height: 500px;
-    grid-column: 2/5;
+    grid-column: 2/6;
 }
 
 .nameplate,
 .accountpane,
 .transactions{
-    box-shadow: 0px 4px 20px -4px rgba(0,0,0,0.6);
+    box-shadow: 0px 4px 10px -4px rgba(0,0,0,0.6);
+}
+
+.accountpane{
+    margin-bottom: 20px;
+}
+
+dt, dd { display: inline; }
+
+dd + dt::before {
+    content: '\A';
+    white-space: pre;
 }
 
 .transactions{
-    min-height: 80vh;
+    height: 75vh;
+    overflow: auto;
 }
 
 .info nav{
     display: flex;
     padding: 10px 20px;
-    border-bottom: 1px solid rgba(0,0,0,0.2);
     justify-content: space-between;
 }
 
@@ -120,14 +161,15 @@ main .container{
 
 .accounts{
     padding: 10px 0px;
-    /* background: red; */
+    min-width: 300px;
 }
 
 .info nav > h4,
 .accounts h4,
 .username p ,
 .userprofile h4,
-.accountform h4{
+.accountform h4,
+.userprofile p{
     font-size: 1.5em;
     text-transform: capitalize;
     font-weight: 400;
@@ -135,11 +177,6 @@ main .container{
     /* padding-bottom: 7px; */
 }
 
-.userprofile p{
-    color: #24292e;
-    font-size: 1.3em;
-    margin-bottom: 10px;
-}
 .accounts h4{
     margin-bottom: 10px;
 }
@@ -148,7 +185,7 @@ main .container{
     display: inline-block;
     overflow: auto;
     width: 100%;
-    height: 13em;
+    height: 10em;
 }
 
 .accounts ul li{
@@ -156,7 +193,7 @@ main .container{
     text-align: left;
     padding: 10px 5px;
     border-bottom: 1px solid silver;
-    border-left: 4px solid #24292e;
+    border-left: 2px solid #F24259;
     margin-bottom: 1px;
     background-color: white;
     transition: all .5s ease;
@@ -167,33 +204,42 @@ main .container{
     background-color: rgba(31, 33, 37, 0.2);
 }
 
+.accounts ul li{
+    display: flex;
+    justify-content: space-between;
+}
+
+.accounts ul li > div{
+    position: relative;
+    top: 10px;
+    right: 0;
+    left: 0px;
+    padding: 0 10px 20px 20px;
+}
+
+.before::before{
+    top: 6px;
+}
+
 .transactions >div:nth-child(odd){
     background-color: rgba(31, 33, 37, 0.2);
+    border-left: 2px solid grey;
+    border-right: 2px solid grey
+}
+
+.transactions >div:nth-child(even){
+    border-left: 2px solid rgba(242, 66, 89, 0.7);
+    border-right: 2px solid rgba(242, 66, 89, 0.7);
 }
 
 .transactions{
     text-align: left;
+    background: white;
 }
 
 .transactions > div{
     padding: 10px;
     margin-bottom: 1px;
-    border-bottom: 1px solid silver;
-}
-
-.transactions > div:nth-of-type(2n+1){
-    border-left: 4px solid #58a;
-    border-right: 4px solid #58a
-}
-
-.transactions > div:nth-child(2n+2){
-    border-left: 4px solid #655a;
-    border-right: 4px solid #655a;
-}
-
-.transactions > div:nth-child(2n+3){
-    border-left: 4px solid yellowgreen;
-    border-right: 4px solid yellowgreen;
 }
 
 .spacebetween{
@@ -206,20 +252,20 @@ main .container{
     padding-bottom: .2em;
 }
 
-.accounts ul::-webkit-scrollbar {
-   width: 10px;
-   height: 20px;
+::-webkit-scrollbar {
+   width: 15px;
+   height: 5px;
 }
 
-.accounts ul::-webkit-scrollbar-track,
-.accounts ul::-webkit-scrollbar-thumb {
-    border-right: 2px solid rgba(255,255,255,0);
-    border-left: 2px solid rgba(255,255,255,0);
-    border-radius: 5px;
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-thumb {
+    border-right: 4px solid rgba(255,255,255,0);
+    border-left: 4px solid rgba(255,255,255,0);
+    border-radius: 8px;
     background-clip: padding-box;
 }
 
-.accounts ul::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
     background-color: silver;
 }
 
@@ -233,15 +279,14 @@ main .container{
 
 /*footer styles*/
 footer{
-    margin-top: 50px;
     font-family: "Segoe UI";
     padding: 0 15px 15px 15px;
 }
 
 footer .container{
     padding-top: 15px;
-    border-top: 1px solid #F24259;
     max-width: 400px;
+    border-top: 1px solid #F24259;
 }
 
 .footerinfo p{
@@ -249,7 +294,38 @@ footer .container{
     color: #24292e;
 }
 
+@media only screen and (max-width: 1200px){
+    .advert{
+        display: none;
+    }
+
+    main .container{
+        max-width: 960px;
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .userprofile{
+        grid-column: 1/2;
+    }
+    .info{
+        grid-column: 2/5;
+    }
+}
+
 @media only screen and (max-width: 790px){
+    body{
+        overflow: initial;
+    }
+    
+    .accounts{
+        min-width: auto;
+    }
+
+    .transactions{
+        min-height: 50vh;
+        height: auto;
+    }
+    
     .username{
         position: relative;
         top: 13px;
