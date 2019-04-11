@@ -10,70 +10,55 @@ creation, customer deposit and withdrawals. This app is meant to support a singl
 users can signup and create bank accounts online, but must visit the branch to withdraw or
 deposit money..
 
-# Getting Started 
-Create a git repo on your local machine by cloning this repo from the dashboard.
+# Core Technology Stacks
+>- Front-end : HTML, CSS, Javascript
+>- Back-end:  Express js
+>- System Depencies:  Node
+>- Testing: Mocha and Chai
 
-# Prerequisites
-What things you need to install the software and how to install them
+# Features
+>- Clean and Interactive User Interface
+>- User can login and sign up
+>- Users can view their accounts and view all transactions on an account
+>- Admin can other Admins and also add staff
+>- Staff can debit or credit an account
+>- Admin and Staff can deactivate or delete an account
 
-### nodejs
+# Getting Started
 
-go to node.js website and install node
-```
-go here https://nodejs.org/en/download/
-```
-download node for your platform and install
+## Prerequistes
+>- [Node JS](https://nodejs.org/en/)
 
-### Sublime Text 3
-go to the sublime text official website and download sublime
-```
-go here https://www.sublimetext.com/3
-```
-download for your platform and install
+# Getting Setup and Installation
+>- Clone this repo to local device `https://github.com/cvjude/Banka.git`
+>- Navigate to the folder `cd foldername`
+>- Run command in terminal `npm install` to install all the neccessary dependencies
+>- Create a .env file in the project folder, an set all the environmental variables used in the project
+>- Done setting up, run command `npm run startdev` to run the app in development environment 
 
-### Google Chrome
-go to the chrome official website and download chrome
-```
-go here https://www.google.com/chrome/
-```
-install all the dependencies and dev dependencies in the package.json file
-using npm install (name of package)
+## Running Tests
+>- To ensure app is perfectly set up, run command `npm test` to run test
 
-### Post MAN
-go to the post man Official website and download postman
-```
-go here https://www.getpostman.com/
-```
-downoad for your platform and install
+# Contributing
+This project is open for contributions. All contributions must adhere to the [Airbnb](https://github.com/airbnb/javascript) JavaScript styleguide.
 
-## Running the tests
-also run test writen in mocha by running the command
-```
-npm run test
-```
+### Make contributions 
+>- Raise an issue [here](https://github.com/cvjude/Banka/issues)
+>- Fork repository
+>- Create a feature branch `git checkout -b ch-my-feature`
+>- Commit changes `git commit -m "message"`
+>- Push created branch `git push origin ch-my-feature`
+>- Submit a Pull Request to develop branch
 
-## Coding Style
-The coding style used is Airbnb-base from eslint
-run command against any file for this styling
-```
-npx eslint code.js
-```
+# FAQ
+> View Frequently asked questions [here](https://github.com/cvjude/Banka/wiki)
 
-## Deployment
-deploy this on Heroku
-```
-heroku.com
-```
+# Author(s)
+>- [Jude Chinoso](https://github.com/cvjude)
 
-## Built With
-Node
-Sublime
-Chrome
+# Deployment
+>- This api is deployed on [heroku](https://jbankapp.herokuapp.com/api/v1/)
+>- Ui is deployed on gh-pages view [here](http://cvjude.github.io/Banka/UI/index.html)
 
-## Authors
-```
-Jude Chinoso
-```
-
-## Acknowledgments
+# Acknowledgments
 This project was inspired by the Andela team
