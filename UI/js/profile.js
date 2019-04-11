@@ -14,26 +14,8 @@ btn[2].addEventListener('click', (event) => {
 btn[0].addEventListener('click', (event) => {
     event.preventDefault();
     dialog.showModal();
-    // window.setTimeout(function() {
         dialog.classList.add('dialog-scale');
-    // }, 0.5);
 })
-
-accountForm = document.querySelector('.accountform');
-error = document.querySelector('.error');
-
-accountForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-    let input = accountForm.querySelector('input');
-      if(input.className === 'valid' && input.value < 999.99){
-        error.style.display = 'block';
-      }
-      else {
-        dialog.close();
-        input.value = '';
-        error.style.display = 'none';
-      }
-});
 
 function drawOnCanvas(filein) {
     let file = null;
@@ -44,11 +26,6 @@ function drawOnCanvas(filein) {
         image.src = URL.createObjectURL(file);
     }
 }
-
-// dialog.addEventListener('focusout',(event) => {
-//     dialog.close()
-//     dialog.classList.remove('dialog-scale');
-// })
 
 let close = document.querySelector('.close')
 

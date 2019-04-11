@@ -32,11 +32,11 @@ function colornav(){
         holdFlag = true;
 }
 
-var home = document.getElementById('home')
-var signup = document.getElementById('signup')
-var signin = document.getElementById('signin')
-var footer = document.getElementById('footer')
-var links = document.querySelectorAll('.nav-link')
+let home = document.getElementById('home')
+let signup = document.getElementById('signup')
+let signin = document.getElementById('signin')
+let footer = document.getElementById('footer')
+let links = document.querySelectorAll('.nav-link')
 let nav = document.querySelector('.custom-nav')
 let logo = document.querySelector('.logo')
 let navbar = document.querySelector('nav');
@@ -45,9 +45,9 @@ let body = document.querySelector('body')
 let signupForm = document.getElementById('signupForm');
 let signinForm = document.getElementById('signinForm');
 
-signupForm.addEventListener('submit', (event) => {
+function formatForm(tag){
   event.preventDefault();
-  let inputs = signupForm.querySelectorAll('input');
+  let inputs = tag.querySelectorAll('input');
   const elements = Array.from(inputs)
   const valid = elements.find(element => {
     return element.className === 'invalid';
@@ -56,19 +56,14 @@ signupForm.addEventListener('submit', (event) => {
     body.classList.add('spinner');
     window.location.href = "main.html";
   }
+}
+
+signupForm.addEventListener('submit', (event) => {
+  formatForm(signupForm);
 });
 
 signinForm.addEventListener('submit', (event) => {
-  event.preventDefault();
-  let inputs = signinForm.querySelectorAll('input');
-  const elements = Array.from(inputs)
-  const valid = elements.find(element => {
-    return element.className === 'invalid';
-  });
-  if(!valid){
-    body.classList.add('spinner');
-    window.location.href = "main.html";
-  }
+  formatForm(signinForm);
 });
 
 function Get_Offset_From_Start (object, offset) { 
