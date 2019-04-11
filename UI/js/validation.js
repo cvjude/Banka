@@ -24,3 +24,5 @@ inputs.forEach((input) => {
         validate(event.target, patterns[event.target.attributes.name.value])
     });
 });
+
+
