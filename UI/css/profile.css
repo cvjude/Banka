@@ -57,10 +57,11 @@ form{
     cursor: pointer;
 }
 
-.section_icon i{
+.section_icon img{
     display: inline-block;
-    height: 100%;
-    width: 100%;
+    height: 20px;
+    width: 20px;
+    margin-bottom: 0px;
 }
 
 .section_icon:hover{
