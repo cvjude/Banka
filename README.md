@@ -31,7 +31,7 @@ deposit money..
 
 # Getting Setup and Installation
 >- Clone this repo to local device `https://github.com/cvjude/Banka.git`
->- Navigate to the folder `cd foldername`
+>- Navigate to the Banka folder `cd Banka`
 >- Run command in terminal `npm install` to install all the neccessary dependencies
 >- Create a .env file in the project folder, an set all the environmental variables used in the project
 >- Done setting up, run command `npm run startdev` to run the app in development environment 
@@ -57,7 +57,7 @@ This project is open for contributions. All contributions must adhere to the [Ai
 >- [Jude Chinoso](https://github.com/cvjude)
 
 # Deployment
->- This api is deployed on [heroku](https://jbankapp.herokuapp.com/api/v1/)
+>- This api is deployed on [https://jbankapp.herokuapp.com/api/v1/](https://jbankapp.herokuapp.com/api/v1/)
 >- Ui is deployed on gh-pages view [here](http://cvjude.github.io/Banka/UI/index.html)
 
 # Acknowledgments
