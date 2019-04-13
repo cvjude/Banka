@@ -14,10 +14,10 @@ router.post('/auth/signup', Validate.Signup, User.signup);
 router.post('/auth/signin', Validate.Signin, User.signin);
 
 router.post('/accounts', Authenticator.user, Validate.createAccount, Controller.creatAccount);
-router.post('/transactions/:accountnumber/debit', Authenticator.user, Validate.transaction, Controller.transactions);
-router.post('/transactions/:accountnumber/credit', Authenticator.user, Validate.transaction, Controller.transactions);
+router.post('/transactions/:accountNumber/debit', Authenticator.user, Validate.transaction, Controller.transactions);
+router.post('/transactions/:accountNumber/credit', Authenticator.user, Validate.transaction, Controller.transactions);
 
-router.patch('/account/:accountnumber', Authenticator.user, Validate.setAccount, Controller.setAccount);
+router.patch('/account/:accountNumber', Authenticator.user, Validate.setAccount, Controller.setAccount);
 
-router.delete('/accounts/:accountnumber', Authenticator.user, Validate.accountnumber, Controller.deleteAccount);
+router.delete('/accounts/:accountNumber', Authenticator.user, Validate.accountNumber, Controller.deleteAccount);
 export default router;

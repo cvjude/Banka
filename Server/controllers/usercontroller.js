@@ -1,5 +1,5 @@
-import Userdata from '../model/userdata';
-import Util from '../helper/Utilities';
+import userData from '../model/userdata';
+import util from '../helper/Utilities';
 import { hash, checkPassword } from '../helper/passwordhash';
 import token from '../helper/token';
 
@@ -14,43 +14,43 @@ class User {
   */
   static signup(req, res) {
     const {
-      email, firstname,
-      lastname, password,
+      email, firstName,
+      lastName, password,
     } = req.body;
 
-    const id = Userdata.length + 1;
+    const id = userData.length + 1;
     const isAdmin = false;
     const type = 'client';
 
-    const user = Userdata.find(users => users.email === email);
-    const hashpassword = hash(password);
+    const user = userData.find(users => users.email === email);
+    const hashPassword = hash(password);
     if (user) {
-      return Util.errorstatus(res, 409, 'User already exist');
+      return util.errorstatus(res, 409, 'User already exist');
     }
 
     const Userobj = {
       id,
       email,
-      firstname,
-      lastname,
-      hashpassword,
+      firstName,
+      lastName,
+      hashPassword,
       isAdmin,
       type,
     };
 
     const tokenObj = { id };
 
-    Userdata.push(Userobj);
+    userData.push(Userobj);
 
     const datas = {
       token: token(tokenObj),
       id,
-      firstname,
-      lastname,
+      firstName,
+      lastName,
       email,
     };
 
-    return Util.successStatus(res, 201, 'data', datas);
+    return util.successStatus(res, 201, 'data', datas);
   }
 
   /**
@@ -66,17 +66,17 @@ class User {
       email, password,
     } = req.body;
 
-    const user = Userdata.find(users => users.email === email);
+    const user = userData.find(users => users.email === email);
     if (!user) {
-      return Util.errorstatus(res, 400, 'User doesn\'t exist');
+      return util.errorstatus(res, 400, 'User doesn\'t exist');
     }
 
-    if (!checkPassword(password.trim(), user.hashpassword)) {
-      return Util.errorstatus(res, 400, 'password not correct');
+    if (!checkPassword(password.trim(), user.hashPassword)) {
+      return util.errorstatus(res, 400, 'password not correct');
     }
 
     const {
-      id, firstname, lastname,
+      id, firstName, lastName,
     } = user;
 
     const tokenObj = { id };
@@ -84,12 +84,12 @@ class User {
     const datas = {
       token: token(tokenObj),
       id,
-      firstname,
-      lastname,
+      firstName,
+      lastName,
       email,
     };
 
-    return Util.successStatus(res, 200, 'data', datas);
+    return util.successStatus(res, 200, 'data', datas);
   }
 }
 

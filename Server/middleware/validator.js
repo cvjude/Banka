@@ -1,5 +1,5 @@
 import schema from '../helper/schema/schema';
-import Util from '../helper/Utilities';
+import util from '../helper/Utilities';
 
 class Validate {
   /**
@@ -13,16 +13,16 @@ class Validate {
 
   static Signup(req, res, next) {
     const {
-      firstname, lastname, email, password,
+      firstName, lastName, email, password,
     } = req.body;
 
     const validateObject = {
-      firstname, lastname, email, password,
+      firstName, lastName, email, password,
     };
 
-    const error = Util.validateJoi(validateObject, schema.signup);
+    const error = util.validateJoi(validateObject, schema.signup);
     if (error) {
-      return Util.errorstatus(res, 400, error);
+      return util.errorstatus(res, 400, error);
     }
     return next();
   }
@@ -45,9 +45,9 @@ class Validate {
       email, password,
     };
 
-    const error = Util.validateJoi(validateObject, schema.signin);
+    const error = util.validateJoi(validateObject, schema.signin);
     if (error) {
-      return Util.errorstatus(res, 400, error);
+      return util.errorstatus(res, 400, error);
     }
     return next();
   }
@@ -63,16 +63,16 @@ class Validate {
 
   static createAccount(req, res, next) {
     const {
-      type, openingbalance,
+      type, openingBalance,
     } = req.body;
 
     const validateObject = {
-      type, openingbalance,
+      type, openingBalance,
     };
 
-    const error = Util.validateJoi(validateObject, schema.account);
+    const error = util.validateJoi(validateObject, schema.account);
     if (error) {
-      return Util.errorstatus(res, 400, error);
+      return util.errorstatus(res, 400, error);
     }
     return next();
   }
@@ -91,17 +91,17 @@ class Validate {
       status,
     } = req.body;
 
-    const accountnumber = Number(req.params.accountnumber);
+    const accountNumber = Number(req.params.accountNumber);
 
     const validateObject = {
-      status, accountnumber,
+      status, accountNumber,
     };
 
-    const error = Util.validateJoi(validateObject, schema.setAccount);
+    const error = util.validateJoi(validateObject, schema.setAccount);
     if (error) {
-      return Util.errorstatus(res, 400, error);
+      return util.errorstatus(res, 400, error);
     }
-    req.body.accountnumber = accountnumber;
+    req.body.accountNumber = accountNumber;
     return next();
   }
 
@@ -113,14 +113,14 @@ class Validate {
   * @param {Object} next - Next function call
   * @memberof Controllers
   */
-  static accountnumber(req, res, next) {
-    const accountnumber = Number(req.params.accountnumber);
+  static accountNumber(req, res, next) {
+    const accountNumber = Number(req.params.accountNumber);
 
-    const error = Util.validateJoi({ accountnumber }, schema.checkAccount);
+    const error = util.validateJoi({ accountNumber }, schema.checkAccount);
     if (error) {
-      return Util.errorstatus(res, 400, error);
+      return util.errorstatus(res, 400, error);
     }
-    req.body.accountnumber = accountnumber;
+    req.body.accountNumber = accountNumber;
     return next();
   }
 
@@ -133,16 +133,16 @@ class Validate {
   * @memberof Controllers
   */
   static transaction(req, res, next) {
-    const accountnumber = Number(req.params.accountnumber);
+    const accountNumber = Number(req.params.accountNumber);
     const { amount } = req.body;
     const validateObject = {
-      amount, accountnumber,
+      amount, accountNumber,
     };
-    const error = Util.validateJoi(validateObject, schema.transaction);
+    const error = util.validateJoi(validateObject, schema.transaction);
     if (error) {
-      return Util.errorstatus(res, 400, error);
+      return util.errorstatus(res, 400, error);
     }
-    req.body.accountnumber = accountnumber;
+    req.body.accountNumber = accountNumber;
     return next();
   }
 }
