@@ -6,13 +6,13 @@ class Util {
   * @static
   * @description Validates an Object against the schema
   * @param {Object} validateObject - object to be validated
-  * @param {Object} schemadata - Joi schema
+  * @param {Object} schemaData - Joi schema
   * @memberof Controllers
   */
 
-  static validateJoi(validateObject, schemadata) {
+  static validateJoi(validateObject, schemaData) {
     let error;
-    Joi.validate(validateObject, schemadata, { convert: false }, (err) => {
+    Joi.validate(validateObject, schemaData, { convert: false }, (err) => {
       if (err) {
         error = err.details[0].message;
         error = error.replace(/"/gi, '');
@@ -28,14 +28,14 @@ class Util {
   * @description Returns message based on the status
   * @param {Object} res - Response object
   * @param {integer} statusCode - status code to be sent
-  * @param {Object} errormessage - the appropraite error message
+  * @param {Object} errorMessage - the appropraite error message
   * @memberof Controllers
   */
 
-  static errorstatus(res, statusCode, errormessage) {
+  static errorstatus(res, statusCode, errorMessage) {
     return res.status(statusCode).json({
       status: statusCode,
-      error: errormessage,
+      error: errorMessage,
     });
   }
 
@@ -44,7 +44,7 @@ class Util {
   * @description Returns message based on the status
   * @param {Object} res - Response object
   * @param {integer} statusCode - status code to be sent
-  * @param {Object} errormessage - the appropraite error message
+  * @param {Object} errorMessage - the appropraite error message
   * @memberof Controllers
   */
 

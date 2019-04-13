@@ -186,7 +186,7 @@ describe('Banka App', () => {
     });
   });
 
-  describe('PATCH/accounts/accountnumber', () => {
+  describe('PATCH/accounts/accountNumber', () => {
     it('should activate a user account', (done) => {
       chai.request(app)
         .patch('/api/v1/account/1010101010')
