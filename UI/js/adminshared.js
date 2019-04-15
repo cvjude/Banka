@@ -1,3 +1,5 @@
+adddialog = document.querySelector('#addaccount');
+
 let close = document.querySelectorAll('.close')
 close[1].addEventListener('click',(event) => {
     accountdialog.close()
