@@ -1,9 +1,16 @@
 accounts = document.querySelector('.accounts');
 accountdialog = document.querySelector('#showaccount');
 adddialog = document.querySelector('#addaccount');
+deactivate = document.querySelector('.deactivate');
+
 
 document.getElementById("accountul").addEventListener("click",function(e) {
     if (e.target.classList[0]==='btn') {
+        const status = e.target.parentNode.parentNode.parentNode.children[1].children[0].classList[1];
+        if(status === 'bactive')
+            deactivate.textContent = 'Deactivate'
+        else
+            deactivate.textContent = 'Activate'
         accountdialog.showModal();
         accountdialog.classList.add('dialog-scale');
       }
