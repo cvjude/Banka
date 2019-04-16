@@ -4,7 +4,6 @@ npm-debug.log
 coverage/
 .nyc_output/
 dist/main.js
-config/
 
 # Local development
 *.env

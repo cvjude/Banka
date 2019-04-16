@@ -7,6 +7,8 @@
   },
   "main": "index.js",
   "scripts": {
+    "create": "babel-node Server/migrations/createTable.js",
+    "drop": "babel-node Server/migrations/dropTables.js",
     "test": "cross-env NODE_ENV=test nyc --require @babel/register  mocha Server/test --exit",
     "start": "rimraf dist/ && babel  ./Server -d dist && node dist/app.js",
     "startdev": "nodemon --exec babel-node Server/app.js",
