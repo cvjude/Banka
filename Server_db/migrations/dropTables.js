@@ -2,7 +2,7 @@
 import pool from '../config/config';
 
 const dropUsersTable = 'DROP TABLE users';
-const dropAccountsTable = 'DROP TABLE accounts';
+const dropAccountsTable = 'DROP TABLE accounts CASCADE';
 const dropTransactionsTable = 'DROP TABLE transactions';
 
 async function deleteUsers() {
