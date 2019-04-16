@@ -26,6 +26,31 @@ class Validate {
     }
     return next();
   }
+
+  /**
+  * @static
+  * @description Validates a signin request
+  * @param {Object} req - Request object
+  * @param {Object} res - Response object
+  * @param {Object} next - Next function call
+  * @memberof Controllers
+  */
+
+  static Signin(req, res, next) {
+    const {
+      email, password,
+    } = req.body;
+
+    const validateObject = {
+      email, password,
+    };
+
+    const error = util.validateJoi(validateObject, schema.signin);
+    if (error) {
+      return util.errorstatus(res, 400, error);
+    }
+    return next();
+  }
 }
 
 export default Validate;

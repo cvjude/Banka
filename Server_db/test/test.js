@@ -3,8 +3,6 @@ import chaiHttp from 'chai-http';
 import app from '../app';
 import users from './testdata/user';
 
-// let userToken;
-
 const { expect } = chai;
 chai.use(chaiHttp);
 
@@ -68,6 +66,60 @@ describe('Banka App', () => {
       chai.request(app)
         .post(`${baseUrl}/auth/signup`)
         .send(users[3])
+        .end((err, res) => {
+          expect(res.statusCode).to.equal(400);
+          done();
+        });
+    });
+  });
+
+  describe('POST/auth signin', () => {
+    it('should signin an existing user(Admin)', (done) => {
+      chai.request(app)
+        .post(`${baseUrl}/auth/signin`)
+        .send(users[6])
+        .end((err, res) => {
+          // adminToken = res.body.data.token;
+          expect(res.statusCode).to.equal(200);
+          done();
+        });
+    });
+
+    it('should signin an existing user(Staff)', (done) => {
+      chai.request(app)
+        .post(`${baseUrl}/auth/signin`)
+        .send(users[7])
+        .end((err, res) => {
+          // staffToken = res.body.data.token;
+          expect(res.statusCode).to.equal(200);
+          done();
+        });
+    });
+
+    it('should not signin on invalid user input', (done) => {
+      chai.request(app)
+        .post(`${baseUrl}/auth/signin`)
+        .send(users[2])
+        .end((err, res) => {
+          expect(res.statusCode).to.equal(400);
+          done();
+        });
+    });
+
+    it('should not signin on invalid email', (done) => {
+      chai.request(app)
+        .post(`${baseUrl}/auth/signin`)
+        .send(users[3])
+        .end((err, res) => {
+          expect(res.statusCode).to.equal(400);
+          done();
+        });
+    });
+
+    it('should not signin on invalid password', (done) => {
+      chai.request(app)
+        .post(`${baseUrl}/auth/signin`)
+        .send(users[5])
         .end((err, res) => {
           expect(res.statusCode).to.equal(400);
           done();
