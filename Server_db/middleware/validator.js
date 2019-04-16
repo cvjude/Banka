@@ -76,6 +76,33 @@ class Validate {
     }
     return next();
   }
+
+  /**
+  * @static
+  * @description Validates account activation or deactivation details
+  * @param {Object} req - Request object
+  * @param {Object} res - Response object
+  * @param {Object} next - Next function call
+  * @memberof Controllers
+  */
+  static setAccount(req, res, next) {
+    const {
+      status,
+    } = req.body;
+
+    const accountNumber = Number(req.params.accountNumber);
+
+    const validateObject = {
+      status, accountNumber,
+    };
+
+    const error = util.validateJoi(validateObject, schema.setAccount);
+    if (error) {
+      return util.errorstatus(res, 400, error);
+    }
+    req.body.accountNumber = accountNumber;
+    return next();
+  }
 }
 
 export default Validate;
