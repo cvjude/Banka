@@ -1,7 +1,12 @@
 const queries = {
   users: {
     byEmail: 'SELECT * FROM users WHERE email = $1',
-    newUser: 'INSERT INTO users(firstname,lastname,email,hashpassword,type,isadmin)VALUES($1, $2, $3, $4, $5, $6) RETURNING *',
+    byId: 'SELECT * FROM users WHERE id = $1',
+    newUser: 'INSERT INTO users(firstname,lastname,email,hashpassword,type,isadmin)VALUES($1, $2, $3, $4, $5, $6)',
+  },
+  accounts: {
+    getAll: 'SELECT * FROM accounts',
+    newAccount: 'INSERT INTO accounts(accountnumber,owner,type,status,balance)VALUES($1, $2, $3, $4, $5)',
   },
 };
 

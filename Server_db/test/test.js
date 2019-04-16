@@ -2,6 +2,11 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../app';
 import users from './testdata/user';
+import accounts from './testdata/accounts';
+
+let userToken;
+let adminToken;
+// let staffToken;
 
 const { expect } = chai;
 chai.use(chaiHttp);
@@ -36,7 +41,7 @@ describe('Banka App', () => {
         .post(`${baseUrl}/auth/signup`)
         .send(users[4])
         .end((err, res) => {
-          // userToken = res.body.data.token;
+          userToken = res.body.data.token;
           expect(res.body).to.not.equal(null);
           expect(res.statusCode).to.equal(201);
           done();
@@ -83,7 +88,7 @@ describe('Banka App', () => {
         .post(`${baseUrl}/auth/signin`)
         .send(users[6])
         .end((err, res) => {
-          // adminToken = res.body.data.token;
+          adminToken = res.body.data.token;
           expect(res.body).to.not.equal(null);
           expect(res.statusCode).to.equal(200);
           done();
@@ -131,6 +136,67 @@ describe('Banka App', () => {
         .end((err, res) => {
           expect(res.body.error).to.equal('password not correct');
           expect(res.statusCode).to.equal(400);
+          done();
+        });
+    });
+  });
+
+  describe('POST/accounts', () => {
+    it('should create an account for a user', (done) => {
+      chai.request(app)
+        .post(`${baseUrl}/accounts`)
+        .set('authorization', `Bearer ${userToken}`)
+        .send(accounts[0])
+        .end((err, res) => {
+          expect(res.body).to.not.equal(null);
+          expect(res.statusCode).to.equal(201);
+          done();
+        });
+    });
+
+    it('should return an error for an invalid field', (done) => {
+      chai.request(app)
+        .post(`${baseUrl}/accounts`)
+        .set('authorization', `Bearer ${userToken}`)
+        .send(accounts[1])
+        .end((err, res) => {
+          expect(res.body.error).to.equal('type must be one of [savings, current]');
+          expect(res.statusCode).to.equal(400);
+          done();
+        });
+    });
+
+    it('should not create an account for an invalid token', (done) => {
+      chai.request(app)
+        .post(`${baseUrl}/accounts`)
+        .set('authorization', 'Bearer owewhifogfoWGDEO')
+        .send(accounts[0])
+        .end((err, res) => {
+          expect(res.body.error).to.equal('Unauthorized user');
+          expect(res.statusCode).to.equal(401);
+          done();
+        });
+    });
+
+    it('should not create an account for an Unauthorized user', (done) => {
+      chai.request(app)
+        .post(`${baseUrl}/accounts`)
+        .send(accounts[0])
+        .end((err, res) => {
+          expect(res.body.error).to.equal('Authorization error');
+          expect(res.statusCode).to.equal(401);
+          done();
+        });
+    });
+
+    it('should not create an account for any other user other than the client', (done) => {
+      chai.request(app)
+        .post(`${baseUrl}/accounts`)
+        .set('authorization', `Bearer ${adminToken}`)
+        .send(accounts[0])
+        .end((err, res) => {
+          expect(res.body.error).to.equal('Forbidden');
+          expect(res.statusCode).to.equal(403);
           done();
         });
     });
