@@ -1,6 +1,6 @@
 import userData from '../model/userdata';
 import util from '../helper/Utilities';
-import hash from '../helper/passwordhash';
+import { hash, checkPassword } from '../helper/passwordhash';
 import token from '../helper/token';
 import queries from '../migrations/queries';
 import pool from '../config/config';
@@ -57,6 +57,53 @@ class User {
     };
 
     return util.successStatus(res, 201, 'data', datas);
+  }
+
+  /**
+  * @static
+  * @description Allow a user to signup
+  * @param {object} req - Request object
+  * @param {object} res - Response object
+  * @returns {object} Json
+  * @memberof Controllers
+  */
+  static async signin(req, res) {
+    const {
+      email, password,
+    } = req.body;
+
+    let user;
+    try {
+      user = await pool.query(queries.users.byEmail, [
+        email,
+      ]);
+    } catch (error) {
+      return util.errorstatus(res, 500, 'Server error');
+    }
+
+    if (!user.rows[0]) {
+      return util.errorstatus(res, 400, 'User doesn\'t exist');
+    }
+
+    if (!checkPassword(password.trim(), user.rows[0].hashpassword)) {
+      return util.errorstatus(res, 400, 'password not correct');
+    }
+
+    const {
+      id, firstname, lastname,
+    } = user.rows[0];
+
+    const tokenObj = { id };
+
+    const datas = {
+      token: token(tokenObj),
+      id,
+      firstName: firstname,
+      lastName: lastname,
+      email,
+    };
+
+    return util.successStatus(res, 200, 'data', datas);
   }
 }
 

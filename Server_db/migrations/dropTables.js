@@ -32,6 +32,6 @@ async function deleteTransactions() {
   }
 }
 
-deleteUsers();
 deleteAccounts();
+deleteUsers();
 deleteTransactions();

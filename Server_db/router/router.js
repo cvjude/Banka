@@ -10,4 +10,6 @@ const router = express();
 router.get('/', Controller.welcome);
 
 router.post('/auth/signup', Validate.Signup, User.signup);
+router.post('/auth/signin', Validate.Signin, User.signin);
+
 export default router;
