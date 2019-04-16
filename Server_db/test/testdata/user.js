@@ -13,7 +13,7 @@ const Users = [
   },
   {
     firstName: 'Amos',
-    lastName: 'Oruroghene',
+    lastName: '-123',
     email: 'amoslvgmailcom',
     password: 'amos',
   },

@@ -37,6 +37,7 @@ describe('Banka App', () => {
         .send(users[4])
         .end((err, res) => {
           // userToken = res.body.data.token;
+          expect(res.body).to.not.equal(null);
           expect(res.statusCode).to.equal(201);
           done();
         });
@@ -47,6 +48,7 @@ describe('Banka App', () => {
         .post(`${baseUrl}/auth/signup`)
         .send(users[1])
         .end((err, res) => {
+          expect(res.body.error).to.equal('User already exist');
           expect(res.statusCode).to.equal(409);
           done();
         });
@@ -57,16 +59,18 @@ describe('Banka App', () => {
         .post(`${baseUrl}/auth/signup`)
         .send(users[2])
         .end((err, res) => {
+          expect(res.body.error).to.equal('lastName should be a string');
           expect(res.statusCode).to.equal(400);
           done();
         });
     });
 
-    it('should return an error for a numeric input in a numeric field', (done) => {
+    it('should return an error for a numeric input in a string field', (done) => {
       chai.request(app)
         .post(`${baseUrl}/auth/signup`)
         .send(users[3])
         .end((err, res) => {
+          expect(res.body.error).to.equal('firstName should be a string');
           expect(res.statusCode).to.equal(400);
           done();
         });
@@ -80,6 +84,7 @@ describe('Banka App', () => {
         .send(users[6])
         .end((err, res) => {
           // adminToken = res.body.data.token;
+          expect(res.body).to.not.equal(null);
           expect(res.statusCode).to.equal(200);
           done();
         });
@@ -91,17 +96,8 @@ describe('Banka App', () => {
         .send(users[7])
         .end((err, res) => {
           // staffToken = res.body.data.token;
+          expect(res.body).to.not.equal(null);
           expect(res.statusCode).to.equal(200);
-          done();
-        });
-    });
-
-    it('should not signin on invalid user input', (done) => {
-      chai.request(app)
-        .post(`${baseUrl}/auth/signin`)
-        .send(users[2])
-        .end((err, res) => {
-          expect(res.statusCode).to.equal(400);
           done();
         });
     });
@@ -111,6 +107,18 @@ describe('Banka App', () => {
         .post(`${baseUrl}/auth/signin`)
         .send(users[3])
         .end((err, res) => {
+          expect(res.body.error).to.equal('User doesn\'t exist');
+          expect(res.statusCode).to.equal(400);
+          done();
+        });
+    });
+
+    it('should not signin on invalid user input', (done) => {
+      chai.request(app)
+        .post(`${baseUrl}/auth/signin`)
+        .send(users[2])
+        .end((err, res) => {
+          expect(res.body.error).to.equal('email must be a valid email');
           expect(res.statusCode).to.equal(400);
           done();
         });
@@ -121,6 +129,7 @@ describe('Banka App', () => {
         .post(`${baseUrl}/auth/signin`)
         .send(users[5])
         .end((err, res) => {
+          expect(res.body.error).to.equal('password not correct');
           expect(res.statusCode).to.equal(400);
           done();
         });
