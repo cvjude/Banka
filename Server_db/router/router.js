@@ -10,6 +10,7 @@ const router = express();
 
 router.get('/', Controller.welcome);
 router.get('/accounts/:accountNumber/transactions', Authenticator.user, Validate.accountNumber, Controller.getAllTransactions);
+router.get('/transactions/:id', Authenticator.user, Validate.id, Controller.getTransaction);
 
 router.post('/auth/signup', Validate.Signup, User.signup);
 router.post('/auth/signin', Validate.Signin, User.signin);

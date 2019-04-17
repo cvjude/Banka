@@ -382,4 +382,39 @@ describe('Banka App', () => {
         });
     });
   });
+
+  describe('GET/transactions/:id', () => {
+    it('should return a specific transaction', (done) => {
+      chai.request(app)
+        .get(`${baseUrl}/transactions/6`)
+        .set('authorization', `Bearer ${adminToken}`)
+        .end((err, res) => {
+          expect(res.body.data).to.not.equal(null);
+          expect(res.statusCode).to.equal(200);
+          done();
+        });
+    });
+
+    it('should flag an error for an incorrectly typed token', (done) => {
+      chai.request(app)
+        .get(`${baseUrl}/transactions/vw`)
+        .set('authorization', `Bearer ${staffToken}`)
+        .end((err, res) => {
+          expect(res.body.error).to.equal('id must be a number');
+          expect(res.statusCode).to.equal(400);
+          done();
+        });
+    });
+
+    it('should flag an error if the transaction does not exist', (done) => {
+      chai.request(app)
+        .get(`${baseUrl}/transactions/100`)
+        .set('authorization', `Bearer ${staffToken}`)
+        .end((err, res) => {
+          expect(res.body.error).to.equal('Transaction not found');
+          expect(res.statusCode).to.equal(400);
+          done();
+        });
+    });
+  });
 });

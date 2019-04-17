@@ -131,6 +131,25 @@ class Validate {
   * @param {Object} next - Next function call
   * @memberof Controllers
   */
+  static id(req, res, next) {
+    const id = Number(req.params.id);
+
+    const error = util.validateJoi({ id }, schema.id);
+    if (error) {
+      return util.errorstatus(res, 400, error);
+    }
+    req.body.id = id;
+    return next();
+  }
+
+  /**
+  * @static
+  * @description Validates account account number
+  * @param {Object} req - Request object
+  * @param {Object} res - Response object
+  * @param {Object} next - Next function call
+  * @memberof Controllers
+  */
   static transaction(req, res, next) {
     const accountNumber = Number(req.params.accountNumber);
     const { amount } = req.body;
