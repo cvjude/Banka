@@ -20,6 +20,12 @@ const schema = {
       .required(),
     openingBalance: Joi.number().required(),
   }),
+
+  setAccount: Joi.object().keys({
+    status: Joi.string().trim().valid('active', 'dormant')
+      .required(),
+    accountNumber: Joi.number().integer().required().min(10),
+  }),
 };
 
 export default schema;
