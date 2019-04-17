@@ -251,4 +251,50 @@ describe('Banka App', () => {
         });
     });
   });
+
+  describe('DELETE/accounts/accountnumber', () => {
+    it('should delete a user account', (done) => {
+      chai.request(app)
+        .delete(`${baseUrl}/accounts/1010101010`)
+        .set('authorization', `Bearer ${adminToken}`)
+        .end((err, res) => {
+          expect(res.body.message).to.equal('Account successfully deleted');
+          expect(res.statusCode).to.equal(200);
+          done();
+        });
+    });
+
+    it('should allow only admin/staff to perform action', (done) => {
+      chai.request(app)
+        .delete(`${baseUrl}/accounts/1010101011`)
+        .set('authorization', `Bearer ${userToken}`)
+        .end((err, res) => {
+          expect(res.body.error).to.equal('Forbidden');
+          expect(res.statusCode).to.equal(403);
+          done();
+        });
+    });
+
+    it('should flag an error is the account number does not exist', (done) => {
+      chai.request(app)
+        .delete(`${baseUrl}/accounts/2010101010`)
+        .set('authorization', `Bearer ${adminToken}`)
+        .end((err, res) => {
+          expect(res.body.error).to.equal('Account number not found');
+          expect(res.statusCode).to.equal(400);
+          done();
+        });
+    });
+
+    it('should flag an error is the account number is not correctly entered', (done) => {
+      chai.request(app)
+        .delete(`${baseUrl}/accounts/101010ugwgidus`)
+        .set('authorization', `Bearer ${userToken}`)
+        .end((err, res) => {
+          expect(res.body.error).to.equal('accountNumber must be a number');
+          expect(res.statusCode).to.equal(400);
+          done();
+        });
+    });
+  });
 });

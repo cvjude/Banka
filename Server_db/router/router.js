@@ -16,4 +16,5 @@ router.post('/auth/signin', Validate.Signin, User.signin);
 router.post('/accounts', Authenticator.user, Validate.createAccount, Controller.creatAccount);
 
 router.patch('/account/:accountNumber', Authenticator.user, Validate.setAccount, Controller.setAccount);
+router.delete('/accounts/:accountNumber', Authenticator.user, Validate.accountNumber, Controller.deleteAccount);
 export default router;

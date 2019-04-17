@@ -104,6 +104,36 @@ class Controller {
 
     return util.successStatus(res, 200, 'data', datas);
   }
+
+  /**
+    * @static
+    * @description Allows Admin/Staff to delete an account
+    * @param {object} req - Request object
+    * @param {object} res - Response object
+    * @returns {object} Json
+    * @memberof Controller
+    */
+
+  static async deleteAccount(req, res) {
+    const { thisUser, accountNumber } = req.body;
+
+    if (thisUser.type !== 'staff') {
+      return util.errorstatus(res, 403, 'Forbidden');
+    }
+
+    try {
+      const userAccount = await pool.query(queries.accounts.getAccount, [accountNumber]);
+
+      if (!userAccount.rows[0]) {
+        return util.errorstatus(res, 400, 'Account number not found');
+      }
+      await pool.query(queries.accounts.delete, [accountNumber]);
+    } catch (error) {
+      return util.errorstatus(res, 500, 'Server error');
+    }
+
+    return util.successStatus(res, 200, 'message', 'Account successfully deleted');
+  }
 }
 
 export default Controller;
