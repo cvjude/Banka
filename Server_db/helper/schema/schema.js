@@ -26,6 +26,10 @@ const schema = {
       .required(),
     accountNumber: Joi.number().integer().required().min(10),
   }),
+
+  checkAccount: Joi.object().keys({
+    accountNumber: Joi.number().min(10).integer().required(),
+  }),
 };
 
 export default schema;

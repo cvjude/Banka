@@ -103,6 +103,25 @@ class Validate {
     req.body.accountNumber = accountNumber;
     return next();
   }
+
+  /**
+  * @static
+  * @description Validates account account number
+  * @param {Object} req - Request object
+  * @param {Object} res - Response object
+  * @param {Object} next - Next function call
+  * @memberof Controllers
+  */
+  static accountNumber(req, res, next) {
+    const accountNumber = Number(req.params.accountNumber);
+
+    const error = util.validateJoi({ accountNumber }, schema.checkAccount);
+    if (error) {
+      return util.errorstatus(res, 400, error);
+    }
+    req.body.accountNumber = accountNumber;
+    return next();
+  }
 }
 
 export default Validate;
