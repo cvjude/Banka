@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 import pool from '../config/config';
 import users from '../model/userdata';
-import accountData from '../model/accounts';
-import transactionData from '../model/transaction';
+import accounts from '../model/accounts';
+import transactions from '../model/transaction';
 
 const usersTable = `CREATE TABLE IF NOT EXISTS users(
   id serial PRIMARY KEY,
@@ -43,6 +43,8 @@ async function create() {
   try {
     const createTable = `${usersTable} ${accountTable} ${transactTable}`;
     let addUserData = '';
+    let addAccountData = '';
+    let addTransactData = '';
     users.forEach((user) => {
       const data = {
         text: `INSERT INTO users(firstname,lastname,email,hashpassword,type,isadmin)
@@ -51,14 +53,21 @@ async function create() {
       addUserData += data.text;
     });
 
-    const accounts = accountData[0];
-    const transactions = transactionData[0];
+    accounts.forEach((account) => {
+      const data = {
+        text: `INSERT INTO accounts(accountnumber,owner,type,status,balance)
+        VALUES(${account.accountNumber}, ${account.owner}, '${account.type}', '${account.status}', ${account.balance}); `,
+      };
+      addAccountData += data.text;
+    });
 
-    const addAccountData = `INSERT INTO accounts(accountnumber,owner,type,status,balance)
-    VALUES(${accounts.accountNumber}, ${accounts.owner}, '${accounts.type}', '${accounts.status}', ${accounts.balance}); `;
-
-    const addTransactData = `INSERT INTO transactions(type,cashier,amount,oldbalance,newbalance,accountnumber)
-    VALUES('${transactions.type}', ${transactions.cashier}, ${transactions.amount}, ${transactions.oldBalance}, ${transactions.newBalance}, ${transactions.accountNumber}); `;
+    transactions.forEach((transaction) => {
+      const data = {
+        text: `INSERT INTO transactions(type,cashier,amount,oldbalance,newbalance,accountnumber)
+        VALUES('${transaction.type}', ${transaction.cashier}, ${transaction.amount}, ${transaction.oldBalance}, ${transaction.newBalance}, ${transaction.accountNumber}); `,
+      };
+      addTransactData += data.text;
+    });
 
     await pool.query(createTable);
     await pool.query(addUserData);

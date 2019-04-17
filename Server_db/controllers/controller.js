@@ -187,6 +187,48 @@ class Controller {
     }
     return util.errorstatus(res, 403, 'Forbidden');
   }
+
+  /**
+    * @static
+    * @description Allows users to get account transactions for an account
+    * @param {object} req - Request object
+    * @param {object} res - Response object
+    * @returns {object} Json
+    * @memberof Controller
+    */
+
+  static async getAllTransactions(req, res) {
+    const { accountNumber } = req.body;
+    let transactions;
+
+    try {
+      const userAccount = await pool.query(queries.accounts.getAccount, [accountNumber]);
+
+      if (!userAccount.rows[0]) {
+        return util.errorstatus(res, 400, 'Account number not found');
+      }
+
+      transactions = await pool.query(queries.transactions.getAllTransactions, [accountNumber]);
+    } catch (error) {
+      return util.errorstatus(res, 500, 'Server error');
+    }
+
+    const datas = transactions.rows.map((transaction) => {
+      const {
+        id, createdOn: createdon, type, amount, oldbalance, newbalance, accountnumber,
+      } = transaction;
+      return {
+        transactionId: id,
+        createdOn: createdon,
+        type,
+        accountNumber: accountnumber,
+        amount,
+        oldBalance: oldbalance,
+        newBalance: newbalance,
+      };
+    });
+    return util.successStatus(res, 200, 'data', datas);
+  }
 }
 
 export default Controller;
