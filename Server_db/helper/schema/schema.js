@@ -31,6 +31,10 @@ const schema = {
     accountNumber: Joi.number().min(10).integer().required(),
   }),
 
+  id: Joi.object().keys({
+    id: Joi.number().required(),
+  }),
+
   transaction: Joi.object().keys({
     amount: Joi.number().required(),
     accountNumber: Joi.number().integer().required().min(10),
