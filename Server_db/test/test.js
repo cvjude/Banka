@@ -89,7 +89,7 @@ describe('Banka App', () => {
         .send(users[6])
         .end((err, res) => {
           adminToken = res.body.data.token;
-          expect(res.body).to.not.equal(null);
+          expect(res.body.data).to.not.equal(null);
           expect(res.statusCode).to.equal(200);
           done();
         });
@@ -101,7 +101,7 @@ describe('Banka App', () => {
         .send(users[7])
         .end((err, res) => {
           staffToken = res.body.data.token;
-          expect(res.body).to.not.equal(null);
+          expect(res.body.data).to.not.equal(null);
           expect(res.statusCode).to.equal(200);
           done();
         });
@@ -148,7 +148,7 @@ describe('Banka App', () => {
         .set('authorization', `Bearer ${userToken}`)
         .send(accounts[0])
         .end((err, res) => {
-          expect(res.body).to.not.equal(null);
+          expect(res.body.data).to.not.equal(null);
           expect(res.statusCode).to.equal(201);
           done();
         });
@@ -209,7 +209,7 @@ describe('Banka App', () => {
         .set('authorization', `Bearer ${adminToken}`)
         .send({ status: 'active' })
         .end((err, res) => {
-          expect(res.body).to.not.equal(null);
+          expect(res.body.data).to.not.equal(null);
           expect(res.statusCode).to.equal(200);
           done();
         });
@@ -229,7 +229,7 @@ describe('Banka App', () => {
 
     it('should flag an error is the account number does not exist', (done) => {
       chai.request(app)
-        .patch(`${baseUrl}/account/1010101017`)
+        .patch(`${baseUrl}/account/2010101017`)
         .set('authorization', `Bearer ${adminToken}`)
         .send({ status: 'active' })
         .end((err, res) => {
@@ -305,7 +305,7 @@ describe('Banka App', () => {
         .send({ amount: 3000 })
         .set('authorization', `Bearer ${staffToken}`)
         .end((err, res) => {
-          expect(res.body).to.not.equal(null);
+          expect(res.body.data).to.not.equal(null);
           expect(res.statusCode).to.equal(200);
           done();
         });
@@ -317,7 +317,7 @@ describe('Banka App', () => {
         .send({ amount: 3000 })
         .set('authorization', `Bearer ${staffToken}`)
         .end((err, res) => {
-          expect(res.body).to.not.equal(null);
+          expect(res.body.data).to.not.equal(null);
           expect(res.statusCode).to.equal(200);
           done();
         });
@@ -353,6 +353,30 @@ describe('Banka App', () => {
         .set('authorization', `Bearer ${userToken}`)
         .end((err, res) => {
           expect(res.body.error).to.equal('amount is required');
+          expect(res.statusCode).to.equal(400);
+          done();
+        });
+    });
+  });
+
+  describe('GET/accounts/<account-number>/transactions', () => {
+    it('Get all transactions for a user account number', (done) => {
+      chai.request(app)
+        .get(`${baseUrl}/accounts/1010101011/transactions`)
+        .set('authorization', `Bearer ${adminToken}`)
+        .end((err, res) => {
+          expect(res.body.data).to.not.equal(null);
+          expect(res.statusCode).to.equal(200);
+          done();
+        });
+    });
+
+    it('should flag an error is the account number does not exist', (done) => {
+      chai.request(app)
+        .get(`${baseUrl}/accounts/2010101111/transactions`)
+        .set('authorization', `Bearer ${staffToken}`)
+        .end((err, res) => {
+          expect(res.body.error).to.equal('Account number not found');
           expect(res.statusCode).to.equal(400);
           done();
         });

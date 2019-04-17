@@ -9,6 +9,7 @@ import Authenticator from '../middleware/authenthicator';
 const router = express();
 
 router.get('/', Controller.welcome);
+router.get('/accounts/:accountNumber/transactions', Authenticator.user, Validate.accountNumber, Controller.getAllTransactions);
 
 router.post('/auth/signup', Validate.Signup, User.signup);
 router.post('/auth/signin', Validate.Signin, User.signin);

@@ -15,6 +15,7 @@ const queries = {
   transactions: {
     getTransaction: 'SELECT * FROM transactions WHERE accountnumber = $1',
     newTransaction: 'INSERT INTO transactions(type,cashier,amount,oldbalance,newbalance,accountnumber)VALUES($1, $2, $3, $4, $5, $6)',
+    getAllTransactions: 'SELECT * FROM transactions WHERE accountnumber = $1',
   },
 };
 
