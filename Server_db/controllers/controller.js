@@ -134,6 +134,59 @@ class Controller {
 
     return util.successStatus(res, 200, 'message', 'Account successfully deleted');
   }
+
+  /**
+    * @static
+    * @description Allows Staff to debit and also to credit an account,
+    * @param {object} req - Request object
+    * @param {object} res - Response object
+    * @returns {object} Json
+    * @memberof Controller
+    */
+
+  static async transactions(req, res) {
+    const { thisUser, accountNumber, amount } = req.body;
+    try {
+      const userAccount = await pool.query(queries.accounts.getAccount, [accountNumber]);
+
+      if (!userAccount.rows[0]) {
+        return util.errorstatus(res, 400, 'Account number not found');
+      }
+
+      const oldBalance = userAccount.rows[0].balance;
+      let newBalance;
+      const type = req.url.endsWith('debit') ? 'debit' : 'credit';
+      const cashier = thisUser.id;
+      if (thisUser.isadmin === 'false' && thisUser.type === 'staff') {
+        const acbalance = (type === 'debit') ? (oldBalance - amount) : (oldBalance + amount);
+        newBalance = acbalance;
+        await pool.query(queries.transactions.newTransaction, [
+          type,
+          cashier,
+          amount,
+          oldBalance,
+          newBalance,
+          accountNumber,
+        ]);
+
+        const transactions = await pool.query(queries.transactions.getTransaction, [accountNumber]);
+        await pool.query(queries.accounts.updateBalance, [newBalance, accountNumber]);
+
+        const datas = {
+          transactionId: transactions.id,
+          accountNumber,
+          amount,
+          cashier,
+          transactionType: type,
+          accountBalance: newBalance,
+        };
+        return util.successStatus(res, 200, 'data', datas);
+      }
+    } catch (error) {
+      return util.errorstatus(res, 500, 'Server error');
+    }
+    return util.errorstatus(res, 403, 'Forbidden');
+  }
 }
 
 export default Controller;
