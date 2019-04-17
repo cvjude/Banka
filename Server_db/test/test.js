@@ -6,7 +6,7 @@ import accounts from './testdata/accounts';
 
 let userToken;
 let adminToken;
-// let staffToken;
+let staffToken;
 
 const { expect } = chai;
 chai.use(chaiHttp);
@@ -100,7 +100,7 @@ describe('Banka App', () => {
         .post(`${baseUrl}/auth/signin`)
         .send(users[7])
         .end((err, res) => {
-          // staffToken = res.body.data.token;
+          staffToken = res.body.data.token;
           expect(res.body).to.not.equal(null);
           expect(res.statusCode).to.equal(200);
           done();
@@ -292,6 +292,67 @@ describe('Banka App', () => {
         .set('authorization', `Bearer ${userToken}`)
         .end((err, res) => {
           expect(res.body.error).to.equal('accountNumber must be a number');
+          expect(res.statusCode).to.equal(400);
+          done();
+        });
+    });
+  });
+
+  describe('POST/transactions/:accountnumber/debit and credit', () => {
+    it('should debit a user account', (done) => {
+      chai.request(app)
+        .post(`${baseUrl}/transactions/1010101011/debit`)
+        .send({ amount: 3000 })
+        .set('authorization', `Bearer ${staffToken}`)
+        .end((err, res) => {
+          expect(res.body).to.not.equal(null);
+          expect(res.statusCode).to.equal(200);
+          done();
+        });
+    });
+
+    it('should credit a user account', (done) => {
+      chai.request(app)
+        .post(`${baseUrl}/transactions/1010101011/credit`)
+        .send({ amount: 3000 })
+        .set('authorization', `Bearer ${staffToken}`)
+        .end((err, res) => {
+          expect(res.body).to.not.equal(null);
+          expect(res.statusCode).to.equal(200);
+          done();
+        });
+    });
+
+    it('should allow only staff to perform action', (done) => {
+      chai.request(app)
+        .post(`${baseUrl}/transactions/1010101011/debit`)
+        .set('authorization', `Bearer ${adminToken}`)
+        .send({ amount: 3000 })
+        .end((err, res) => {
+          expect(res.body.error).to.equal('Forbidden');
+          expect(res.statusCode).to.equal(403);
+          done();
+        });
+    });
+
+    it('should flag an error is the account number does not exist', (done) => {
+      chai.request(app)
+        .post(`${baseUrl}/transactions/2010101111/debit`)
+        .set('authorization', `Bearer ${staffToken}`)
+        .send({ amount: 3000 })
+        .end((err, res) => {
+          expect(res.body.error).to.equal('Account number not found');
+          expect(res.statusCode).to.equal(400);
+          done();
+        });
+    });
+
+    it('should flag an error is the account number is not correctly entered', (done) => {
+      chai.request(app)
+        .post(`${baseUrl}/transactions/101010ugwgidus/debit`)
+        .set('authorization', `Bearer ${userToken}`)
+        .end((err, res) => {
+          expect(res.body.error).to.equal('amount is required');
           expect(res.statusCode).to.equal(400);
           done();
         });

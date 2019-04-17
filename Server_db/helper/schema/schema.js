@@ -30,6 +30,11 @@ const schema = {
   checkAccount: Joi.object().keys({
     accountNumber: Joi.number().min(10).integer().required(),
   }),
+
+  transaction: Joi.object().keys({
+    amount: Joi.number().required(),
+    accountNumber: Joi.number().integer().required().min(10),
+  }),
 };
 
 export default schema;
