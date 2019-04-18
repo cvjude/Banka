@@ -7,12 +7,12 @@ const schema = {
     lastName: Joi.string().regex(/[A-Za-z]/).trim().min(3)
       .required(),
     email: Joi.string().email().lowercase().required(),
-    password: Joi.required(),
+    password: Joi.string().required(),
   }),
 
   signin: Joi.object().keys({
     email: Joi.string().email().lowercase().required(),
-    password: Joi.required(),
+    password: Joi.string().required(),
   }),
 
   account: Joi.object().keys({
@@ -33,6 +33,10 @@ const schema = {
 
   id: Joi.object().keys({
     id: Joi.number().required(),
+  }),
+
+  email: Joi.object().keys({
+    email: Joi.string().email().lowercase().required(),
   }),
 
   transaction: Joi.object().keys({

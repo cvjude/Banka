@@ -11,6 +11,7 @@ const queries = {
     newAccount: 'INSERT INTO accounts(accountnumber,owner,type,status,balance)VALUES($1, $2, $3, $4, $5)',
     delete: 'DELETE FROM accounts WHERE accountnumber = $1',
     updateBalance: 'UPDATE accounts set balance = $1 Where accountnumber = $2',
+    getUSerAccounts: 'SELECT * FROM accounts WHERE owner = $1',
   },
   transactions: {
     getTransaction: 'SELECT * FROM transactions WHERE accountnumber = $1',
