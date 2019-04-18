@@ -316,6 +316,44 @@ class Controller {
     });
     return util.successStatus(res, 200, 'data', datas);
   }
+
+  /**
+    * @static
+    * @description Allows users to get an account Detail
+    * @param {object} req - Request object
+    * @param {object} res - Response object
+    * @returns {object} Json
+    * @memberof Controller
+    */
+
+  static async getAccountDetails(req, res) {
+    const { accountNumber } = req.body;
+    let Accountdetails;
+
+    try {
+      Accountdetails = await pool.query(queries.join.AccountOnEmail, [accountNumber]);
+
+      if (!Accountdetails.rows[0]) {
+        return util.errorstatus(res, 400, 'Account number not found');
+      }
+    } catch (error) {
+      return util.errorstatus(res, 500, 'Server error');
+    }
+
+    const {
+      createdon, email, accountnumber, type, status, balance,
+    } = Accountdetails.rows[0];
+
+    const datas = {
+      createdOn: createdon,
+      accountNumber: accountnumber,
+      ownerEmail: email,
+      type,
+      status,
+      balance,
+    };
+    return util.successStatus(res, 200, 'data', datas);
+  }
 }
 
 export default Controller;

@@ -452,4 +452,28 @@ describe('Banka App', () => {
         });
     });
   });
+
+  describe('GET/accounts/:accountNumber', () => {
+    it('should return a specific account details', (done) => {
+      chai.request(app)
+        .get(`${baseUrl}/accounts/1010101019`)
+        .set('authorization', `Bearer ${adminToken}`)
+        .end((err, res) => {
+          expect(res.body.data).to.not.equal(null);
+          expect(res.statusCode).to.equal(200);
+          done();
+        });
+    });
+
+    it('should flag an error is the account number does not exist', (done) => {
+      chai.request(app)
+        .get(`${baseUrl}/accounts/10101`)
+        .set('authorization', `Bearer ${staffToken}`)
+        .end((err, res) => {
+          expect(res.body.error).to.equal('Account number not found');
+          expect(res.statusCode).to.equal(400);
+          done();
+        });
+    });
+  });
 });

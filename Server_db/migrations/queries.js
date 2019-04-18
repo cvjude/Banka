@@ -19,6 +19,9 @@ const queries = {
     getAllTransactions: 'SELECT * FROM transactions WHERE accountnumber = $1',
     getbyId: 'SELECT * FROM transactions WHERE id = $1',
   },
+  join: {
+    AccountOnEmail: 'SELECT email, accounts.* FROM users INNER JOIN accounts on users.id = accounts.OWNER WHERE accounts.accountnumber = $1',
+  },
 };
 
 export default queries;
