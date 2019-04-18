@@ -134,7 +134,7 @@ describe('Banka App', () => {
         .post(`${baseUrl}/auth/signin`)
         .send(users[5])
         .end((err, res) => {
-          expect(res.body.error).to.equal('password not correct');
+          expect(res.body.error).to.equal('Email or password not correct');
           expect(res.statusCode).to.equal(400);
           done();
         });
@@ -195,7 +195,7 @@ describe('Banka App', () => {
         .set('authorization', `Bearer ${adminToken}`)
         .send(accounts[0])
         .end((err, res) => {
-          expect(res.body.error).to.equal('Forbidden');
+          expect(res.body.error).to.equal('Forbidden, You Are not allowed to perform this action');
           expect(res.statusCode).to.equal(403);
           done();
         });
@@ -221,7 +221,7 @@ describe('Banka App', () => {
         .set('authorization', `Bearer ${userToken}`)
         .send({ status: 'active' })
         .end((err, res) => {
-          expect(res.body.error).to.equal('Forbidden');
+          expect(res.body.error).to.equal('Forbidden, You Are not allowed to perform this action');
           expect(res.statusCode).to.equal(403);
           done();
         });
@@ -233,7 +233,7 @@ describe('Banka App', () => {
         .set('authorization', `Bearer ${adminToken}`)
         .send({ status: 'active' })
         .end((err, res) => {
-          expect(res.body.error).to.equal('Account number not found');
+          expect(res.body.error).to.equal('Account not found');
           expect(res.statusCode).to.equal(400);
           done();
         });
@@ -242,7 +242,7 @@ describe('Banka App', () => {
     it('should flag an error is the account number is not correctly entered', (done) => {
       chai.request(app)
         .patch(`${baseUrl}/account/10101advovno`)
-        .set('authorization', `Bearer ${userToken}`)
+        .set('authorization', `Bearer ${adminToken}`)
         .send({ status: 'active' })
         .end((err, res) => {
           expect(res.body.error[0]).to.equal('accountNumber must be a number');
@@ -269,7 +269,7 @@ describe('Banka App', () => {
         .delete(`${baseUrl}/accounts/1010101011`)
         .set('authorization', `Bearer ${userToken}`)
         .end((err, res) => {
-          expect(res.body.error).to.equal('Forbidden');
+          expect(res.body.error).to.equal('Forbidden, You Are not allowed to perform this action');
           expect(res.statusCode).to.equal(403);
           done();
         });
@@ -280,7 +280,7 @@ describe('Banka App', () => {
         .delete(`${baseUrl}/accounts/2010101010`)
         .set('authorization', `Bearer ${adminToken}`)
         .end((err, res) => {
-          expect(res.body.error).to.equal('Account number not found');
+          expect(res.body.error).to.equal('Account not found');
           expect(res.statusCode).to.equal(400);
           done();
         });
@@ -289,7 +289,7 @@ describe('Banka App', () => {
     it('should flag an error is the account number is not correctly entered', (done) => {
       chai.request(app)
         .delete(`${baseUrl}/accounts/101010ugwgidus`)
-        .set('authorization', `Bearer ${userToken}`)
+        .set('authorization', `Bearer ${adminToken}`)
         .end((err, res) => {
           expect(res.body.error[0]).to.equal('accountNumber must be a number');
           expect(res.statusCode).to.equal(400);
@@ -329,7 +329,7 @@ describe('Banka App', () => {
         .set('authorization', `Bearer ${adminToken}`)
         .send({ amount: 3000 })
         .end((err, res) => {
-          expect(res.body.error).to.equal('Forbidden');
+          expect(res.body.error).to.equal('Forbidden, You Are not allowed to perform this action');
           expect(res.statusCode).to.equal(403);
           done();
         });
@@ -341,7 +341,31 @@ describe('Banka App', () => {
         .set('authorization', `Bearer ${staffToken}`)
         .send({ amount: 3000 })
         .end((err, res) => {
-          expect(res.body.error).to.equal('Account number not found');
+          expect(res.body.error).to.equal('Account not found');
+          expect(res.statusCode).to.equal(400);
+          done();
+        });
+    });
+
+    it('should not perform a debit transaction on a dormant account', (done) => {
+      chai.request(app)
+        .post(`${baseUrl}/transactions/1010101014/debit`)
+        .set('authorization', `Bearer ${staffToken}`)
+        .send({ amount: 3000 })
+        .end((err, res) => {
+          expect(res.body.error).to.equal('cannot perform transaction on dormant account');
+          expect(res.statusCode).to.equal(400);
+          done();
+        });
+    });
+
+    it('should flag an error when the debit balance is less than the amount', (done) => {
+      chai.request(app)
+        .post(`${baseUrl}/transactions/1010101015/debit`)
+        .set('authorization', `Bearer ${staffToken}`)
+        .send({ amount: 5000 })
+        .end((err, res) => {
+          expect(res.body.error).to.equal('insuffcient fund');
           expect(res.statusCode).to.equal(400);
           done();
         });
@@ -376,7 +400,7 @@ describe('Banka App', () => {
         .get(`${baseUrl}/accounts/2010101111/transactions`)
         .set('authorization', `Bearer ${staffToken}`)
         .end((err, res) => {
-          expect(res.body.error).to.equal('Account number not found');
+          expect(res.body.error).to.equal('Account not found');
           expect(res.statusCode).to.equal(400);
           done();
         });
@@ -447,6 +471,30 @@ describe('Banka App', () => {
         .set('authorization', `Bearer ${staffToken}`)
         .end((err, res) => {
           expect(res.body.error[0]).to.equal('email must be a valid email');
+          expect(res.statusCode).to.equal(400);
+          done();
+        });
+    });
+  });
+
+  describe('GET/accounts/:accountNumber', () => {
+    it('should return a specific account details', (done) => {
+      chai.request(app)
+        .get(`${baseUrl}/accounts/1010101019`)
+        .set('authorization', `Bearer ${adminToken}`)
+        .end((err, res) => {
+          expect(res.body.data).to.not.equal(null);
+          expect(res.statusCode).to.equal(200);
+          done();
+        });
+    });
+
+    it('should flag an error is the account number does not exist', (done) => {
+      chai.request(app)
+        .get(`${baseUrl}/accounts/10101`)
+        .set('authorization', `Bearer ${staffToken}`)
+        .end((err, res) => {
+          expect(res.body.error).to.equal('Account not found');
           expect(res.statusCode).to.equal(400);
           done();
         });

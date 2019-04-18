@@ -20,6 +20,10 @@ class Validate {
       firstName, lastName, email, password,
     };
 
+    req.body.firstName = firstName.trim();
+    req.body.lastName = lastName.trim();
+    req.body.password = password.trim();
+
     const error = util.validateJoi(validateObject, schema.signup);
     if (error) {
       return util.errorstatus(res, 400, error);
@@ -70,6 +74,8 @@ class Validate {
       type, openingBalance,
     };
 
+    req.body.type = type.trim();
+
     const error = util.validateJoi(validateObject, schema.account);
     if (error) {
       return util.errorstatus(res, 400, error);
@@ -89,6 +95,8 @@ class Validate {
     const {
       status,
     } = req.body;
+
+    req.body.status = status.trim();
 
     const accountNumber = Number(req.params.accountNumber);
 

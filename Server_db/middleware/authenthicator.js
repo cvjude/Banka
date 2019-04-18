@@ -25,9 +25,43 @@ class Authenticator {
       const theuser = await pool.query(queries.users.byId, [
         verify.id,
       ]);
-      req.body.thisUser = theuser.rows[0];
+      req.body.loggedinUser = theuser.rows[0];
     } catch (err) {
       return Util.errorstatus(res, 401, 'Unauthorized user');
+    }
+    return next();
+  }
+
+  /**
+    * @static
+    * @description Checks that the user is a client
+    * @param {object} req - Request object
+    * @param {object} res - Response object
+    * @param {Object} next - Next function call
+    * @returns {object} Json
+    * @memberof Controllers
+    */
+  static async isClient(req, res, next) {
+    const { loggedinUser } = req.body;
+    if (loggedinUser.type === 'staff') {
+      return Util.errorstatus(res, 403, 'Forbidden, You Are not allowed to perform this action');
+    }
+    return next();
+  }
+
+  /**
+    * @static
+    * @description Checks that user is a staff
+    * @param {object} req - Request object
+    * @param {object} res - Response object
+    * @param {Object} next - Next function call
+    * @returns {object} Json
+    * @memberof Controllers
+    */
+  static async isStaff(req, res, next) {
+    const { loggedinUser } = req.body;
+    if (loggedinUser.type !== 'staff') {
+      return Util.errorstatus(res, 403, 'Forbidden, You Are not allowed to perform this action');
     }
     return next();
   }

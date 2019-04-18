@@ -1,4 +1,3 @@
-import userData from '../model/userdata';
 import util from '../helper/Utilities';
 import { hash, checkPassword } from '../helper/passwordhash';
 import token from '../helper/token';
@@ -6,6 +5,19 @@ import queries from '../migrations/queries';
 import pool from '../config/config';
 
 class User {
+  /**
+    * @static
+    * @description Display a welcome message
+    * @param {object} req - Request object
+    * @param {object} res - Response object
+    * @returns {object} Json
+    * @memberof Controller
+    */
+
+  static welcome(req, res) {
+    return res.status(200).json({ message: 'welcome to the Banka app' });
+  }
+
   /**
   * @static
   * @description Allow a user to signup
@@ -20,7 +32,7 @@ class User {
       lastName, password,
     } = req.body;
 
-    const id = userData.length + 1;
+    let fetchedUser;
     const isAdmin = false;
     const type = 'client';
 
@@ -29,12 +41,13 @@ class User {
         email,
       ]);
 
-      const hashPassword = hash(password);
       if (user.rows[0]) {
         return util.errorstatus(res, 409, 'User already exist');
       }
 
-      await pool.query(queries.users.newUser, [
+      const hashPassword = hash(password);
+
+      fetchedUser = await pool.query(queries.users.newUser, [
         firstName,
         lastName,
         email,
@@ -46,8 +59,8 @@ class User {
       return util.errorstatus(res, 500, 'Server error');
     }
 
+    const { id } = fetchedUser.rows[0];
     const tokenObj = { id };
-
     const datas = {
       token: token(tokenObj),
       id,
@@ -77,16 +90,16 @@ class User {
       user = await pool.query(queries.users.byEmail, [
         email,
       ]);
+
+      if (!user.rows[0]) {
+        return util.errorstatus(res, 400, 'User doesn\'t exist');
+      }
+
+      if (!checkPassword(password.trim(), user.rows[0].hashpassword)) {
+        return util.errorstatus(res, 400, 'Email or password not correct');
+      }
     } catch (error) {
       return util.errorstatus(res, 500, 'Server error');
-    }
-
-    if (!user.rows[0]) {
-      return util.errorstatus(res, 400, 'User doesn\'t exist');
-    }
-
-    if (!checkPassword(password.trim(), user.rows[0].hashpassword)) {
-      return util.errorstatus(res, 400, 'password not correct');
     }
 
     const {
