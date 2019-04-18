@@ -20,7 +20,7 @@ deposit money..
 >- Clean and Interactive User Interface
 >- User can login and sign up
 >- Users can view their accounts and view all transactions on an account
->- Admin can other Admins and also add staff
+>- Admin can add other Admins and also add staff
 >- Staff can debit or credit an account
 >- Admin and Staff can deactivate or delete an account
 
