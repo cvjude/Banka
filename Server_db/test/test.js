@@ -64,7 +64,7 @@ describe('Banka App', () => {
         .post(`${baseUrl}/auth/signup`)
         .send(users[2])
         .end((err, res) => {
-          expect(res.body.error).to.equal('lastName should be a string');
+          expect(res.body.error[0]).to.equal('lastName should be a string');
           expect(res.statusCode).to.equal(400);
           done();
         });
@@ -75,7 +75,7 @@ describe('Banka App', () => {
         .post(`${baseUrl}/auth/signup`)
         .send(users[3])
         .end((err, res) => {
-          expect(res.body.error).to.equal('firstName should be a string');
+          expect(res.body.error[0]).to.equal('firstName should be a string');
           expect(res.statusCode).to.equal(400);
           done();
         });
@@ -123,7 +123,7 @@ describe('Banka App', () => {
         .post(`${baseUrl}/auth/signin`)
         .send(users[2])
         .end((err, res) => {
-          expect(res.body.error).to.equal('email must be a valid email');
+          expect(res.body.error[0]).to.equal('email must be a valid email');
           expect(res.statusCode).to.equal(400);
           done();
         });
@@ -160,7 +160,7 @@ describe('Banka App', () => {
         .set('authorization', `Bearer ${userToken}`)
         .send(accounts[1])
         .end((err, res) => {
-          expect(res.body.error).to.equal('type must be one of [savings, current]');
+          expect(res.body.error[0]).to.equal('type must be one of [savings, current]');
           expect(res.statusCode).to.equal(400);
           done();
         });
@@ -245,7 +245,7 @@ describe('Banka App', () => {
         .set('authorization', `Bearer ${userToken}`)
         .send({ status: 'active' })
         .end((err, res) => {
-          expect(res.body.error).to.equal('accountNumber must be a number');
+          expect(res.body.error[0]).to.equal('accountNumber must be a number');
           expect(res.statusCode).to.equal(400);
           done();
         });
@@ -291,7 +291,7 @@ describe('Banka App', () => {
         .delete(`${baseUrl}/accounts/101010ugwgidus`)
         .set('authorization', `Bearer ${userToken}`)
         .end((err, res) => {
-          expect(res.body.error).to.equal('accountNumber must be a number');
+          expect(res.body.error[0]).to.equal('accountNumber must be a number');
           expect(res.statusCode).to.equal(400);
           done();
         });
@@ -352,7 +352,7 @@ describe('Banka App', () => {
         .post(`${baseUrl}/transactions/101010ugwgidus/debit`)
         .set('authorization', `Bearer ${userToken}`)
         .end((err, res) => {
-          expect(res.body.error).to.equal('amount is required');
+          expect(res.body.error[0]).to.equal('amount is required');
           expect(res.statusCode).to.equal(400);
           done();
         });
@@ -395,12 +395,12 @@ describe('Banka App', () => {
         });
     });
 
-    it('should flag an error for an incorrectly typed token', (done) => {
+    it('should flag an error for an incorrectly typed id', (done) => {
       chai.request(app)
         .get(`${baseUrl}/transactions/vw`)
         .set('authorization', `Bearer ${staffToken}`)
         .end((err, res) => {
-          expect(res.body.error).to.equal('id must be a number');
+          expect(res.body.error[0]).to.equal('id must be a number');
           expect(res.statusCode).to.equal(400);
           done();
         });
@@ -412,6 +412,41 @@ describe('Banka App', () => {
         .set('authorization', `Bearer ${staffToken}`)
         .end((err, res) => {
           expect(res.body.error).to.equal('Transaction not found');
+          expect(res.statusCode).to.equal(400);
+          done();
+        });
+    });
+  });
+
+  describe('GET/user/:email/accounts', () => {
+    it('should return all Accounts owned by the user specified', (done) => {
+      chai.request(app)
+        .get(`${baseUrl}/user/kelv@gmail.com/accounts`)
+        .set('authorization', `Bearer ${adminToken}`)
+        .end((err, res) => {
+          expect(res.body.data).to.not.equal(null);
+          expect(res.statusCode).to.equal(200);
+          done();
+        });
+    });
+
+    it('should flag an error if the transaction does not exist', (done) => {
+      chai.request(app)
+        .get(`${baseUrl}/transactions/100`)
+        .set('authorization', `Bearer ${staffToken}`)
+        .end((err, res) => {
+          expect(res.body.error).to.equal('Transaction not found');
+          expect(res.statusCode).to.equal(400);
+          done();
+        });
+    });
+
+    it('should flag an error for an incorrect email', (done) => {
+      chai.request(app)
+        .get(`${baseUrl}/user/kelvgmaicom/accounts`)
+        .set('authorization', `Bearer ${staffToken}`)
+        .end((err, res) => {
+          expect(res.body.error[0]).to.equal('email must be a valid email');
           expect(res.statusCode).to.equal(400);
           done();
         });

@@ -215,7 +215,7 @@ class Controller {
 
     const datas = transactions.rows.map((transaction) => {
       const {
-        id, createdOn: createdon, type, amount, oldbalance, newbalance, accountnumber,
+        id, createdon, type, amount, oldbalance, newbalance, accountnumber,
       } = transaction;
       return {
         transactionId: id,
@@ -266,6 +266,54 @@ class Controller {
       oldBalance: oldbalance,
       newBalance: newbalance,
     };
+    return util.successStatus(res, 200, 'data', datas);
+  }
+
+  /**
+    * @static
+    * @description Allows users to get account transactions for an account
+    * @param {object} req - Request object
+    * @param {object} res - Response object
+    * @returns {object} Json
+    * @memberof Controller
+    */
+
+  static async getAllUserAccounts(req, res) {
+    const { thisUser, email } = req.body;
+
+    if (thisUser.type !== 'staff') {
+      return util.errorstatus(res, 403, 'Forbidden');
+    }
+
+    const owner = await pool.query(queries.users.byEmail, [email]);
+
+    if (!owner.rows[0]) {
+      return util.errorstatus(res, 400, 'User not found');
+    }
+    let accounts;
+
+    try {
+      accounts = await pool.query(queries.accounts.getUSerAccounts, [owner.rows[0].id]);
+
+      if (!accounts.rows[0]) {
+        return util.errorstatus(res, 400, 'User has no account');
+      }
+    } catch (error) {
+      return util.errorstatus(res, 500, 'Server error');
+    }
+
+    const datas = accounts.rows.map((account) => {
+      const {
+        createdon, accountnumber, type, status, balance,
+      } = account;
+      return {
+        createdOn: createdon,
+        accountNumber: accountnumber,
+        type,
+        status,
+        balance,
+      };
+    });
     return util.successStatus(res, 200, 'data', datas);
   }
 }

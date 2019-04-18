@@ -12,11 +12,15 @@ class Util {
 
   static validateJoi(validateObject, schemaData) {
     let error;
-    Joi.validate(validateObject, schemaData, { convert: false }, (err) => {
+    Joi.validate(validateObject, schemaData, { abortEarly: false, convert: false }, (err) => {
       if (err) {
-        error = err.details[0].message;
-        error = error.replace(/"/gi, '');
-        if (error.includes('[A-Za-z]')) { error = `${err.details[0].path[0]} should be a string`; }
+        error = err.details;
+        error = error.map((singleErrors) => {
+          let { message } = singleErrors;
+          message = message.replace(/"/gi, '');
+          if (message.includes('[A-Za-z]')) { message = `${singleErrors.path[0]} should be a string`; }
+          return message;
+        });
       }
     });
     return error;

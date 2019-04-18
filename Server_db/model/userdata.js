@@ -34,7 +34,15 @@ const Users = [
   {
     firstName: 'Kelvin',
     lastName: 'Kelv',
-    email: 'staff@gmail.com',
+    email: 'kelv@gmail.com',
+    hashPassword: '$2a$10$PQRN6c5NsnGoFcU4mvvgGe67l0W89VvkbduMbij219tXwaJohyZAG',
+    type: 'client',
+    isAdmin: false,
+  },
+  {
+    firstName: 'Bill',
+    lastName: 'witheds',
+    email: 'bill@gmail.com',
     hashPassword: '$2a$10$PQRN6c5NsnGoFcU4mvvgGe67l0W89VvkbduMbij219tXwaJohyZAG',
     type: 'client',
     isAdmin: false,
