@@ -21,7 +21,7 @@ router.post('/accounts', Authenticator.user, Validate.createAccount, Controller.
 router.post('/transactions/:accountNumber/debit', Authenticator.user, Validate.transaction, Controller.transactions);
 router.post('/transactions/:accountNumber/credit', Authenticator.user, Validate.transaction, Controller.transactions);
 
-router.patch('/account/:accountNumber', Authenticator.user, Validate.setAccount, Controller.setAccount);
+router.patch('/account/:accountNumber', Authenticator.user, Validate.setAccount, Controller.updateAccount);
 
 router.delete('/accounts/:accountNumber', Authenticator.user, Validate.accountNumber, Controller.deleteAccount);
 export default router;

@@ -32,7 +32,7 @@ class Controller {
     const owner = thisUser.id;
 
     if (thisUser.type === 'staff') {
-      return util.errorstatus(res, 403, 'Forbidden');
+      return util.errorstatus(res, 403, 'Forbidden, You Are not allowed to perform this action');
     }
 
     let accountNumber;
@@ -79,18 +79,18 @@ class Controller {
     * @memberof Controller
     */
 
-  static async setAccount(req, res) {
+  static async updateAccount(req, res) {
     const { status, thisUser, accountNumber } = req.body;
 
     if (thisUser.type !== 'staff') {
-      return util.errorstatus(res, 403, 'Forbidden');
+      return util.errorstatus(res, 403, 'Forbidden, You Are not allowed to perform this action');
     }
 
     try {
       const userAccount = await pool.query(queries.accounts.getAccount, [accountNumber]);
 
       if (!userAccount.rows[0]) {
-        return util.errorstatus(res, 400, 'Account number not found');
+        return util.errorstatus(res, 400, 'Account not found');
       }
 
       await pool.query(queries.accounts.updateStatus, [status, accountNumber]);
@@ -118,14 +118,14 @@ class Controller {
     const { thisUser, accountNumber } = req.body;
 
     if (thisUser.type !== 'staff') {
-      return util.errorstatus(res, 403, 'Forbidden');
+      return util.errorstatus(res, 403, 'Forbidden, You Are not allowed to perform this action');
     }
 
     try {
       const userAccount = await pool.query(queries.accounts.getAccount, [accountNumber]);
 
       if (!userAccount.rows[0]) {
-        return util.errorstatus(res, 400, 'Account number not found');
+        return util.errorstatus(res, 400, 'Account not found');
       }
       await pool.query(queries.accounts.delete, [accountNumber]);
     } catch (error) {
@@ -150,7 +150,7 @@ class Controller {
       const userAccount = await pool.query(queries.accounts.getAccount, [accountNumber]);
 
       if (!userAccount.rows[0]) {
-        return util.errorstatus(res, 400, 'Account number not found');
+        return util.errorstatus(res, 400, 'Account not found');
       }
 
       const oldBalance = userAccount.rows[0].balance;
@@ -160,7 +160,7 @@ class Controller {
       if (thisUser.isadmin === 'false' && thisUser.type === 'staff') {
         const acbalance = (type === 'debit') ? (oldBalance - amount) : (oldBalance + amount);
         newBalance = acbalance;
-        await pool.query(queries.transactions.newTransaction, [
+        const transactions = await pool.query(queries.transactions.newTransaction, [
           type,
           cashier,
           amount,
@@ -169,7 +169,6 @@ class Controller {
           accountNumber,
         ]);
 
-        const transactions = await pool.query(queries.transactions.getTransaction, [accountNumber]);
         await pool.query(queries.accounts.updateBalance, [newBalance, accountNumber]);
 
         const datas = {
@@ -185,7 +184,7 @@ class Controller {
     } catch (error) {
       return util.errorstatus(res, 500, 'Server error');
     }
-    return util.errorstatus(res, 403, 'Forbidden');
+    return util.errorstatus(res, 403, 'Forbidden, You Are not allowed to erform this action');
   }
 
   /**
@@ -205,7 +204,7 @@ class Controller {
       const userAccount = await pool.query(queries.accounts.getAccount, [accountNumber]);
 
       if (!userAccount.rows[0]) {
-        return util.errorstatus(res, 400, 'Account number not found');
+        return util.errorstatus(res, 400, 'Account not found');
       }
 
       transactions = await pool.query(queries.transactions.getAllTransactions, [accountNumber]);
@@ -232,7 +231,7 @@ class Controller {
 
   /**
     * @static
-    * @description Allows users to get account transactions for an account
+    * @description Allows users to get a transaction by id
     * @param {object} req - Request object
     * @param {object} res - Response object
     * @returns {object} Json
@@ -271,7 +270,7 @@ class Controller {
 
   /**
     * @static
-    * @description Allows users to get account transactions for an account
+    * @description Allows users to get all accounts for a user
     * @param {object} req - Request object
     * @param {object} res - Response object
     * @returns {object} Json
@@ -279,11 +278,7 @@ class Controller {
     */
 
   static async getAllUserAccounts(req, res) {
-    const { thisUser, email } = req.body;
-
-    if (thisUser.type !== 'staff') {
-      return util.errorstatus(res, 403, 'Forbidden');
-    }
+    const { email } = req.body;
 
     const owner = await pool.query(queries.users.byEmail, [email]);
 

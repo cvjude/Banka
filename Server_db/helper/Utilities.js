@@ -18,7 +18,9 @@ class Util {
         error = error.map((singleErrors) => {
           let { message } = singleErrors;
           message = message.replace(/"/gi, '');
-          if (message.includes('[A-Za-z]')) { message = `${singleErrors.path[0]} should be a string`; }
+          if (message.includes('[A-Za-z]')) {
+            message = `${singleErrors.path[0]} should be a string`;
+          }
           return message;
         });
       }
