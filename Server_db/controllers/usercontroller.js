@@ -6,6 +6,19 @@ import pool from '../config/config';
 
 class User {
   /**
+    * @static
+    * @description Display a welcome message
+    * @param {object} req - Request object
+    * @param {object} res - Response object
+    * @returns {object} Json
+    * @memberof Controller
+    */
+
+  static welcome(req, res) {
+    return res.status(200).json({ message: 'welcome to the Banka app' });
+  }
+
+  /**
   * @static
   * @description Allow a user to signup
   * @param {object} req - Request object
@@ -19,7 +32,6 @@ class User {
       lastName, password,
     } = req.body;
 
-    // const id = userData.length + 1;
     let fetchedUser;
     const isAdmin = false;
     const type = 'client';

@@ -12,7 +12,7 @@ class Util {
 
   static validateJoi(validateObject, schemaData) {
     let error;
-    Joi.validate(validateObject, schemaData, { abortEarly: false, convert: false }, (err) => {
+    Joi.validate(validateObject, schemaData, { abortEarly: false }, (err) => {
       if (err) {
         error = err.details;
         error = error.map((singleErrors) => {
