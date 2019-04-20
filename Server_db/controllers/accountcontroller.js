@@ -166,7 +166,7 @@ class Controller {
     let Accountdetails;
 
     try {
-      Accountdetails = await pool.query(queries.join.AccountOnEmail, [accountNumber]);
+      Accountdetails = await pool.query(queries.join.accountOnEmail, [accountNumber]);
 
       if (!Accountdetails.rows[0]) {
         return util.errorstatus(res, 400, 'Account not found');
@@ -187,6 +187,40 @@ class Controller {
       status,
       balance,
     };
+    return util.successStatus(res, 200, 'data', datas);
+  }
+
+  /**
+    * @static
+    * @description Allows users to get all account number
+    * @param {object} req - Request object
+    * @param {object} res - Response object
+    * @returns {object} Json
+    * @memberof Controller
+    */
+
+  static async getAllAccounts(req, res) {
+    let accounts;
+
+    try {
+      accounts = await pool.query(queries.join.accountsAndEmail);
+    } catch (error) {
+      return util.errorstatus(res, 500, 'Server error');
+    }
+
+    const datas = accounts.rows.map((account) => {
+      const {
+        createdon, accountnumber, type, status, balance, email,
+      } = account;
+      return {
+        createdOn: createdon,
+        accountNumber: accountnumber,
+        ownerEmail: email,
+        type,
+        status,
+        balance,
+      };
+    });
     return util.successStatus(res, 200, 'data', datas);
   }
 }

@@ -500,4 +500,17 @@ describe('Banka App', () => {
         });
     });
   });
+
+  describe('GET/accounts', () => {
+    it('should return all account numbers', (done) => {
+      chai.request(app)
+        .get(`${baseUrl}/accounts`)
+        .set('authorization', `Bearer ${adminToken}`)
+        .end((err, res) => {
+          expect(res.body.data).to.not.equal(null);
+          expect(res.statusCode).to.equal(200);
+          done();
+        });
+    });
+  });
 });

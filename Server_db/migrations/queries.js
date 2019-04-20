@@ -21,7 +21,8 @@ const queries = {
     getbyId: 'SELECT * FROM transactions WHERE id = $1',
   },
   join: {
-    AccountOnEmail: 'SELECT email, accounts.* FROM users INNER JOIN accounts on users.id = accounts.OWNER WHERE accounts.accountnumber = $1',
+    accountOnEmail: 'SELECT email, accounts.* FROM users INNER JOIN accounts on users.id = accounts.OWNER WHERE accounts.accountnumber = $1',
+    accountsAndEmail: 'SELECT email, accounts.* FROM users INNER JOIN accounts on users.id = accounts.OWNER',
   },
 };
 
