@@ -1,8 +1,7 @@
 import util from '../helper/Utilities';
 import { hash, checkPassword } from '../helper/passwordhash';
 import token from '../helper/token';
-import queries from '../migrations/queries';
-import pool from '../config/config';
+import dbMethods from '../migrations/db_methods';
 
 class User {
   /**
@@ -28,38 +27,34 @@ class User {
   */
   static async signup(req, res) {
     const {
-      email, firstName,
-      lastName, password,
+      email, firstName, lastName, password,
     } = req.body;
 
-    let fetchedUser;
     const isAdmin = false;
     const type = 'client';
 
+    let user;
     try {
-      const user = await pool.query(queries.users.byEmail, [
-        email,
-      ]);
-
-      if (user.rows[0]) {
-        return util.errorstatus(res, 409, 'User already exist');
-      }
-
-      const hashPassword = hash(password);
-
-      fetchedUser = await pool.query(queries.users.newUser, [
-        firstName,
-        lastName,
-        email,
-        hashPassword,
-        type,
-        isAdmin,
-      ]);
+      user = await dbMethods.readFromDb('users', '*', { email });
     } catch (error) {
-      return util.errorstatus(res, 500, 'Server error');
+      return util.errorstatus(res, 500, 'SERVER ERROR');
     }
 
-    const { id } = fetchedUser.rows[0];
+    if (user[0]) {
+      return util.errorstatus(res, 409, 'User already exist');
+    }
+
+    const hashPassword = hash(password);
+    const fetchedUser = await dbMethods.insertToDb('users', {
+      firstName,
+      lastName,
+      email,
+      hashPassword,
+      type,
+      isAdmin,
+    }, 'RETURNING id');
+
+    const { id } = fetchedUser;
     const tokenObj = { id };
     const datas = {
       token: token(tokenObj),
@@ -81,30 +76,22 @@ class User {
   * @memberof Controllers
   */
   static async signin(req, res) {
-    const {
-      email, password,
-    } = req.body;
-
+    const { email, password } = req.body;
     let user;
     try {
-      user = await pool.query(queries.users.byEmail, [
-        email,
-      ]);
-
-      if (!user.rows[0]) {
-        return util.errorstatus(res, 400, 'User doesn\'t exist');
-      }
-
-      if (!checkPassword(password.trim(), user.rows[0].hashpassword)) {
-        return util.errorstatus(res, 400, 'Email or password not correct');
-      }
+      user = await dbMethods.readFromDb('users', '*', { email });
     } catch (error) {
-      return util.errorstatus(res, 500, 'Server error');
+      return util.errorstatus(res, 500, 'SERVER ERROR');
+    }
+    if (!user[0]) {
+      return util.errorstatus(res, 400, 'User doesn\'t exist');
     }
 
-    const {
-      id, firstname, lastname,
-    } = user.rows[0];
+    if (!checkPassword(password.trim(), user[0].hashpassword)) {
+      return util.errorstatus(res, 400, 'Email or password not correct');
+    }
+
+    const { id, firstname, lastname } = user[0];
 
     const tokenObj = { id };
 

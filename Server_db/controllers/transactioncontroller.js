@@ -1,58 +1,48 @@
 /* eslint-disable linebreak-style */
 import util from '../helper/Utilities';
-import queries from '../migrations/queries';
-import pool from '../config/config';
+import dbMethods from '../migrations/db_methods';
+
+const calulateBalance = (type, balance, amount) => {
+  if (type === 'debit') {
+    return balance - amount;
+  }
+  return balance + amount;
+};
 
 class Controller {
   static async transactions(req, res) {
     const { loggedinUser, accountNumber, amount } = req.body;
     try {
-      const userAccount = await pool.query(queries.accounts.getAccount, [accountNumber]);
+      const userAccount = await dbMethods.readFromDb('accounts', '*', { accountNumber });
 
-      if (!userAccount.rows[0]) {
-        return util.errorstatus(res, 400, 'Account not found');
-      }
+      if (!userAccount[0]) { return util.errorstatus(res, 400, 'Account not found'); }
 
-      const oldBalance = userAccount.rows[0].balance;
-      const { status } = userAccount.rows[0];
-      let newBalance;
+      const { status, balance } = userAccount[0];
       const type = req.url.endsWith('debit') ? 'debit' : 'credit';
-      const cashier = loggedinUser.id;
-      if (loggedinUser.isadmin === 'false' && loggedinUser.type === 'staff') {
-        if (type === 'debit') {
-          if (status === 'dormant') { return util.errorstatus(res, 400, 'cannot perform transaction on dormant account'); }
 
-          if (oldBalance < amount) { return util.errorstatus(res, 400, 'insuffcient fund'); }
+      if (loggedinUser.isadmin === 'true' || loggedinUser.type === 'client') { return util.errorstatus(res, 403, 'Forbidden, You Are not allowed to perform this action'); }
 
-          newBalance = oldBalance - amount;
-        } else {
-          newBalance = oldBalance + amount;
-        }
-        const transactions = await pool.query(queries.transactions.newTransaction, [
-          type,
-          cashier,
-          amount,
-          oldBalance,
-          newBalance,
-          accountNumber,
-        ]);
-
-        await pool.query(queries.accounts.updateBalance, [newBalance, accountNumber]);
-
-        const datas = {
-          transactionId: transactions.id,
-          accountNumber,
-          amount,
-          cashier,
-          transactionType: type,
-          accountBalance: newBalance,
-        };
-        return util.successStatus(res, 200, 'data', datas);
+      if (type === 'debit') {
+        if (status === 'dormant') { return util.errorstatus(res, 400, 'cannot perform transaction on dormant account'); }
+        if (balance < amount) { return util.errorstatus(res, 400, 'insuffcient fund'); }
       }
-    } catch (error) {
-      return util.errorstatus(res, 500, 'Server error');
-    }
-    return util.errorstatus(res, 403, 'Forbidden, You Are not allowed to perform this action');
+
+      const newBalance = calulateBalance(type, balance, amount);
+      const transactions = await dbMethods.insertToDb('transactions', {
+        type, cashier: loggedinUser.id, amount, oldBalance: balance, newBalance, accountNumber,
+      }, 'RETURNING *');
+
+      await dbMethods.updateDbRow('accounts', { balance: newBalance }, { accountNumber });
+
+      return util.successStatus(res, 200, 'data', {
+        transactionId: transactions.id,
+        accountNumber,
+        amount,
+        cashier: loggedinUser.id,
+        transactionType: type,
+        accountBalance: newBalance.toFixed(2),
+      });
+    } catch (error) { return util.errorstatus(res, 500, 'Server error'); }
   }
 
   /**
@@ -69,18 +59,14 @@ class Controller {
     let transactions;
 
     try {
-      const userAccount = await pool.query(queries.accounts.getAccount, [accountNumber]);
+      const userAccount = await dbMethods.readFromDb('accounts', '*', { accountNumber });
 
-      if (!userAccount.rows[0]) {
-        return util.errorstatus(res, 400, 'Account not found');
-      }
+      if (!userAccount[0]) { return util.errorstatus(res, 400, 'Account not found'); }
 
-      transactions = await pool.query(queries.transactions.getAllTransactions, [accountNumber]);
-    } catch (error) {
-      return util.errorstatus(res, 500, 'Server error');
-    }
+      transactions = await dbMethods.readFromDb('transactions', '*', { accountNumber });
+    } catch (error) { return util.errorstatus(res, 500, 'Server error'); }
 
-    const datas = transactions.rows.map((transaction) => {
+    const datas = transactions.map((transaction) => {
       const {
         id, createdon, type, amount, oldbalance, newbalance, accountnumber,
       } = transaction;
@@ -111,9 +97,8 @@ class Controller {
     let transaction;
 
     try {
-      transaction = await pool.query(queries.transactions.getbyId, [id]);
-
-      if (!transaction.rows[0]) {
+      transaction = await dbMethods.readFromDb('transactions', '*', { id });
+      if (!transaction[0]) {
         return util.errorstatus(res, 400, 'Transaction not found');
       }
     } catch (error) {
@@ -122,9 +107,9 @@ class Controller {
 
     const {
       createdon, type, amount, oldbalance, newbalance, accountnumber,
-    } = transaction.rows[0];
+    } = transaction[0];
 
-    const datas = {
+    return util.successStatus(res, 200, 'data', {
       transactionId: id,
       createdOn: createdon,
       type,
@@ -132,8 +117,7 @@ class Controller {
       amount,
       oldBalance: oldbalance,
       newBalance: newbalance,
-    };
-    return util.successStatus(res, 200, 'data', datas);
+    });
   }
 }
 

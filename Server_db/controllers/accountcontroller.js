@@ -2,6 +2,7 @@
 import util from '../helper/Utilities';
 import queries from '../migrations/queries';
 import pool from '../config/config';
+import dbMethods from '../migrations/db_methods';
 
 class Controller {
   /**
@@ -17,35 +18,22 @@ class Controller {
     const { type, openingBalance, loggedinUser } = req.body;
     const status = 'active';
     const owner = loggedinUser.id;
-
     let accountNumber;
 
     try {
-      const previousAccountNumber = await pool.query(queries.accounts.lastAccountNumber);
-      const { accountnumber } = previousAccountNumber.rows[0];
+      const { accountnumber } = await dbMethods.getLastDbMember('accounts', 'accountnumber', 'accountnumber');
       accountNumber = accountnumber + 1;
-      await pool.query(queries.accounts.newAccount, [
-        accountNumber,
-        owner,
-        type,
-        status,
-        openingBalance,
-      ]);
+      await dbMethods.insertToDb('accounts', {
+        accountNumber, owner, type, status, balance: openingBalance,
+      });
     } catch (error) {
-      return util.errorstatus(res, 500, 'Server error');
+      return util.errorstatus(res, 500, 'SERVER ERROR');
     }
 
-    const {
-      firstname, lastname, email,
-    } = loggedinUser;
+    const { firstname, lastname, email } = loggedinUser;
 
     const datas = {
-      accountNumber,
-      firstName: firstname,
-      lastName: lastname,
-      email,
-      type,
-      openingBalance,
+      accountNumber, firstName: firstname, lastName: lastname, email, type, openingBalance,
     };
 
     return util.successStatus(res, 201, 'data', datas);
@@ -64,15 +52,14 @@ class Controller {
     const { status, accountNumber } = req.body;
 
     try {
-      const userAccount = await pool.query(queries.accounts.getAccount, [accountNumber]);
-
-      if (!userAccount.rows[0]) {
+      const userAccount = await dbMethods.readFromDb('accounts', '*', { accountNumber });
+      if (!userAccount[0]) {
         return util.errorstatus(res, 400, 'Account not found');
       }
 
-      await pool.query(queries.accounts.updateStatus, [status, accountNumber]);
+      await dbMethods.updateDbRow('accounts', { status }, { accountNumber });
     } catch (error) {
-      return util.errorstatus(res, 500, 'Server error');
+      return util.errorstatus(res, 500, 'SERVER ERROR');
     }
     const datas = {
       accountNumber,
@@ -93,18 +80,17 @@ class Controller {
 
   static async deleteAccount(req, res) {
     const { accountNumber } = req.body;
-
     try {
-      const userAccount = await pool.query(queries.accounts.getAccount, [accountNumber]);
+      const userAccount = await dbMethods.readFromDb('accounts', '*', { accountNumber });
 
-      if (!userAccount.rows[0]) {
+      if (!userAccount[0]) {
         return util.errorstatus(res, 400, 'Account not found');
       }
-      await pool.query(queries.accounts.delete, [accountNumber]);
-    } catch (error) {
-      return util.errorstatus(res, 500, 'Server error');
-    }
 
+      await dbMethods.deleteDbRow('accounts', { accountNumber });
+    } catch (error) {
+      return util.errorstatus(res, 500, 'SERVER ERROR');
+    }
     return util.successStatus(res, 200, 'message', 'Account successfully deleted');
   }
 
@@ -119,25 +105,18 @@ class Controller {
 
   static async getAllUserAccounts(req, res) {
     const { email } = req.body;
-
-    const owner = await pool.query(queries.users.byEmail, [email]);
-
-    if (!owner.rows[0]) {
-      return util.errorstatus(res, 400, 'User not found');
-    }
     let accounts;
-
     try {
-      accounts = await pool.query(queries.accounts.getUSerAccounts, [owner.rows[0].id]);
+      const owner = await dbMethods.readFromDb('users', '*', { email });
 
-      if (!accounts.rows[0]) {
-        return util.errorstatus(res, 400, 'User has no account');
-      }
-    } catch (error) {
-      return util.errorstatus(res, 500, 'Server error');
-    }
+      if (!owner[0]) { return util.errorstatus(res, 400, 'User not found'); }
 
-    const datas = accounts.rows.map((account) => {
+      accounts = await dbMethods.readFromDb('accounts', '*', { owner: owner[0].id });
+    } catch (error) { return util.errorstatus(res, 500, 'SERVER ERROR'); }
+
+    if (!accounts[0]) { return util.errorstatus(res, 400, 'User has no account'); }
+
+    const datas = accounts.map((account) => {
       const {
         createdon, accountnumber, type, status, balance,
       } = account;
@@ -179,15 +158,14 @@ class Controller {
       createdon, email, accountnumber, type, status, balance,
     } = Accountdetails.rows[0];
 
-    const datas = {
+    return util.successStatus(res, 200, 'data', {
       createdOn: createdon,
       accountNumber: accountnumber,
       ownerEmail: email,
       type,
       status,
       balance,
-    };
-    return util.successStatus(res, 200, 'data', datas);
+    });
   }
 
   /**

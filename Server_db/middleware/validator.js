@@ -20,14 +20,14 @@ class Validate {
       firstName, lastName, email, password,
     };
 
-    req.body.firstName = firstName.trim();
-    req.body.lastName = lastName.trim();
-    req.body.password = password.trim();
-
     const error = util.validateJoi(validateObject, schema.signup);
     if (error) {
       return util.errorstatus(res, 400, error);
     }
+
+    req.body.firstName = firstName.trim();
+    req.body.lastName = lastName.trim();
+    req.body.password = password.trim();
     return next();
   }
 
@@ -74,12 +74,11 @@ class Validate {
       type, openingBalance,
     };
 
-    req.body.type = type.trim();
-
     const error = util.validateJoi(validateObject, schema.account);
     if (error) {
       return util.errorstatus(res, 400, error);
     }
+    req.body.type = type.trim();
     return next();
   }
 
@@ -96,8 +95,6 @@ class Validate {
       status,
     } = req.body;
 
-    req.body.status = status.trim();
-
     const accountNumber = Number(req.params.accountNumber);
 
     const validateObject = {
@@ -109,12 +106,13 @@ class Validate {
       return util.errorstatus(res, 400, error);
     }
     req.body.accountNumber = accountNumber;
+    req.body.status = status.trim();
     return next();
   }
 
   /**
   * @static
-  * @description Validates account account number
+  * @description Validates numeric param account account number
   * @param {Object} req - Request object
   * @param {Object} res - Response object
   * @param {Object} next - Next function call
@@ -188,6 +186,7 @@ class Validate {
       return util.errorstatus(res, 400, error);
     }
     req.body.accountNumber = accountNumber;
+    req.body.amount = Number(amount.toFixed(2));
     return next();
   }
 }
