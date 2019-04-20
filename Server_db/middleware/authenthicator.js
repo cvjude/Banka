@@ -1,8 +1,7 @@
 /* eslint-disable prefer-destructuring */
 import jwt from 'jsonwebtoken';
 import Util from '../helper/Utilities';
-import queries from '../migrations/queries';
-import pool from '../config/config';
+import dbMethods from '../migrations/db_methods';
 
 class Authenticator {
   /**
@@ -22,10 +21,8 @@ class Authenticator {
     const token = codedToken.split(' ')[1];
     try {
       const verify = jwt.verify(token, process.env.TOKEN_KEY, (err, decoded) => decoded);
-      const theuser = await pool.query(queries.users.byId, [
-        verify.id,
-      ]);
-      req.body.loggedinUser = theuser.rows[0];
+      const theuser = await dbMethods.readFromDb('users', '*', { id: verify.id });
+      req.body.loggedinUser = theuser[0];
     } catch (err) {
       return Util.errorstatus(res, 401, 'Unauthorized user');
     }

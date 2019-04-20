@@ -15,7 +15,6 @@ const Accounts = [
   },
   {
     accountNumber: 1010101012,
-    createdOn: 'Thu Mar 28 2019 16:27:52 GMT+0100 (West Africa Standard Time)',
     owner: 4,
     type: 'savings',
     status: 'dormant',
@@ -23,7 +22,6 @@ const Accounts = [
   },
   {
     accountNumber: 1010101013,
-    createdOn: 'Thu Mar 28 2019 16:27:52 GMT+0100 (West Africa Standard Time)',
     owner: 4,
     type: 'savings',
     status: 'active',
@@ -31,7 +29,6 @@ const Accounts = [
   },
   {
     accountNumber: 1010101014,
-    createdOn: 'Thu Mar 28 2019 16:27:52 GMT+0100 (West Africa Standard Time)',
     owner: 5,
     type: 'savings',
     status: 'dormant',
@@ -39,7 +36,6 @@ const Accounts = [
   },
   {
     accountNumber: 1010101015,
-    createdOn: 'Thu Mar 28 2019 16:27:52 GMT+0100 (West Africa Standard Time)',
     owner: 5,
     type: 'savings',
     status: 'active',
@@ -47,7 +43,6 @@ const Accounts = [
   },
   {
     accountNumber: 1010101016,
-    createdOn: 'Thu Mar 28 2019 16:27:52 GMT+0100 (West Africa Standard Time)',
     owner: 2,
     type: 'savings',
     status: 'dormant',
@@ -55,7 +50,6 @@ const Accounts = [
   },
   {
     accountNumber: 1010101017,
-    createdOn: 'Thu Mar 28 2019 16:27:52 GMT+0100 (West Africa Standard Time)',
     owner: 5,
     type: 'savings',
     status: 'dormant',
@@ -63,7 +57,6 @@ const Accounts = [
   },
   {
     accountNumber: 1010101018,
-    createdOn: 'Thu Mar 28 2019 16:27:52 GMT+0100 (West Africa Standard Time)',
     owner: 2,
     type: 'savings',
     status: 'dormant',
@@ -71,7 +64,6 @@ const Accounts = [
   },
   {
     accountNumber: 1010101019,
-    createdOn: 'Thu Mar 28 2019 16:27:52 GMT+0100 (West Africa Standard Time)',
     owner: 5,
     type: 'savings',
     status: 'active',
