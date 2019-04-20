@@ -536,5 +536,16 @@ describe('Banka App', () => {
           done();
         });
     });
+
+    it('should return all active account numbers', (done) => {
+      chai.request(app)
+        .get(`${baseUrl}/accounts?status=dormant`)
+        .set('authorization', `Bearer ${adminToken}`)
+        .end((err, res) => {
+          expect(res.body.data[0].status).to.equal('dormant');
+          expect(res.statusCode).to.equal(200);
+          done();
+        });
+    });
   });
 });
