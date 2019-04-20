@@ -79,7 +79,7 @@ class Controller {
     */
 
   static async deleteAccount(req, res) {
-    const { accountNumber } = req.body;
+    const { param } = req.body; const accountNumber = param;
     try {
       const userAccount = await dbMethods.readFromDb('accounts', '*', { accountNumber });
 
@@ -141,8 +141,8 @@ class Controller {
     */
 
   static async getAccountDetails(req, res) {
-    const { accountNumber } = req.body;
-    let Accountdetails;
+    const { param } = req.body;
+    let Accountdetails; const accountNumber = param;
 
     try {
       Accountdetails = await pool.query(queries.join.accountOnEmail, [accountNumber]);
@@ -181,7 +181,8 @@ class Controller {
     let accounts;
 
     try {
-      accounts = await pool.query(queries.join.accountsAndEmail);
+      const { status } = req.query;
+      if (status === 'active') { accounts = await pool.query(queries.join.getAllActive); } else accounts = await pool.query(queries.join.accountsAndEmail);
     } catch (error) {
       return util.errorstatus(res, 500, 'Server error');
     }

@@ -55,7 +55,7 @@ class Controller {
     */
 
   static async getSingleAccountTransactions(req, res) {
-    const { accountNumber } = req.body;
+    const { param } = req.body; const accountNumber = param;
     let transactions;
 
     try {
@@ -93,7 +93,7 @@ class Controller {
     */
 
   static async getSingleTransactionById(req, res) {
-    const { id } = req.body;
+    const { param } = req.body; const id = param;
     let transaction;
 
     try {

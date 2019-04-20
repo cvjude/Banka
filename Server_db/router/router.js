@@ -15,14 +15,14 @@ router.post('/auth/signup', Validate.Signup, UserController.signup);
 router.post('/auth/signin', Validate.Signin, UserController.signin);
 
 router.get('/accounts', Authenticator.user, Authenticator.isStaff, AccountController.getAllAccounts);
-router.get('/accounts/:accountNumber', Authenticator.user, Validate.accountNumber, AccountController.getAccountDetails);
+router.get('/accounts/:param', Authenticator.user, Validate.param, AccountController.getAccountDetails);
 router.get('/user/:email/accounts', Authenticator.user, Validate.email, AccountController.getAllUserAccounts);
 router.post('/accounts', Authenticator.user, Authenticator.isClient, Validate.createAccount, AccountController.createAccount);
 router.patch('/account/:accountNumber', Authenticator.user, Authenticator.isStaff, Validate.setAccount, AccountController.updateAccount);
-router.delete('/accounts/:accountNumber', Authenticator.user, Authenticator.isStaff, Validate.accountNumber, AccountController.deleteAccount);
+router.delete('/accounts/:param', Authenticator.user, Authenticator.isStaff, Validate.param, AccountController.deleteAccount);
 
-router.get('/accounts/:accountNumber/transactions', Authenticator.user, Validate.accountNumber, TransactionController.getSingleAccountTransactions);
-router.get('/transactions/:id', Authenticator.user, Validate.id, TransactionController.getSingleTransactionById);
+router.get('/accounts/:param/transactions', Authenticator.user, Validate.param, TransactionController.getSingleAccountTransactions);
+router.get('/transactions/:param', Authenticator.user, Validate.param, TransactionController.getSingleTransactionById);
 router.post('/transactions/:accountNumber/debit', Authenticator.user, Validate.transaction, TransactionController.transactions);
 router.post('/transactions/:accountNumber/credit', Authenticator.user, Validate.transaction, TransactionController.transactions);
 
