@@ -5,33 +5,15 @@ const dropUsersTable = 'DROP TABLE users';
 const dropAccountsTable = 'DROP TABLE accounts CASCADE';
 const dropTransactionsTable = 'DROP TABLE transactions';
 
-async function deleteUsers() {
+async function deleteTables() {
   try {
     await pool.query(dropUsersTable);
-    console.log('users successfully deleted');
-  } catch (error) {
-    console.log('users doesn\'t exist');
-  }
-}
-
-async function deleteAccounts() {
-  try {
     await pool.query(dropAccountsTable);
-    console.log('accounts successfully deleted');
-  } catch (error) {
-    console.log('accounts doesn\'t exist');
-  }
-}
-
-async function deleteTransactions() {
-  try {
     await pool.query(dropTransactionsTable);
-    console.log('Transactions successfully deleted');
+    console.log('Tables deleted');
   } catch (error) {
     console.log('transactions doesn\'t exist');
   }
 }
 
-deleteAccounts();
-deleteUsers();
-deleteTransactions();
+deleteTables();

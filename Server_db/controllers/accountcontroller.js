@@ -182,7 +182,7 @@ class Controller {
 
     try {
       const { status } = req.query;
-      if (status === 'active') { accounts = await pool.query(queries.join.getAllActive); } else accounts = await pool.query(queries.join.accountsAndEmail);
+      if (status === 'active') { accounts = await pool.query(queries.join.getAllActive); } else if (status === 'dormant') { accounts = await pool.query(queries.join.getAllDormant); } else accounts = await pool.query(queries.join.accountsAndEmail);
     } catch (error) {
       return util.errorstatus(res, 500, 'Server error');
     }
