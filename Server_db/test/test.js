@@ -7,6 +7,7 @@ import accounts from './testdata/accounts';
 let userToken;
 let adminToken;
 let staffToken;
+const invalidToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsImlhdCI6MTU1NTc3MDA1M30.6J7Lmugkww_bSoqKArodoQM4su96QtUrhxA500OxEpg';
 
 const { expect } = chai;
 chai.use(chaiHttp);
@@ -30,6 +31,18 @@ describe('Banka App', () => {
         .get(`${baseUrl}/jdfsdfaoioh`)
         .end((err, res) => {
           expect(res.statusCode).to.equal(404);
+          done();
+        });
+    });
+
+    it('should throw an error if the logged in user is not in the database', (done) => {
+      chai.request(app)
+        .post(`${baseUrl}/accounts`)
+        .set('authorization', `Bearer ${invalidToken}`)
+        .send(accounts[0])
+        .end((err, res) => {
+          expect(res.body.error).to.equal('User doesn\'t exist');
+          expect(res.statusCode).to.equal(400);
           done();
         });
     });
@@ -286,12 +299,12 @@ describe('Banka App', () => {
         });
     });
 
-    it('should flag an error is the account number is not correctly entered', (done) => {
+    it('should flag an error if the account number is not correctly entered', (done) => {
       chai.request(app)
         .delete(`${baseUrl}/accounts/101010ugwgidus`)
         .set('authorization', `Bearer ${adminToken}`)
         .end((err, res) => {
-          expect(res.body.error[0]).to.equal('accountNumber must be a number');
+          expect(res.body.error[0]).to.equal('param must be a number');
           expect(res.statusCode).to.equal(400);
           done();
         });
@@ -424,7 +437,7 @@ describe('Banka App', () => {
         .get(`${baseUrl}/transactions/vw`)
         .set('authorization', `Bearer ${staffToken}`)
         .end((err, res) => {
-          expect(res.body.error[0]).to.equal('id must be a number');
+          expect(res.body.error[0]).to.equal('param must be a number');
           expect(res.statusCode).to.equal(400);
           done();
         });
@@ -508,6 +521,17 @@ describe('Banka App', () => {
         .set('authorization', `Bearer ${adminToken}`)
         .end((err, res) => {
           expect(res.body.data).to.not.equal(null);
+          expect(res.statusCode).to.equal(200);
+          done();
+        });
+    });
+
+    it('should return all active account numbers', (done) => {
+      chai.request(app)
+        .get(`${baseUrl}/accounts?status=active`)
+        .set('authorization', `Bearer ${adminToken}`)
+        .end((err, res) => {
+          expect(res.body.data[0].status).to.equal('active');
           expect(res.statusCode).to.equal(200);
           done();
         });

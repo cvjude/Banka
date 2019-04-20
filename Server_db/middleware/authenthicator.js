@@ -22,6 +22,9 @@ class Authenticator {
     try {
       const verify = jwt.verify(token, process.env.TOKEN_KEY, (err, decoded) => decoded);
       const theuser = await dbMethods.readFromDb('users', '*', { id: verify.id });
+      if (!theuser[0]) {
+        return Util.errorstatus(res, 400, 'User doesn\'t exist');
+      }
       req.body.loggedinUser = theuser[0];
     } catch (err) {
       return Util.errorstatus(res, 401, 'Unauthorized user');

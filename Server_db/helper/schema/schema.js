@@ -27,12 +27,8 @@ const schema = {
     accountNumber: Joi.number().integer().required().min(10),
   }),
 
-  checkAccount: Joi.object().keys({
-    accountNumber: Joi.number().min(10).integer().required(),
-  }),
-
-  id: Joi.object().keys({
-    id: Joi.number().required(),
+  checkParam: Joi.object().keys({
+    param: Joi.number().integer().required(),
   }),
 
   email: Joi.object().keys({
