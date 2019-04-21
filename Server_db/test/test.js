@@ -408,12 +408,23 @@ describe('Banka App', () => {
         });
     });
 
-    it('should flag an error is the account number does not exist', (done) => {
+    it('should flag an error if the account number does not exist', (done) => {
       chai.request(app)
         .get(`${baseUrl}/accounts/2010101111/transactions`)
         .set('authorization', `Bearer ${staffToken}`)
         .end((err, res) => {
           expect(res.body.error).to.equal('Account not found');
+          expect(res.statusCode).to.equal(400);
+          done();
+        });
+    });
+
+    it('should flag an error if there are no transactions for that account', (done) => {
+      chai.request(app)
+        .get(`${baseUrl}/accounts/1010101015/transactions`)
+        .set('authorization', `Bearer ${staffToken}`)
+        .end((err, res) => {
+          expect(res.body.error).to.equal('No transactions for this account');
           expect(res.statusCode).to.equal(400);
           done();
         });

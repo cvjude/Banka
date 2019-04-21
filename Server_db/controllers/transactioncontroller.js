@@ -64,6 +64,9 @@ class Controller {
       if (!userAccount[0]) { return util.errorstatus(res, 400, 'Account not found'); }
 
       transactions = await dbMethods.readFromDb('transactions', '*', { accountNumber });
+      if (!transactions[0]) {
+        return util.errorstatus(res, 400, 'No transactions for this account');
+      }
     } catch (error) { return util.errorstatus(res, 500, 'Server error'); }
 
     const datas = transactions.map((transaction) => {
