@@ -50,6 +50,9 @@ This project is open for contributions. All contributions must adhere to the [Ai
 >- Push created branch `git push origin ch-my-feature`
 >- Submit a Pull Request to develop branch
 
+## Api Documentation
+> Access to the API endpoints are stricted based on authorization using access tokens, which is generated when a user signs in.View API documentation for all endpoints used in this app [here](https://jbankapp.herokuapp.com/swagger)
+
 # FAQ
 > View Frequently asked questions [here](https://github.com/cvjude/Banka/wiki)
 
@@ -57,7 +60,7 @@ This project is open for contributions. All contributions must adhere to the [Ai
 >- [Jude Chinoso](https://github.com/cvjude)
 
 # Deployment
->- This api is deployed on [https://jbankapp.herokuapp.com/api/v1/](https://jbankapp.herokuapp.com/api/v1/)
+>- This api is deployed on [https://jbankapp.herokuapp.com/api/v2/](https://jbankapp.herokuapp.com/api/v2/)
 >- Ui is deployed on gh-pages view [here](http://cvjude.github.io/Banka/UI/index.html)
 
 # Acknowledgments
