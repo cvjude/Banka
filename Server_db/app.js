@@ -5,8 +5,10 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
-import swaggerdoc from './docs/swagger.json';
 import router from './router/router';
+
+
+const swaggerdoc = require('../swagger');
 
 const app = express();
 
