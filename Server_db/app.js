@@ -4,6 +4,8 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import swaggerUi from 'swagger-ui-express';
+import swaggerdoc from './swagger.json';
 import router from './router/router';
 
 const app = express();
@@ -14,6 +16,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/api/v2/', router);
+app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerdoc));
 
 app.all('*', (req, res) => res.status(404).json({
   status: 404,
