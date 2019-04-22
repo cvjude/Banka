@@ -154,6 +154,19 @@ describe('Banka App', () => {
     });
   });
 
+  describe('POST/user', () => {
+    it('should get a logged in user details', (done) => {
+      chai.request(app)
+        .get(`${baseUrl}/user`)
+        .set('authorization', `Bearer ${userToken}`)
+        .end((err, res) => {
+          expect(res.body).to.not.equal(null);
+          expect(res.statusCode).to.equal(200);
+          done();
+        });
+    });
+  });
+
   describe('POST/accounts', () => {
     it('should create an account for a user', (done) => {
       chai.request(app)
