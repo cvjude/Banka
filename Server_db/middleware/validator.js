@@ -131,6 +131,24 @@ class Validate {
 
   /**
   * @static
+  * @description Validates numeric param account account number
+  * @param {Object} req - Request object
+  * @param {Object} res - Response object
+  * @param {Object} next - Next function call
+  * @memberof Controllers
+  */
+  static picture(req, res, next) {
+    const { profilePic } = req.body;
+    const error = util.validateJoi({ profilePic }, schema.picture);
+    if (error) {
+      return util.errorstatus(res, 400, error);
+    }
+    req.body.profilePic = profilePic.trim();
+    return next();
+  }
+
+  /**
+  * @static
   * @description Validates account account number
   * @param {Object} req - Request object
   * @param {Object} res - Response object

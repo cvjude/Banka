@@ -21,6 +21,9 @@ class Util {
           if (message.includes('[A-Za-z]')) {
             message = `${singleErrors.path[0]} should be a string`;
           }
+          if (message.includes('/https:\\/\\/i\\.imgur\\.com\\/.+/')) {
+            message = `${singleErrors.path[0]} should be of form https://i.imgur.com/image.extension`;
+          }
           return message;
         });
       }

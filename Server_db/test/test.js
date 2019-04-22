@@ -559,4 +559,30 @@ describe('Banka App', () => {
         });
     });
   });
+
+  describe('PATCH/image', () => {
+    it('should Upload an image for a user', (done) => {
+      chai.request(app)
+        .patch(`${baseUrl}/image`)
+        .set('authorization', `Bearer ${userToken}`)
+        .send({ profilePic: 'https://i.imgur.com/jIsCg.jpg' })
+        .end((err, res) => {
+          expect(res.body.data).to.not.equal(null);
+          expect(res.statusCode).to.equal(200);
+          done();
+        });
+    });
+
+    it('should Return an error for an invalid image url', (done) => {
+      chai.request(app)
+        .patch(`${baseUrl}/image`)
+        .set('authorization', `Bearer ${userToken}`)
+        .send({ profilePic: 'https://i.imgur.co' })
+        .end((err, res) => {
+          expect(res.body.error[0]).to.equal('profilePic should be of form https://i.imgur.com/image.extension');
+          expect(res.statusCode).to.equal(400);
+          done();
+        });
+    });
+  });
 });

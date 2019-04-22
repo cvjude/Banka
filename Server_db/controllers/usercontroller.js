@@ -19,6 +19,26 @@ class User {
 
   /**
   * @static
+  * @description Allow a user to upload an image
+  * @param {object} req - Request object
+  * @param {object} res - Response object
+  * @returns {object} Json
+  * @memberof Controllers
+  */
+  static async addImage(req, res) {
+    const { profilePic, loggedinUser } = req.body;
+    const { id } = loggedinUser;
+
+    try {
+      await dbMethods.updateDbRow('users', { profilePic }, { id });
+    } catch (error) {
+      return util.errorstatus(res, 500, 'SERVER ERROR');
+    }
+    return util.successStatus(res, 200, 'message', 'Image uploaded');
+  }
+
+  /**
+  * @static
   * @description Allow a user to signup
   * @param {object} req - Request object
   * @param {object} res - Response object
@@ -91,19 +111,21 @@ class User {
       return util.errorstatus(res, 400, 'Email or password not correct');
     }
 
-    const { id, firstname, lastname } = user[0];
+    const {
+      id, firstname, lastname, type, isadmin,
+    } = user[0];
 
     const tokenObj = { id };
 
-    const datas = {
+    return util.successStatus(res, 200, 'data', {
       token: token(tokenObj),
       id,
       firstName: firstname,
       lastName: lastname,
       email,
-    };
-
-    return util.successStatus(res, 200, 'data', datas);
+      type,
+      isadmin,
+    });
   }
 }
 
