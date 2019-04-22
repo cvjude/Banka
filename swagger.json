@@ -7,7 +7,7 @@
     },
     "servers": [
       {
-        "url": "http://jbankapp.herokuapp.com/api/v2"
+        "url": "https://jbankapp.herokuapp.com/api/v2"
       },
       {
         "url": "http://localhost:5001/api/v2"
