@@ -13,6 +13,7 @@ router.get('/', UserController.welcome);
 
 router.post('/auth/signup', Validate.Signup, UserController.signup);
 router.post('/auth/signin', Validate.Signin, UserController.signin);
+router.get('/user', Authenticator.user, UserController.getDetails);
 
 router.get('/accounts', Authenticator.user, Authenticator.isStaff, AccountController.getAllAccounts);
 router.get('/accounts/:param', Authenticator.user, Validate.param, AccountController.getAccountDetails);

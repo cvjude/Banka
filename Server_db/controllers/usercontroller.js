@@ -39,6 +39,30 @@ class User {
 
   /**
   * @static
+  * @description Get signedin user details
+  * @param {object} req - Request object
+  * @param {object} res - Response object
+  * @returns {object} Json
+  * @memberof Controllers
+  */
+  static async getDetails(req, res) {
+    const {
+      firstname,
+      lastname,
+      email,
+      profilepic,
+    } = req.body.loggedinUser;
+
+    return util.successStatus(res, 200, 'data', {
+      firstName: firstname,
+      lastName: lastname,
+      email,
+      profilePic: profilepic,
+    });
+  }
+
+  /**
+  * @static
   * @description Allow a user to signup
   * @param {object} req - Request object
   * @param {object} res - Response object
