@@ -35,6 +35,10 @@ const schema = {
     email: Joi.string().email().lowercase().required(),
   }),
 
+  picture: Joi.object().keys({
+    profilePic: Joi.string().regex(/https:\/\/i\.imgur\.com\/.+/).optional(),
+  }),
+
   transaction: Joi.object().keys({
     amount: Joi.number().required(),
     accountNumber: Joi.number().integer().required().min(10),

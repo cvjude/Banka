@@ -26,4 +26,6 @@ router.get('/transactions/:param', Authenticator.user, Validate.param, Transacti
 router.post('/transactions/:accountNumber/debit', Authenticator.user, Validate.transaction, TransactionController.transactions);
 router.post('/transactions/:accountNumber/credit', Authenticator.user, Validate.transaction, TransactionController.transactions);
 
+router.patch('/image', Authenticator.user, Authenticator.isClient, Validate.picture, UserController.addImage);
+
 export default router;

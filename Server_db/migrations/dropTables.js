@@ -12,7 +12,7 @@ async function deleteTables() {
     await pool.query(dropTransactionsTable);
     console.log('Tables deleted');
   } catch (error) {
-    console.log('transactions doesn\'t exist');
+    console.log('Error droping Tables');
   }
 }
 

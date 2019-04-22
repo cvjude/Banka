@@ -22,7 +22,8 @@ const usersTable = `CREATE TABLE IF NOT EXISTS users(
   email text NOT NULL,
   hashpassword text NOT NULL,
   type text NOT NULL,
-  isadmin text NOT NULL
+  isadmin text NOT NULL,
+  profilepic text DEFAULT 'https://i.imgur.com/jIsCgyA.jpg'
   );
 `;
 
