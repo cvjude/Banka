@@ -41,6 +41,9 @@ let nav = document.querySelector('.custom-nav')
 let logo = document.querySelector('.logo')
 let navbar = document.querySelector('nav');
 let body = document.querySelector('body')
+let signinFormlink = document.querySelector('#signInlink');
+let signinFormbutton = document.querySelector('.signInbtn');
+let signInBtn = document.querySelector('.emessage');
 
 let signupForm = document.getElementById('signupForm');
 let signinForm = document.getElementById('signinForm');
@@ -52,18 +55,45 @@ function formatForm(tag){
   const valid = elements.find(element => {
     return element.className === 'invalid';
   });
-  if(!valid){
-    body.classList.add('spinner');
-    window.location.href = "main.html";
-  }
+  return { valid, inputs };
 }
 
 signupForm.addEventListener('submit', (event) => {
   formatForm(signupForm);
+  if(!valid){
+    // body.classList.add('spinner');
+    // window.location.href = "main.html";
+    console.log(signinForm)
+  }
 });
 
-signinForm.addEventListener('submit', (event) => {
-  formatForm(signinForm);
+signinForm.addEventListener('submit', async (event) => {
+  const { valid, inputs } = formatForm(signinForm);
+  const email = inputs[0].value;
+  const password = inputs[1].value;
+
+  if(valid){return false;}
+  addClass(signinFormbutton, 'spinner');
+  formatCss(signinFormlink,'color','#F24259');
+
+  const { responseObj, statusCode } = await fetchCall(loginURL, 'POST', {email, password})
+
+  if(statusCode !== 200){
+    removeClass(signinFormbutton, 'spinner');
+    formatCss(signinFormlink,'color','#fff');
+    addClass(signInBtn, 'grow-error');
+    formatHtml(signInBtn,'textContent',responseObj.error);
+    return false;
+  }
+
+  const { data } = responseObj;
+  localStorage.setItem('token', data.token);
+  if (data.type === 'client')
+    return goToPage('main.html');
+  if(data.isadmin === 'true')
+    return goToPage('admin.html');
+    goToPage('staff.html');
+
 });
 
 function Get_Offset_From_Start (object, offset) { 
