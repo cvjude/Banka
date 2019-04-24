@@ -1,7 +1,7 @@
 /* eslint-disable prefer-destructuring */
 import jwt from 'jsonwebtoken';
-import Util from '../helper/Utilities';
-import dbMethods from '../migrations/db_methods';
+import Util from '../helper/utilities';
+import dbMethods from '../migrations/dbMethods';
 
 class Authenticator {
   /**

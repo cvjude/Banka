@@ -1,6 +1,6 @@
 /* eslint-disable linebreak-style */
-import util from '../helper/Utilities';
-import dbMethods from '../migrations/db_methods';
+import util from '../helper/utilities';
+import dbMethods from '../migrations/dbMethods';
 
 const calulateBalance = (type, balance, amount) => {
   if (type === 'debit') {
@@ -9,7 +9,7 @@ const calulateBalance = (type, balance, amount) => {
   return balance + amount;
 };
 
-class Controller {
+class TransactionController {
   static async transactions(req, res) {
     const { loggedinUser, accountNumber, amount } = req.body;
     try {
@@ -124,4 +124,4 @@ class Controller {
   }
 }
 
-export default Controller;
+export default TransactionController;

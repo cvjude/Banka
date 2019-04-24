@@ -1,10 +1,10 @@
 /* eslint-disable linebreak-style */
-import util from '../helper/Utilities';
+import util from '../helper/utilities';
 import queries from '../migrations/queries';
 import pool from '../config/config';
-import dbMethods from '../migrations/db_methods';
+import dbMethods from '../migrations/dbMethods';
 
-class Controller {
+class AccountController {
   /**
     * @static
     * @description Creates an account
@@ -204,4 +204,4 @@ class Controller {
   }
 }
 
-export default Controller;
+export default AccountController;

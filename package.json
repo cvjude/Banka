@@ -7,12 +7,12 @@
   },
   "main": "index.js",
   "scripts": {
-    "create": "babel-node Server_db/migrations/createTable.js",
-    "drop": "babel-node Server_db/migrations/dropTables.js",
-    "test": "cross-env NODE_ENV=test nyc --require @babel/register  mocha Server_db/test --exit",
-    "testdev": "npm run drop & npm run drop && npm run create && cross-env NODE_ENV=test nyc --require @babel/register  mocha Server_db/test --exit && npm run drop",
-    "start": "rimraf dist/ && babel  ./Server_db -d dist && node dist/app.js",
-    "startdev": "nodemon --exec babel-node Server_db/app.js",
+    "create": "babel-node server/migrations/createTable.js",
+    "drop": "babel-node server/migrations/dropTables.js",
+    "test": "cross-env NODE_ENV=test nyc --require @babel/register  mocha server/test --exit",
+    "testdev": "npm run drop & npm run drop && npm run create && cross-env NODE_ENV=test nyc --require @babel/register  mocha server/test --exit && npm run drop",
+    "start": "rimraf dist/ && babel  ./server -d dist && node dist/app.js",
+    "startdev": "nodemon --exec babel-node server/app.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {

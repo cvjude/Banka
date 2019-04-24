@@ -1,6 +1,6 @@
 /* eslint-disable linebreak-style */
 import pool from '../config/config';
-import Util from '../helper/Utilities';
+import Util from '../helper/utilities';
 
 
 class DbMethods {

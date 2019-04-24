@@ -5,7 +5,7 @@ import pool from '../config/config';
 import users from '../model/userdata';
 import accounts from '../model/accounts';
 import transactions from '../model/transaction';
-import Util from '../helper/Utilities';
+import Util from '../helper/utilities';
 
 function insertMultiple(table, array, returning = '') {
   let insert = '';

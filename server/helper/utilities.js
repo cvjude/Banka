@@ -1,7 +1,7 @@
 /* eslint-disable linebreak-style */
 import Joi from 'joi';
 
-class Util {
+class Utilities {
   /**
   * @static
   * @description Validates an Object against the schema
@@ -84,4 +84,4 @@ class Util {
   }
 }
 
-export default Util;
+export default Utilities;
