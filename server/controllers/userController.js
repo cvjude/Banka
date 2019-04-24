@@ -1,9 +1,9 @@
-import util from '../helper/Utilities';
-import { hash, checkPassword } from '../helper/passwordhash';
+import util from '../helper/utilities';
+import { hash, checkPassword } from '../helper/passwordHash';
 import token from '../helper/token';
-import dbMethods from '../migrations/db_methods';
+import dbMethods from '../migrations/dbMethods';
 
-class User {
+class UserController {
   /**
     * @static
     * @description Display a welcome message
@@ -153,4 +153,4 @@ class User {
   }
 }
 
-export default User;
+export default UserController;
