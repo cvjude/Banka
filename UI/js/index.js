@@ -43,12 +43,12 @@ let navbar = document.querySelector('nav');
 let body = document.querySelector('body')
 let signinFormlink = document.querySelector('#signInlink');
 let signinFormbutton = document.querySelector('.signInbtn');
-let signInBtn = document.querySelector('.emessage');
+let LoginErrorDiv = document.querySelector('.loginErrorMessage');
 
 let signupForm = document.getElementById('signupForm');
 let signinForm = document.getElementById('signinForm');
 
-function formatForm(tag){
+const formatForm = (tag) => {
   event.preventDefault();
   let inputs = tag.querySelectorAll('input');
   const elements = Array.from(inputs)
@@ -58,16 +58,20 @@ function formatForm(tag){
   return { valid, inputs };
 }
 
+const navigate = (data) => {
+  if (data.type === 'client')
+    return goToPage('main.html');
+  if(data.isadmin === 'true')
+    return goToPage('admin.html');
+    goToPage('staff.html');
+}
+
 signupForm.addEventListener('submit', (event) => {
   formatForm(signupForm);
-  if(!valid){
-    // body.classList.add('spinner');
-    // window.location.href = "main.html";
-    console.log(signinForm)
-  }
 });
 
 signinForm.addEventListener('submit', async (event) => {
+  
   const { valid, inputs } = formatForm(signinForm);
   const email = inputs[0].value;
   const password = inputs[1].value;
@@ -75,27 +79,40 @@ signinForm.addEventListener('submit', async (event) => {
   if(valid){return false;}
   addClass(signinFormbutton, 'spinner');
   formatCss(signinFormlink,'color','#F24259');
+  signinFormbutton.disabled = true;
 
-  const { responseObj, statusCode } = await fetchCall(loginURL, 'POST', {email, password})
+  const response = await fetchCall(loginURL, 'POST', {email, password})
+  
+  if(!response) {
+    removeClass(signinFormbutton, 'spinner');
+    formatCss(signinFormlink,'color','#fff');
+    showError(LoginErrorDiv, 'error', 'Network Error', 'Connection to the server was lost');
+    signinFormbutton.disabled = false;
+    return false;
+  }
+
+  const { responseObj, statusCode } = response;
 
   if(statusCode !== 200){
     removeClass(signinFormbutton, 'spinner');
     formatCss(signinFormlink,'color','#fff');
-    addClass(signInBtn, 'grow-error');
-    formatHtml(signInBtn,'textContent',responseObj.error);
+    signinFormbutton.disabled = false;
+    if(statusCode === 400) {    
+      return showError(LoginErrorDiv, 'error', 'Login Error', 'The email or password was not correct');
+    }
+    showError(LoginErrorDiv, 'error', 'Network Error', 'The connection to server was lost');
     return false;
   }
-
+  
   const { data } = responseObj;
   localStorage.setItem('token', data.token);
-  if (data.type === 'client')
-    return goToPage('main.html');
-  if(data.isadmin === 'true')
-    return goToPage('admin.html');
-    goToPage('staff.html');
-
+  showError(LoginErrorDiv, 'sucess','Login Successful', 'Welcome');
+  setTimeout(function(){ navigate(data); }, 2000)
 });
 
+
+
+// scroll 
 function Get_Offset_From_Start (object, offset) { 
   offset = offset || {x : 0, y : 0};
   offset.x += object.offsetLeft;       offset.y += object.offsetTop;

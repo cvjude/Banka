@@ -61,6 +61,7 @@
                     </div>
                     <div class = form-container>    
                         <form id = "signinForm" action="">
+                            <div class = "loginErrorMessage emessage"></div>
                             <div class = form_inputs>
                                 <input type="text" name = "email" required>
                                 <label class = "form-label" for = "email">Email</label>
@@ -74,7 +75,6 @@
                             <button class= "form_button signInbtn">
                                 <a class = "btn btn-custom" ><p id = "signInlink" >Login</p></a>
                             </button>
-                            <div class = "emessage"></div>
                         </form> 
                     </div>
                 </div>
@@ -208,8 +208,9 @@
             </div>
         </div>
     </footer>
-    <script type="text/javascript" src="js/validation.js"></script>
-    <script type="text/javascript" src="js/shared.js"></script>
+    <script type="text/javascript" src="js/config.js"></script>
+    <script type="text/javascript" src="js/uiMethods.js"></script>
+    <script type="text/javascript" src="js/uiValidations.js"></script>
     <script type="text/javascript" src = "js/index.js"></script>
 </body>
 </html>
