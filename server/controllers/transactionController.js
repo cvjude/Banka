@@ -1,6 +1,9 @@
+/* eslint-disable max-len */
 /* eslint-disable linebreak-style */
 import util from '../helper/utilities';
 import dbMethods from '../migrations/dbMethods';
+import queries from '../migrations/queries';
+import pool from '../config/config';
 
 const calulateBalance = (type, balance, amount) => {
   if (type === 'debit') {
@@ -55,10 +58,16 @@ class TransactionController {
     */
 
   static async getSingleAccountTransactions(req, res) {
-    const { param } = req.body; const accountNumber = param;
-    let transactions;
+    const { param, loggedinUser } = req.body; const accountNumber = param; let transactions;
 
     try {
+      const { id } = loggedinUser;
+      if (loggedinUser.type === 'client') {
+        const checkForOnwer = await pool.query(queries.conditional.accountAndId,
+          [accountNumber, id]);
+        if (!checkForOnwer.rows[0]) { return util.errorstatus(res, 400, `Account ${accountNumber} does not belong to this User`); }
+      }
+
       const userAccount = await dbMethods.readFromDb('accounts', '*', { accountNumber });
 
       if (!userAccount[0]) { return util.errorstatus(res, 400, 'Account not found'); }
@@ -74,13 +83,7 @@ class TransactionController {
         id, createdon, type, amount, oldbalance, newbalance, accountnumber,
       } = transaction;
       return {
-        transactionId: id,
-        createdOn: createdon,
-        type,
-        accountNumber: accountnumber,
-        amount,
-        oldBalance: oldbalance,
-        newBalance: newbalance,
+        transactionId: id, createdOn: createdon, type, accountNumber: accountnumber, amount, oldBalance: oldbalance, newBalance: newbalance,
       };
     });
     return util.successStatus(res, 200, 'data', datas);

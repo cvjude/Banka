@@ -74,10 +74,8 @@ class UserController {
       email, firstName, lastName, password,
     } = req.body;
 
-    const isAdmin = false;
-    const type = 'client';
+    const isAdmin = false; const type = 'client'; let user;
 
-    let user;
     try {
       user = await dbMethods.readFromDb('users', '*', { email });
     } catch (error) {
@@ -90,25 +88,15 @@ class UserController {
 
     const hashPassword = hash(password);
     const fetchedUser = await dbMethods.insertToDb('users', {
-      firstName,
-      lastName,
-      email,
-      hashPassword,
-      type,
-      isAdmin,
+      firstName, lastName, email, hashPassword, type, isAdmin,
     }, 'RETURNING id');
 
     const { id } = fetchedUser;
     const tokenObj = { id };
-    const datas = {
-      token: token(tokenObj),
-      id,
-      firstName,
-      lastName,
-      email,
-    };
 
-    return util.successStatus(res, 201, 'data', datas);
+    return util.successStatus(res, 201, 'data', {
+      token: token(tokenObj), id, firstName, lastName, email,
+    });
   }
 
   /**
@@ -120,20 +108,16 @@ class UserController {
   * @memberof Controllers
   */
   static async signin(req, res) {
-    const { email, password } = req.body;
-    let user;
+    const { email, password } = req.body; let user;
+
     try {
       user = await dbMethods.readFromDb('users', '*', { email });
     } catch (error) {
       return util.errorstatus(res, 500, 'SERVER ERROR');
     }
-    if (!user[0]) {
-      return util.errorstatus(res, 400, 'User doesn\'t exist');
-    }
+    if (!user[0]) { return util.errorstatus(res, 400, 'User doesn\'t exist'); }
 
-    if (!checkPassword(password.trim(), user[0].hashpassword)) {
-      return util.errorstatus(res, 400, 'Email or password not correct');
-    }
+    if (!checkPassword(password.trim(), user[0].hashpassword)) { return util.errorstatus(res, 400, 'Email or password not correct'); }
 
     const {
       id, firstname, lastname, type, isadmin,

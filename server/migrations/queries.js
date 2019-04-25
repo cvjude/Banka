@@ -27,6 +27,9 @@ const queries = {
     getAllDormant: 'SELECT email, accounts.* FROM users INNER JOIN accounts on users.id = accounts.OWNER WHERE accounts.status = \'dormant\'',
     getAllActive: 'SELECT email, accounts.* FROM users INNER JOIN accounts on users.id = accounts.OWNER WHERE accounts.status = \'active\'',
   },
+  conditional: {
+    accountAndId: 'SELECT * FROM accounts WHERE accountnumber = $1 AND owner = $2',
+  },
 };
 
 export default queries;

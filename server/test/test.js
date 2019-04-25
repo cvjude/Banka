@@ -432,6 +432,28 @@ describe('Banka App', () => {
         });
     });
 
+    it('Should not get transactions for a user whose logged in, but is not the owner of the account number', (done) => {
+      chai.request(app)
+        .get(`${baseUrl}/accounts/1010101019/transactions`)
+        .set('authorization', `Bearer ${userToken}`)
+        .end((err, res) => {
+          expect(res.body.error).to.equal('Account 1010101019 does not belong to this User');
+          expect(res.statusCode).to.equal(400);
+          done();
+        });
+    });
+
+    it('Get all transactions for a users account number', (done) => {
+      chai.request(app)
+        .get(`${baseUrl}/accounts/1010101011/transactions`)
+        .set('authorization', `Bearer ${userToken}`)
+        .end((err, res) => {
+          expect(res.body.data).to.not.equal(null);
+          expect(res.statusCode).to.equal(200);
+          done();
+        });
+    });
+
     it('should flag an error if the account number does not exist', (done) => {
       chai.request(app)
         .get(`${baseUrl}/accounts/2010101111/transactions`)
