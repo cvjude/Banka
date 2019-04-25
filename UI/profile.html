@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+    <meta charset="UTF-8">
+	<meta name="description" content="Banka.com">
+	<meta name="keywords" content="HTML,CSS,XML,JavaScript">
+	<meta name="author" content="Jude Violet">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/sharedstyle.css">
+    <link rel="stylesheet" type="text/css" href="css/mainstyle.css">
+    <link rel="stylesheet" type="text/css" href="css/profile.css">
+</head>
+
+<body>
+
+    <button class = "accountbtn btn btn-custom addbtn">+</button>
+
+    <dialog>
+        <div class = "form-container">
+            <form class = "accountform" action = "">
+                <span class = "close">X</span>
+                <h4>Create Account</h4>
+                <div class = form_inputs>
+                    <select name="accounttype">
+                        <option disabled>Select account type</option>
+                        <option value="Savings">Savings</option>
+                        <option value="Current">Current</option>
+                    </select>
+                </div>
+                <div class = form_inputs>
+                    <input type="text" name = "openingbalance" required>
+                    <label class = "form-label" for = "openingbalance">Opening Balance</label>
+                    <div class = error>should be in digits with an amount of at least 999.99</div>
+                </div>
+                <button class= "form_button">
+                    <a class = "btn btn-custom">Create</a>
+                </button>
+            </form>
+        </div>
+    </dialog>
+
+    <nav class = "navbar sticky custom-nav">
+        <div class = "container nav-container">
+            <a class = "logo navbar-brand" href="index.html">Banka</a>
+
+            <label for="toggle">&#9776;</label>
+            <input type = "checkbox" id = "toggle"/>
+            
+            <div class = "collapse navbar-collapse" id = navbarCollapse>
+                <ul class = "navbar-nav">
+                    <li><a class = "nav-link" href="main.html">Go back</a></li>
+                    <li><a class = "nav-link" href="index.html">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class = "mainview">
+        <div class = container>
+            <section class = userprofile>
+                <h4>User detials</h4>
+                <div class = "username">
+                    <div class = "profileimg applyshadow">
+                        <img id = "profileimg" src="./img/user.jpg" alt="Upload image">
+                        <form action="">
+                            <label class = "imglab" for="upload">
+                                <div class = "section_icon">
+                                    <img src = './img/upload.JPG'>
+                                </div>
+                                <span class="tip callout">Upload type jpg, png only</span>
+                            </label>
+                            <input id = "upload" type = "file" name = "pic" accept = "image/*">
+                            <button class = "btn btn-custom addbtn">Save</button>
+                        </form>
+                    </div>
+                    <div class = nameplate>
+                        <div>
+                            <dt>First name:</dt>
+                            <dd>James</dd>
+                            <dt>Last name:</dt>
+                            <dd>Dehi</dd>
+                            <dt>Email:</dt>
+                            <dd>Jamesdehi@gmail.com</dd>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class = accounts>
+                <h4>Accounts</h4>
+                <div class = accountpane>
+                    
+                    <ul>
+                        <li>
+                            <div>
+                                <dt>Account number:</dt>
+                                <dd>0001</dd>
+                                <dt>Balance:</dt>
+                                <dd>65000.00</dd>
+                                <dt>Created:</dt> 
+                                <dd>1th september 2017</dd>
+                                <dt>Transactions conducted:</dt>
+                                <dd>10</dd>
+                                <dt>Opening balance:</dt>
+                                <dd>1000.00</dd>
+                            </div>
+                            <div class = "before bactive">Active</div>
+                        </li>
+                        <li>
+                            <div>
+                                <dt>Account number:</dt>
+                                <dd>0002</dd>
+                                <dt>Balance:</dt>
+                                <dd>100.00</dd>
+                                <dt>Created:</dt> 
+                                <dd>12th august 2017</dd>
+                                <dt>Transactions conducted:</dt>
+                                <dd>0</dd>
+                                <dt>Opening balance:</dt>
+                                <dd>0</dd>
+                            </div>
+                            <div class = "before bdormant">Dormant</div>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class = info>
+                <nav class  = transactheader>
+                    <h4>Transactions</h4>
+                </nav>
+                <div class = transactions>
+                    <div>
+                        <dt>Total Transactions:</dt>
+                        <dd>10</dd>
+                        <dt>Total debits:</dt>
+                        <dd>35000</dd>
+                        <dt>Total Credits:</dt> 
+                        <dd>75000</dd>
+                        <dt>Recent Transaction:</dt>
+                        <dd>28th March 2019</dd>
+                    </div>
+                    <div>
+                        <p>28th March 2019</p>
+                        <div class = "spacebetween">
+                            <span>
+                                <h4>March Salaries</h4>
+                                <small class = "credit">+50000.00</small>
+                            </span>
+                            <span>
+                                <p>Old balance: 15000.00</p>
+                                <p>Current Balance: 65000.00</p>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <footer class = "footer">
+        <div class = container>
+            <div class = "footerinfo">
+                <p>2019 &copy;Designed by jude</p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="text/javascript" src = "js/controllers/validation.js"></script>
+    <script type="text/javascript" src = "js/controllers/shared.js"></script>
+    <script type="text/javascript" src = "js/controllers/profile.js"></script>
+    </body>
+</html>
