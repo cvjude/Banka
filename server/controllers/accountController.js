@@ -141,11 +141,14 @@ class AccountController {
     */
 
   static async getAccountDetails(req, res) {
-    const { param } = req.body;
+    const { param, loggedinUser } = req.body;
     let Accountdetails; const accountNumber = param;
 
     try {
-      Accountdetails = await pool.query(queries.join.accountOnEmail, [accountNumber]);
+      if (loggedinUser.type === 'client') {
+        Accountdetails = await pool.query(queries.join.accountsAndEmailOnId,
+          [loggedinUser.id, accountNumber]);
+      } else Accountdetails = await pool.query(queries.join.accountOnEmail, [accountNumber]);
 
       if (!Accountdetails.rows[0]) {
         return util.errorstatus(res, 400, 'Account not found');

@@ -23,6 +23,7 @@ const queries = {
   join: {
     accountOnEmail: 'SELECT email, accounts.* FROM users INNER JOIN accounts on users.id = accounts.OWNER WHERE accounts.accountnumber = $1',
     accountsAndEmail: 'SELECT email, accounts.* FROM users INNER JOIN accounts on users.id = accounts.OWNER',
+    accountsAndEmailOnId: 'SELECT email, accounts.* FROM users INNER JOIN accounts on users.id = accounts.OWNER where users.id = $1 AND accounts.accountnumber = $2',
     getAllDormant: 'SELECT email, accounts.* FROM users INNER JOIN accounts on users.id = accounts.OWNER WHERE accounts.status = \'dormant\'',
     getAllActive: 'SELECT email, accounts.* FROM users INNER JOIN accounts on users.id = accounts.OWNER WHERE accounts.status = \'active\'',
   },

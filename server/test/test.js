@@ -54,7 +54,6 @@ describe('Banka App', () => {
         .post(`${baseUrl}/auth/signup`)
         .send(users[4])
         .end((err, res) => {
-          userToken = res.body.data.token;
           expect(res.body).to.not.equal(null);
           expect(res.statusCode).to.equal(201);
           done();
@@ -114,6 +113,18 @@ describe('Banka App', () => {
         .send(users[7])
         .end((err, res) => {
           staffToken = res.body.data.token;
+          expect(res.body.data).to.not.equal(null);
+          expect(res.statusCode).to.equal(200);
+          done();
+        });
+    });
+
+    it('should signin an existing user(Client)', (done) => {
+      chai.request(app)
+        .post(`${baseUrl}/auth/signin`)
+        .send(users[1])
+        .end((err, res) => {
+          userToken = res.body.data.token;
           expect(res.body.data).to.not.equal(null);
           expect(res.statusCode).to.equal(200);
           done();
@@ -519,6 +530,17 @@ describe('Banka App', () => {
       chai.request(app)
         .get(`${baseUrl}/accounts/1010101019`)
         .set('authorization', `Bearer ${adminToken}`)
+        .end((err, res) => {
+          expect(res.body.data).to.not.equal(null);
+          expect(res.statusCode).to.equal(200);
+          done();
+        });
+    });
+
+    it('should return only the specific details on an account to the owner', (done) => {
+      chai.request(app)
+        .get(`${baseUrl}/accounts/1010101011`)
+        .set('authorization', `Bearer ${userToken}`)
         .end((err, res) => {
           expect(res.body.data).to.not.equal(null);
           expect(res.statusCode).to.equal(200);
