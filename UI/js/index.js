@@ -45,6 +45,10 @@ let signinFormlink = document.querySelector('#signInlink');
 let signinFormbutton = document.querySelector('.signInbtn');
 let LoginErrorDiv = document.querySelector('.loginErrorMessage');
 
+let signupFormlink = document.querySelector('#signUplink');
+let signupFormbutton = document.querySelector('.signUpbtn');
+let signupErrorDiv = document.querySelector('.SignUpErrorMessage');
+
 let signupForm = document.getElementById('signupForm');
 let signinForm = document.getElementById('signinForm');
 
@@ -66,8 +70,46 @@ const navigate = (data) => {
     goToPage('staff.html');
 }
 
-signupForm.addEventListener('submit', (event) => {
-  formatForm(signupForm);
+signupForm.addEventListener('submit',async (event) => {
+  const { valid, inputs } = formatForm(signupForm);
+
+  const firstName = inputs[0].value;
+  const lastName = inputs[1].value;
+  const signupEmail = inputs[2].value;
+  const signupPassword = inputs[3].value;
+
+  if(valid){return false;}
+  addClass(signupFormbutton, 'spinner');
+  formatCss(signupFormlink,'color','#F24259');
+  signupFormbutton.disabled = true;
+
+  const response = await fetchCall(signUpURL, 'POST', {firstName, lastName, email: signupEmail, password: signupPassword})
+  
+  if(!response) {
+    removeClass(signupFormbutton, 'spinner');
+    formatCss(signupFormlink,'color','#fff');
+    showError(signupErrorDiv, 'error', 'Network Error', 'Connection to the server was lost');
+    signupFormbutton.disabled = false;
+    return false;
+  }
+
+  const { responseObj, statusCode } = response;
+
+  if(statusCode !== 201){
+    removeClass(signupFormbutton, 'spinner');
+    formatCss(signupFormlink,'color','#fff');
+    signupFormbutton.disabled = false;
+    if(statusCode === 409) {    
+      return showError(signupErrorDiv, 'error', 'Signup Error', 'The email is already taken');
+    }
+    showError(signupErrorDiv, 'error', 'Network Error', 'The connection to server was lost');
+    return false;
+  }
+  
+  const { data } = responseObj;
+  localStorage.setItem('token', data.token);
+  showError(signupErrorDiv, 'success','Registered Successful', 'Welcome');
+  setTimeout(function(){ navigate(data); }, 2000)
 });
 
 signinForm.addEventListener('submit', async (event) => {
