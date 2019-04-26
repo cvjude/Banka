@@ -65,6 +65,23 @@ class Authenticator {
     }
     return next();
   }
+
+  /**
+    * @static
+    * @description Checks that user is a staff
+    * @param {object} req - Request object
+    * @param {object} res - Response object
+    * @param {Object} next - Next function call
+    * @returns {object} Json
+    * @memberof Controllers
+    */
+  static async isAdmin(req, res, next) {
+    const { loggedinUser } = req.body;
+    if (loggedinUser.isadmin !== 'true') {
+      return Util.errorstatus(res, 403, 'Forbidden, You Are not allowed to perform this action');
+    }
+    return next();
+  }
 }
 
 export default Authenticator;

@@ -6,13 +6,13 @@ const schema = {
       .required(),
     lastName: Joi.string().regex(/[A-Za-z]/).min(3)
       .required(),
-    email: Joi.string().email().lowercase().required()
+    email: Joi.string().email().required()
       .trim(),
     password: Joi.string().required(),
   }),
 
   signin: Joi.object().keys({
-    email: Joi.string().email().lowercase().required()
+    email: Joi.string().email().required()
       .trim(),
     password: Joi.string().required(),
   }),
@@ -35,6 +35,10 @@ const schema = {
 
   email: Joi.object().keys({
     email: Joi.string().email().lowercase().required(),
+  }),
+
+  isAdmin: Joi.object().keys({
+    isAdmin: Joi.string().valid('true', 'false').required(),
   }),
 
   picture: Joi.object().keys({

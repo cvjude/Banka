@@ -45,6 +45,18 @@ const Users = [
     email: 'staff@gmail.com',
     password: 'staff',
   },
+  {
+    firstName: 'Joe',
+    lastName: 'Cole',
+    email: 'joecole@gmail.com',
+    password: 'juo',
+  },
+  {
+    firstName: 'Joey',
+    lastName: 'Coley',
+    email: 'joelycoley@gmail.com',
+    password: 'juo',
+  },
 ];
 
 export default Users;

@@ -165,6 +165,68 @@ describe('Banka App', () => {
     });
   });
 
+  describe('POST/ sign up a new Admin/Staff', () => {
+    it('should signup a new staff', (done) => {
+      chai.request(app)
+        .post(`${baseUrl}/user/signup/false`)
+        .set('authorization', `Bearer ${adminToken}`)
+        .send(users[8])
+        .end((err, res) => {
+          expect(res.body).to.not.equal(null);
+          expect(res.statusCode).to.equal(201);
+          done();
+        });
+    });
+
+    it('should signup a new Admin', (done) => {
+      chai.request(app)
+        .post(`${baseUrl}/user/signup/true`)
+        .set('authorization', `Bearer ${adminToken}`)
+        .send(users[9])
+        .end((err, res) => {
+          expect(res.body).to.not.equal(null);
+          expect(res.statusCode).to.equal(201);
+          done();
+        });
+    });
+
+    it('Staff should not sign up Admin/Staff', (done) => {
+      chai.request(app)
+        .post(`${baseUrl}/user/signup/false`)
+        .set('authorization', `Bearer ${staffToken}`)
+        .send(users[8])
+        .end((err, res) => {
+          expect(res.body).to.not.equal(null);
+          expect(res.statusCode).to.equal(403);
+          done();
+        });
+    });
+
+    it('User should not sign up Admin/Staff', (done) => {
+      chai.request(app)
+        .post(`${baseUrl}/user/signup/false`)
+        .set('authorization', `Bearer ${userToken}`)
+        .send(users[8])
+        .end((err, res) => {
+          expect(res.body).to.not.equal(null);
+          expect(res.statusCode).to.equal(403);
+          done();
+        });
+    });
+
+    it('should return an error for an invalid parameter', (done) => {
+      chai.request(app)
+        .post(`${baseUrl}/user/signup/fal`)
+        .set('authorization', `Bearer ${adminToken}`)
+        .send(users[8])
+        .end((err, res) => {
+          expect(res.body.error[0]).to.equal('isAdmin must be one of [true, false]');
+          expect(res.statusCode).to.equal(400);
+          done();
+        });
+    });
+  });
+
   describe('POST/user', () => {
     it('should get a logged in user details', (done) => {
       chai.request(app)

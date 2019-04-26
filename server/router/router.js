@@ -17,6 +17,7 @@ router.get('/', UserController.welcome);
 router.post('/auth/signup', userValidation.validateSignup, UserController.signup);
 router.post('/auth/signin', userValidation.validateSignin, UserController.signin);
 router.get('/user', Authenticator.user, UserController.getDetails);
+router.post('/user/signup/:isAdmin', Authenticator.user, Authenticator.isAdmin, userValidation.validateSignup, parameterValidation.isAdmin, UserController.signup);
 
 router.get('/accounts', Authenticator.user, Authenticator.isStaff, AccountController.getAllAccounts);
 router.get('/accounts/:param', Authenticator.user, parameterValidation.vaidateParam, AccountController.getAccountDetails);
