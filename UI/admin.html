@@ -29,6 +29,16 @@
                     </select>
                 </div>
                 <div class = form_inputs>
+                    <input type="text" name = "firstName" required>
+                    <label class = "form-label" for = "firstName">First name</label>
+                    <div class = error>use only letters a-z example format "jane", minimum of 3 characters</div>
+                </div>
+                <div class = form_inputs>
+                    <input type="text" name = "lastName" required>
+                    <label class = "form-label" for = "lastName">Last name</label>
+                    <div class = error>use only letters a-z example format "jane", minimum of 3 characters</div>
+                </div>
+                <div class = form_inputs>
                     <input type="text" name = "email" required>
                     <label class = "form-label" for = "email">Email</label>
                     <div class = error>email should follow janedoe@jan.com</div>
@@ -36,7 +46,7 @@
                 <div class = form_inputs>
                     <input type="password" name = "password" required>
                     <label class = "form-label" for = "password">Password</label>
-                    <div class = error>password should be alphanumeric with @_.- included and must be 6 - 15 characters long</div>
+                    <div class = error>password should be alphanumeric and must be at least 6 characters long</div>
                 </div>
                 <button class = dialogbtn>
                         <div class = "btn btn-custom">Create</div>
@@ -362,8 +372,8 @@
         </div>
     </footer>
 
-    <script type="text/javascript" src="js/controllers/validation.js"></script>
-    <script type="text/javascript" src="js/controllers/adminshared.js"></script>
-    <script type="text/javascript" src="js/controllers/admin.js"></script>
+    <script type="text/javascript" src="js/uiValidations.js"></script>
+    <script type="text/javascript" src="js/adminshared.js"></script>
+    <script type="text/javascript" src="js/admin.js"></script>
     </body>
 </html>

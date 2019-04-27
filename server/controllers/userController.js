@@ -71,10 +71,19 @@ class UserController {
   */
   static async signup(req, res) {
     const {
-      email, firstName, lastName, password,
+      email, firstName, lastName, password, isadmin,
     } = req.body;
 
-    const isAdmin = false; const type = 'client'; let user;
+    let isAdmin;
+    let type;
+    let user;
+    let tokenObj;
+
+    if (!isadmin) {
+      isAdmin = false; type = 'client';
+    } else {
+      isAdmin = isadmin; type = 'staff';
+    }
 
     try {
       user = await dbMethods.readFromDb('users', '*', { email });
@@ -92,10 +101,12 @@ class UserController {
     }, 'RETURNING id');
 
     const { id } = fetchedUser;
-    const tokenObj = { id };
+    if (!isadmin) {
+      tokenObj = token({ id });
+    }
 
     return util.successStatus(res, 201, 'data', {
-      token: token(tokenObj), id, firstName, lastName, email,
+      token: tokenObj, id, firstName, lastName, email,
     });
   }
 
@@ -115,9 +126,13 @@ class UserController {
     } catch (error) {
       return util.errorstatus(res, 500, 'SERVER ERROR');
     }
-    if (!user[0]) { return util.errorstatus(res, 400, 'User doesn\'t exist'); }
+    if (!user[0]) {
+      return util.errorstatus(res, 400, 'User doesn\'t exist');
+    }
 
-    if (!checkPassword(password.trim(), user[0].hashpassword)) { return util.errorstatus(res, 400, 'Email or password not correct'); }
+    if (!checkPassword(password.trim(), user[0].hashpassword)) {
+      return util.errorstatus(res, 401, 'Email or password not correct');
+    }
 
     const {
       id, firstname, lastname, type, isadmin,

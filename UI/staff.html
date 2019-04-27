@@ -29,6 +29,11 @@
                     </select>
                 </div>
                 <div class = form_inputs>
+                    <input type="text" name = "description" required>
+                    <label class = "form-label" for = "description">Description</label>
+                    <div class = error>Transaction details should not be more than 30 letters</div>
+                </div>
+                <div class = form_inputs>
                     <input type="text" name = "amount" required>
                     <label class = "form-label" for = "amount">Amount</label>
                     <div class = error>should be in digits, of the form xxx.xx</div>
@@ -347,9 +352,9 @@
         </div>
     </footer>
 
-    <script type="text/javascript" src = "js/controllers/validation.js"></script>
-    <script type="text/javascript" src = "js/controllers/shared.js"></script>
-    <script type="text/javascript" src = "js/controllers/adminshared.js"></script>
-    <script type="text/javascript" src = "js/controllers/staff.js"></script>
+    <script type="text/javascript" src = "js/uiValidations.js"></script>
+    <script type="text/javascript" src = "js/shared.js"></script>
+    <script type="text/javascript" src = "js/adminshared.js"></script>
+    <script type="text/javascript" src = "js/staff.js"></script>
     </body>
 </html>

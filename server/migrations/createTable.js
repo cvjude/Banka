@@ -47,6 +47,7 @@ const transactTable = `CREATE TABLE IF NOT EXISTS transactions(
   oldbalance real NOT NULL,
   newbalance real NOT NULL,
   accountnumber int NOT NULL,
+  description text default 'transaction',
   FOREIGN KEY (accountnumber) REFERENCES  accounts(accountnumber) ON DELETE CASCADE
   );
 `;

@@ -37,6 +37,26 @@ class ParameterValidation {
       return util.errorstatus(res, 400, error);
     }
     req.body.email = email.trim();
+    req.body.email = email.toLowerCase();
+    return next();
+  }
+
+  /**
+  * @static
+  * @description Validates account account number
+  * @param {Object} req - Request object
+  * @param {Object} res - Response object
+  * @param {Object} next - Next function call
+  * @memberof Controllers
+  */
+  static isAdmin(req, res, next) {
+    const { isAdmin } = req.params;
+
+    const error = util.validateJoi({ isAdmin }, schema.isAdmin);
+    if (error) {
+      return util.errorstatus(res, 400, error);
+    }
+    req.body.isadmin = isAdmin;
     return next();
   }
 }

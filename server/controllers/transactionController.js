@@ -14,25 +14,35 @@ const calulateBalance = (type, balance, amount) => {
 
 class TransactionController {
   static async transactions(req, res) {
-    const { loggedinUser, accountNumber, amount } = req.body;
+    const {
+      loggedinUser, accountNumber, amount, description,
+    } = req.body;
     try {
       const userAccount = await dbMethods.readFromDb('accounts', '*', { accountNumber });
 
-      if (!userAccount[0]) { return util.errorstatus(res, 400, 'Account not found'); }
+      if (!userAccount[0]) {
+        return util.errorstatus(res, 404, 'Account not found');
+      }
 
       const { status, balance } = userAccount[0];
       const type = req.url.endsWith('debit') ? 'debit' : 'credit';
 
-      if (loggedinUser.isadmin === 'true' || loggedinUser.type === 'client') { return util.errorstatus(res, 403, 'Forbidden, You Are not allowed to perform this action'); }
+      if (loggedinUser.isadmin === 'true' || loggedinUser.type === 'client') {
+        return util.errorstatus(res, 403, 'Forbidden, You Are not allowed to perform this action');
+      }
 
       if (type === 'debit') {
-        if (status === 'dormant') { return util.errorstatus(res, 400, 'cannot perform transaction on dormant account'); }
-        if (balance < amount) { return util.errorstatus(res, 400, 'insuffcient fund'); }
+        if (status === 'dormant') {
+          return util.errorstatus(res, 400, 'cannot perform transaction on dormant account');
+        }
+        if (balance < amount) {
+          return util.errorstatus(res, 400, 'insuffcient fund');
+        }
       }
 
       const newBalance = calulateBalance(type, balance, amount);
       const transactions = await dbMethods.insertToDb('transactions', {
-        type, cashier: loggedinUser.id, amount, oldBalance: balance, newBalance, accountNumber,
+        type, cashier: loggedinUser.id, amount, oldBalance: balance, newBalance, accountNumber, description,
       }, 'RETURNING *');
 
       await dbMethods.updateDbRow('accounts', { balance: newBalance }, { accountNumber });
@@ -44,6 +54,7 @@ class TransactionController {
         cashier: loggedinUser.id,
         transactionType: type,
         accountBalance: newBalance.toFixed(2),
+        description,
       });
     } catch (error) { return util.errorstatus(res, 500, 'Server error'); }
   }
@@ -65,25 +76,38 @@ class TransactionController {
       if (loggedinUser.type === 'client') {
         const checkForOnwer = await pool.query(queries.conditional.accountAndId,
           [accountNumber, id]);
-        if (!checkForOnwer.rows[0]) { return util.errorstatus(res, 400, `Account ${accountNumber} does not belong to this User`); }
+        if (!checkForOnwer.rows[0]) {
+          return util.errorstatus(res, 400, `Account ${accountNumber} does not belong to this User`);
+        }
       }
 
       const userAccount = await dbMethods.readFromDb('accounts', '*', { accountNumber });
 
-      if (!userAccount[0]) { return util.errorstatus(res, 400, 'Account not found'); }
+      if (!userAccount[0]) {
+        return util.errorstatus(res, 404, 'Account not found');
+      }
 
       transactions = await dbMethods.readFromDb('transactions', '*', { accountNumber });
       if (!transactions[0]) {
-        return util.errorstatus(res, 400, 'No transactions for this account');
+        return util.errorstatus(res, 404, 'No transactions for this account');
       }
-    } catch (error) { return util.errorstatus(res, 500, 'Server error'); }
+    } catch (error) {
+      return util.errorstatus(res, 500, 'Server error');
+    }
 
     const datas = transactions.map((transaction) => {
       const {
-        id, createdon, type, amount, oldbalance, newbalance, accountnumber,
+        id, createdon, type, amount, oldbalance, newbalance, accountnumber, description,
       } = transaction;
       return {
-        transactionId: id, createdOn: createdon, type, accountNumber: accountnumber, amount, oldBalance: oldbalance, newBalance: newbalance,
+        transactionId: id,
+        createdOn: createdon,
+        type,
+        accountNumber: accountnumber,
+        amount,
+        oldBalance: oldbalance,
+        newBalance: newbalance,
+        description,
       };
     });
     return util.successStatus(res, 200, 'data', datas);
@@ -99,20 +123,28 @@ class TransactionController {
     */
 
   static async getSingleTransactionById(req, res) {
-    const { param } = req.body; const id = param;
+    const { param, loggedinUser } = req.body; const id = param;
     let transaction;
 
     try {
+      if (loggedinUser.type === 'client') {
+        const checkForOnwer = await pool.query(queries.join.getTransactionById,
+          [loggedinUser.id, id]);
+        if (!checkForOnwer.rows[0]) {
+          return util.errorstatus(res, 400, 'Account Transaction does not belong to this User');
+        }
+      }
+
       transaction = await dbMethods.readFromDb('transactions', '*', { id });
       if (!transaction[0]) {
-        return util.errorstatus(res, 400, 'Transaction not found');
+        return util.errorstatus(res, 404, 'Transaction not found');
       }
     } catch (error) {
       return util.errorstatus(res, 500, 'Server error');
     }
 
     const {
-      createdon, type, amount, oldbalance, newbalance, accountnumber,
+      createdon, type, amount, oldbalance, newbalance, accountnumber, description,
     } = transaction[0];
 
     return util.successStatus(res, 200, 'data', {
@@ -123,6 +155,7 @@ class TransactionController {
       amount,
       oldBalance: oldbalance,
       newBalance: newbalance,
+      description,
     });
   }
 }

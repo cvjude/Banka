@@ -3,31 +3,31 @@ const Users = [
     firstName: 'James',
     lastName: 'Chidima',
     email: 'jchidima@gmail.com',
-    password: 'jude',
+    password: 'bankapp',
   },
   {
     firstName: 'Amos',
     lastName: 'Oruroghene',
     email: 'amoslv@gmail.com',
-    password: 'amos',
+    password: 'bankapp',
   },
   {
     firstName: 'Amos',
     lastName: '-123',
     email: 'amoslvgmailcom',
-    password: 'amos',
+    password: 'bankapp',
   },
   {
     firstName: '1234',
     lastName: 'Oruroghene',
     email: 'amoslvw@gmailcom',
-    password: 'amos',
+    password: 'bankapp',
   },
   {
     firstName: 'James',
     lastName: 'Chidima',
     email: 'jchidimanonso@gmail.com',
-    password: 'judes',
+    password: 'bankapp',
   },
   {
     firstName: 'James',
@@ -39,11 +39,23 @@ const Users = [
     firstName: 'Jude',
     lastName: 'violet',
     email: 'jjviolet@gmail.com',
-    password: 'jude',
+    password: 'bankapp',
   },
   {
     email: 'staff@gmail.com',
-    password: 'staff',
+    password: 'bankapp',
+  },
+  {
+    firstName: 'Joe',
+    lastName: 'Cole',
+    email: 'joecole@gmail.com',
+    password: 'juojooe',
+  },
+  {
+    firstName: 'Joey',
+    lastName: 'Coley',
+    email: 'joelycoley@gmail.com',
+    password: 'juojooe',
   },
 ];
 

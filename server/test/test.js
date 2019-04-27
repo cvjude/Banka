@@ -1,5 +1,6 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
+import request from 'supertest';
 import app from '../app';
 import users from './testdata/user';
 import accounts from './testdata/accounts';
@@ -31,6 +32,18 @@ describe('Banka App', () => {
         .get(`${baseUrl}/jdfsdfaoioh`)
         .end((err, res) => {
           expect(res.statusCode).to.equal(404);
+          done();
+        });
+    });
+
+    it('Should return an error for an invalid json onject', (done) => {
+      request(app)
+        .post(`${baseUrl}/accounts`)
+        .send('{"invalid"}')
+        .type('json')
+        .end((err, res) => {
+          expect(res.body.error).to.equal('Invalid Json Object');
+          expect(res.statusCode).to.equal(400);
           done();
         });
     });
@@ -159,6 +172,68 @@ describe('Banka App', () => {
         .send(users[5])
         .end((err, res) => {
           expect(res.body.error).to.equal('Email or password not correct');
+          expect(res.statusCode).to.equal(401);
+          done();
+        });
+    });
+  });
+
+  describe('POST/ sign up a new Admin/Staff', () => {
+    it('should signup a new staff', (done) => {
+      chai.request(app)
+        .post(`${baseUrl}/user/signup/false`)
+        .set('authorization', `Bearer ${adminToken}`)
+        .send(users[8])
+        .end((err, res) => {
+          expect(res.body).to.not.equal(null);
+          expect(res.statusCode).to.equal(201);
+          done();
+        });
+    });
+
+    it('should signup a new Admin', (done) => {
+      chai.request(app)
+        .post(`${baseUrl}/user/signup/true`)
+        .set('authorization', `Bearer ${adminToken}`)
+        .send(users[9])
+        .end((err, res) => {
+          expect(res.body).to.not.equal(null);
+          expect(res.statusCode).to.equal(201);
+          done();
+        });
+    });
+
+    it('Staff should not sign up Admin/Staff', (done) => {
+      chai.request(app)
+        .post(`${baseUrl}/user/signup/false`)
+        .set('authorization', `Bearer ${staffToken}`)
+        .send(users[8])
+        .end((err, res) => {
+          expect(res.body).to.not.equal(null);
+          expect(res.statusCode).to.equal(403);
+          done();
+        });
+    });
+
+    it('User should not sign up Admin/Staff', (done) => {
+      chai.request(app)
+        .post(`${baseUrl}/user/signup/false`)
+        .set('authorization', `Bearer ${userToken}`)
+        .send(users[8])
+        .end((err, res) => {
+          expect(res.body).to.not.equal(null);
+          expect(res.statusCode).to.equal(403);
+          done();
+        });
+    });
+
+    it('should return an error for an invalid parameter', (done) => {
+      chai.request(app)
+        .post(`${baseUrl}/user/signup/fal`)
+        .set('authorization', `Bearer ${adminToken}`)
+        .send(users[8])
+        .end((err, res) => {
+          expect(res.body.error[0]).to.equal('isAdmin must be one of [true, false]');
           expect(res.statusCode).to.equal(400);
           done();
         });
@@ -271,7 +346,7 @@ describe('Banka App', () => {
         .send({ status: 'active' })
         .end((err, res) => {
           expect(res.body.error).to.equal('Account not found');
-          expect(res.statusCode).to.equal(400);
+          expect(res.statusCode).to.equal(404);
           done();
         });
     });
@@ -318,7 +393,7 @@ describe('Banka App', () => {
         .set('authorization', `Bearer ${adminToken}`)
         .end((err, res) => {
           expect(res.body.error).to.equal('Account not found');
-          expect(res.statusCode).to.equal(400);
+          expect(res.statusCode).to.equal(404);
           done();
         });
     });
@@ -360,6 +435,18 @@ describe('Banka App', () => {
         });
     });
 
+    it('should credit a user account', (done) => {
+      chai.request(app)
+        .post(`${baseUrl}/transactions/1010101011/credit`)
+        .send({ amount: 3000, description: 'For food and drinks' })
+        .set('authorization', `Bearer ${staffToken}`)
+        .end((err, res) => {
+          expect(res.body.data).to.not.equal(null);
+          expect(res.statusCode).to.equal(200);
+          done();
+        });
+    });
+
     it('should allow only staff to perform action', (done) => {
       chai.request(app)
         .post(`${baseUrl}/transactions/1010101011/debit`)
@@ -379,7 +466,7 @@ describe('Banka App', () => {
         .send({ amount: 3000 })
         .end((err, res) => {
           expect(res.body.error).to.equal('Account not found');
-          expect(res.statusCode).to.equal(400);
+          expect(res.statusCode).to.equal(404);
           done();
         });
     });
@@ -460,7 +547,7 @@ describe('Banka App', () => {
         .set('authorization', `Bearer ${staffToken}`)
         .end((err, res) => {
           expect(res.body.error).to.equal('Account not found');
-          expect(res.statusCode).to.equal(400);
+          expect(res.statusCode).to.equal(404);
           done();
         });
     });
@@ -471,7 +558,7 @@ describe('Banka App', () => {
         .set('authorization', `Bearer ${staffToken}`)
         .end((err, res) => {
           expect(res.body.error).to.equal('No transactions for this account');
-          expect(res.statusCode).to.equal(400);
+          expect(res.statusCode).to.equal(404);
           done();
         });
     });
@@ -482,6 +569,29 @@ describe('Banka App', () => {
       chai.request(app)
         .get(`${baseUrl}/transactions/6`)
         .set('authorization', `Bearer ${adminToken}`)
+        .end((err, res) => {
+          expect(res.body.data).to.not.equal(null);
+          expect(res.statusCode).to.equal(200);
+          done();
+        });
+    });
+
+    it('should not return an account transaction to an user who doesnt own the account', (done) => {
+      chai.request(app)
+        .get(`${baseUrl}/transactions/9`)
+        .set('authorization', `Bearer ${userToken}`)
+        .end((err, res) => {
+          expect(res.body.error).to.equal('Account Transaction does not belong to this User');
+          expect(res.body.data).to.not.equal(null);
+          expect(res.statusCode).to.equal(400);
+          done();
+        });
+    });
+
+    it('should return an account transaction to the owner of the account', (done) => {
+      chai.request(app)
+        .get(`${baseUrl}/transactions/6`)
+        .set('authorization', `Bearer ${userToken}`)
         .end((err, res) => {
           expect(res.body.data).to.not.equal(null);
           expect(res.statusCode).to.equal(200);
@@ -506,7 +616,7 @@ describe('Banka App', () => {
         .set('authorization', `Bearer ${staffToken}`)
         .end((err, res) => {
           expect(res.body.error).to.equal('Transaction not found');
-          expect(res.statusCode).to.equal(400);
+          expect(res.statusCode).to.equal(404);
           done();
         });
     });
@@ -530,7 +640,7 @@ describe('Banka App', () => {
         .set('authorization', `Bearer ${staffToken}`)
         .end((err, res) => {
           expect(res.body.error).to.equal('Transaction not found');
-          expect(res.statusCode).to.equal(400);
+          expect(res.statusCode).to.equal(404);
           done();
         });
     });
@@ -576,7 +686,7 @@ describe('Banka App', () => {
         .set('authorization', `Bearer ${staffToken}`)
         .end((err, res) => {
           expect(res.body.error).to.equal('Account not found');
-          expect(res.statusCode).to.equal(400);
+          expect(res.statusCode).to.equal(404);
           done();
         });
     });

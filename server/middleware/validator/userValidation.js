@@ -29,6 +29,7 @@ class UserValidation {
     req.body.lastName = lastName.trim();
     req.body.password = password.trim();
     req.body.email = email.trim();
+    req.body.email = email.toLowerCase();
     return next();
   }
 
@@ -56,6 +57,7 @@ class UserValidation {
     }
     req.body.password = password.trim();
     req.body.email = email.trim();
+    req.body.email = email.toLowerCase();
     return next();
   }
 

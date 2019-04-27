@@ -26,6 +26,7 @@ const queries = {
     accountsAndEmailOnId: 'SELECT email, accounts.* FROM users INNER JOIN accounts on users.id = accounts.OWNER where users.id = $1 AND accounts.accountnumber = $2',
     getAllDormant: 'SELECT email, accounts.* FROM users INNER JOIN accounts on users.id = accounts.OWNER WHERE accounts.status = \'dormant\'',
     getAllActive: 'SELECT email, accounts.* FROM users INNER JOIN accounts on users.id = accounts.OWNER WHERE accounts.status = \'active\'',
+    getTransactionById: 'SELECT OWNER, transactions.* FROM accounts INNER JOIN transactions ON accounts.accountnumber = transactions.accountnumber WHERE accounts.OWNER = $1 AND transactions.id = $2',
   },
   conditional: {
     accountAndId: 'SELECT * FROM accounts WHERE accountnumber = $1 AND owner = $2',

@@ -2,7 +2,8 @@ const inputs = document.querySelectorAll('input');
 
 const patterns = {
     email: /^(\s*[\w.-]+)@([a-zA-Z\d]{3,8})\.([a-z]{3,8}\s*)$/,
-    password: /^.{4,15}$/,
+    password: /^\w{6,}$/,
+    description:/^[a-zA-Z\d\s]{0,30}$/,
     firstName: /^[a-zA-Z]{3,}$/,
     lastName: /^[a-zA-Z]{3,}$/,
     signupEmail: /^([\w.-]+)@([a-zA-Z\d]{3,8})\.([a-z]{3,8})$/,
