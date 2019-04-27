@@ -5,7 +5,7 @@ const fetchCall = async (url, method, data = undefined) => {
         method,
         headers: new Headers({
         'Content-Type': 'application/json',
-        token,
+        'Authorization': 'Bearer '+ token
         }),
         body: JSON.stringify(data),
     };
@@ -18,6 +18,10 @@ const fetchCall = async (url, method, data = undefined) => {
         console.log(err);
     }
 };
+
+const loggedUser = () => {
+    return ;
+}
 
 const removeClass = (tag, className) => {
     tag.classList.remove(className);
@@ -71,4 +75,27 @@ const showError = (tag, messageType, errorType, errorMessage) => {
 
 
 const formatError = () => {
+}
+
+const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    'December'
+];
+
+const formatDate = (thedate) => {
+    const date = new Date(thedate);
+    const day = date.getDate()
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+    return { day, month, year };
 }

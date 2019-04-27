@@ -7,3 +7,4 @@ const baseApiRoute = devUrl + api;
 //api
 let loginURL = baseApiRoute + 'auth/signin';
 let signUpURL = baseApiRoute + 'auth/signup';
+let getUser = baseApiRoute + 'user'
