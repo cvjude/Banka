@@ -130,6 +130,7 @@ dd + dt::before {
     top: 50px;
     background: white;
     z-index: 1;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 
 .before::before{
@@ -191,6 +192,7 @@ dd + dt::before {
 .accounts ul li{
     font-size: .8em;
     text-align: left;
+    text-transform: capitalize;
     padding: 10px 5px;
     border-bottom: 1px solid silver;
     border-left: 2px solid #F24259;
@@ -310,6 +312,35 @@ footer .container{
     .info{
         grid-column: 2/5;
     }
+}
+
+.notransaction{
+    display: flex;
+    height: 60vh;
+}
+
+.noaccount{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.noaccount > p ,
+.notransaction > div{
+    margin: auto;
+    color: rgba(0,0,0,0.6);
+    font-size: 15px;
+    text-transform: initial;
+    font-family: 'Segoe UI',
+}
+
+.noaccount > p{
+    padding: 5px;
+}
+
+.notransaction > div > p {
+    font-size: 17px;
+    text-align: center;
 }
 
 @media only screen and (max-width: 790px){
