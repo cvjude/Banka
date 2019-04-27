@@ -18,10 +18,19 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/api/v2/', router);
 app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerdoc));
 
-app.all('*', (req, res) => res.status(404).json({
-  status: 404,
-  error: 'Page not found',
-}));
+app.all('*', (req, res) => {
+  res.status(404).json({
+    status: 404,
+    error: 'Page not found',
+  });
+});
+
+app.use('*', (err, req, res, next) => {
+  res.status(400).json({
+    status: 400,
+    error: 'Invalid Json Object',
+  });
+});
 
 const port = process.env.PORT || 5001;
 app.listen(port, () => {

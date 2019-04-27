@@ -6,6 +6,7 @@ const transactions = [
     amount: 1000.00,
     oldBalance: 1500.00,
     newBalance: 2500.00,
+    description: 'Salaries',
   },
   {
     type: 'debit',
@@ -14,6 +15,7 @@ const transactions = [
     amount: 1000.00,
     oldBalance: 1500.00,
     newBalance: 2500.00,
+    description: 'Food and Drinks',
   },
   {
     type: 'credit',
@@ -22,6 +24,7 @@ const transactions = [
     amount: 1000.00,
     oldBalance: 1500.00,
     newBalance: 2500.00,
+    description: 'Bonus',
   },
   {
     type: 'credit',
@@ -30,6 +33,7 @@ const transactions = [
     amount: 1000.00,
     oldBalance: 1500.00,
     newBalance: 2500.00,
+    description: 'Bonus',
   },
   {
     type: 'credit',
@@ -38,6 +42,7 @@ const transactions = [
     amount: 1000.00,
     oldBalance: 1500.00,
     newBalance: 2500.00,
+    description: 'Bonus',
   },
   {
     type: 'credit',
@@ -58,6 +63,14 @@ const transactions = [
   {
     type: 'credit',
     accountNumber: 1010101011,
+    cashier: 1,
+    amount: 1000.00,
+    oldBalance: 1500.00,
+    newBalance: 2500.00,
+  },
+  {
+    type: 'credit',
+    accountNumber: 1010101012,
     cashier: 1,
     amount: 1000.00,
     oldBalance: 1500.00,

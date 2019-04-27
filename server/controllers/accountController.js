@@ -54,7 +54,7 @@ class AccountController {
     try {
       const userAccount = await dbMethods.readFromDb('accounts', '*', { accountNumber });
       if (!userAccount[0]) {
-        return util.errorstatus(res, 400, 'Account not found');
+        return util.errorstatus(res, 404, 'Account not found');
       }
 
       await dbMethods.updateDbRow('accounts', { status }, { accountNumber });
@@ -84,7 +84,7 @@ class AccountController {
       const userAccount = await dbMethods.readFromDb('accounts', '*', { accountNumber });
 
       if (!userAccount[0]) {
-        return util.errorstatus(res, 400, 'Account not found');
+        return util.errorstatus(res, 404, 'Account not found');
       }
 
       await dbMethods.deleteDbRow('accounts', { accountNumber });
@@ -109,12 +109,18 @@ class AccountController {
     try {
       const owner = await dbMethods.readFromDb('users', '*', { email });
 
-      if (!owner[0]) { return util.errorstatus(res, 400, 'User not found'); }
+      if (!owner[0]) {
+        return util.errorstatus(res, 404, 'User not found');
+      }
 
       accounts = await dbMethods.readFromDb('accounts', '*', { owner: owner[0].id });
-    } catch (error) { return util.errorstatus(res, 500, 'SERVER ERROR'); }
+    } catch (error) {
+      return util.errorstatus(res, 500, 'SERVER ERROR');
+    }
 
-    if (!accounts[0]) { return util.errorstatus(res, 400, 'User has no account'); }
+    if (!accounts[0]) {
+      return util.errorstatus(res, 404, 'User has no account');
+    }
 
     const datas = accounts.map((account) => {
       const {
@@ -151,7 +157,7 @@ class AccountController {
       } else Accountdetails = await pool.query(queries.join.accountOnEmail, [accountNumber]);
 
       if (!Accountdetails.rows[0]) {
-        return util.errorstatus(res, 400, 'Account not found');
+        return util.errorstatus(res, 404, 'Account not found');
       }
     } catch (error) {
       return util.errorstatus(res, 500, 'Server error');
@@ -185,7 +191,11 @@ class AccountController {
 
     try {
       const { status } = req.query;
-      if (status === 'active') { accounts = await pool.query(queries.join.getAllActive); } else if (status === 'dormant') { accounts = await pool.query(queries.join.getAllDormant); } else accounts = await pool.query(queries.join.accountsAndEmail);
+      if (status === 'active') {
+        accounts = await pool.query(queries.join.getAllActive);
+      } else if (status === 'dormant') {
+        accounts = await pool.query(queries.join.getAllDormant);
+      } else accounts = await pool.query(queries.join.accountsAndEmail);
     } catch (error) {
       return util.errorstatus(res, 500, 'Server error');
     }

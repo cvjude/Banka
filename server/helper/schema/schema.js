@@ -8,13 +8,13 @@ const schema = {
       .required(),
     email: Joi.string().email().required()
       .trim(),
-    password: Joi.string().required(),
+    password: Joi.string().required().min(6),
   }),
 
   signin: Joi.object().keys({
     email: Joi.string().email().required()
       .trim(),
-    password: Joi.string().required(),
+    password: Joi.string().min(6).required(),
   }),
 
   account: Joi.object().keys({
@@ -48,6 +48,7 @@ const schema = {
   transaction: Joi.object().keys({
     amount: Joi.number().required(),
     accountNumber: Joi.number().integer().required().min(10),
+    description: Joi.string().max(30),
   }),
 };
 

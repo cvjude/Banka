@@ -126,9 +126,13 @@ class UserController {
     } catch (error) {
       return util.errorstatus(res, 500, 'SERVER ERROR');
     }
-    if (!user[0]) { return util.errorstatus(res, 400, 'User doesn\'t exist'); }
+    if (!user[0]) {
+      return util.errorstatus(res, 400, 'User doesn\'t exist');
+    }
 
-    if (!checkPassword(password.trim(), user[0].hashpassword)) { return util.errorstatus(res, 400, 'Email or password not correct'); }
+    if (!checkPassword(password.trim(), user[0].hashpassword)) {
+      return util.errorstatus(res, 401, 'Email or password not correct');
+    }
 
     const {
       id, firstname, lastname, type, isadmin,

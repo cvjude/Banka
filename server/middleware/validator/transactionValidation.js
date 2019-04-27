@@ -12,13 +12,17 @@ class TransactionValidation {
   */
   static ValidateTransaction(req, res, next) {
     const accountNumber = Number(req.params.accountNumber);
-    const { amount } = req.body;
+    const { amount, description } = req.body;
     const validateObject = {
-      amount, accountNumber,
+      amount, accountNumber, description,
     };
     const error = util.validateJoi(validateObject, schema.transaction);
     if (error) {
       return util.errorstatus(res, 400, error);
+    }
+
+    if (!description) {
+      req.body.description = 'transaction';
     }
     req.body.accountNumber = accountNumber;
     req.body.amount = Number(amount.toFixed(2));
