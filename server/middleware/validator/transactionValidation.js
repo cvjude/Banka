@@ -16,6 +16,11 @@ class TransactionValidation {
     const validateObject = {
       amount, accountNumber, description,
     };
+
+    if (accountNumber.toString().length > 10) {
+      return util.errorstatus(res, 400, 'AccountNumber should be 10 digits');
+    }
+
     const error = util.validateJoi(validateObject, schema.transaction);
     if (error) {
       return util.errorstatus(res, 400, error);

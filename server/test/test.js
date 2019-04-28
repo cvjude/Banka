@@ -327,6 +327,18 @@ describe('Banka App', () => {
         });
     });
 
+    it('should activate a user account', (done) => {
+      chai.request(app)
+        .patch(`${baseUrl}/account/1010101010112`)
+        .set('authorization', `Bearer ${adminToken}`)
+        .send({ status: 'active' })
+        .end((err, res) => {
+          expect(res.body.error).to.equal('AccountNumber should be 10 digits');
+          expect(res.statusCode).to.equal(400);
+          done();
+        });
+    });
+
     it('should allow only admin/staff to perform action', (done) => {
       chai.request(app)
         .patch(`${baseUrl}/account/1010101010`)
@@ -376,6 +388,17 @@ describe('Banka App', () => {
         });
     });
 
+    it('should flag an error for an incorrect account number', (done) => {
+      chai.request(app)
+        .delete(`${baseUrl}/accounts/1010101010990`)
+        .set('authorization', `Bearer ${adminToken}`)
+        .end((err, res) => {
+          expect(res.body.error).to.equal('AccountNumber should be 10 digits');
+          expect(res.statusCode).to.equal(400);
+          done();
+        });
+    });
+
     it('should allow only admin/staff to perform action', (done) => {
       chai.request(app)
         .delete(`${baseUrl}/accounts/1010101011`)
@@ -419,6 +442,18 @@ describe('Banka App', () => {
         .end((err, res) => {
           expect(res.body.data).to.not.equal(null);
           expect(res.statusCode).to.equal(200);
+          done();
+        });
+    });
+
+    it('should return an error for an invalid account number', (done) => {
+      chai.request(app)
+        .post(`${baseUrl}/transactions/1010101011333/debit`)
+        .send({ amount: 3000 })
+        .set('authorization', `Bearer ${staffToken}`)
+        .end((err, res) => {
+          expect(res.body.error).to.equal('AccountNumber should be 10 digits');
+          expect(res.statusCode).to.equal(400);
           done();
         });
     });
