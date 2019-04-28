@@ -11,9 +11,9 @@ class AccountValidation {
   * @memberof Controllers
   */
   static validateAccountCreationDetails(req, res, next) {
-    const {
-      type, openingBalance,
-    } = req.body;
+    let { type } = req.body;
+    const { openingBalance } = req.body;
+    type = type.toLowerCase();
 
     const validateObject = {
       type, openingBalance,
@@ -24,6 +24,7 @@ class AccountValidation {
       return util.errorstatus(res, 400, error);
     }
     req.body.type = type.trim();
+    req.body.type = type;
     return next();
   }
 
@@ -36,10 +37,11 @@ class AccountValidation {
   * @memberof Controllers
   */
   static validateAccountStatus(req, res, next) {
-    const {
+    let {
       status,
     } = req.body;
 
+    status = status.toLowerCase();
     const accountNumber = Number(req.params.accountNumber);
 
     const validateObject = {
@@ -52,6 +54,7 @@ class AccountValidation {
     }
     req.body.accountNumber = accountNumber;
     req.body.status = status.trim();
+    req.body.status = status;
     return next();
   }
 }

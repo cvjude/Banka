@@ -8,3 +8,5 @@ const baseApiRoute = devUrl + api;
 let loginURL = baseApiRoute + 'auth/signin';
 let signUpURL = baseApiRoute + 'auth/signup';
 let getUser = baseApiRoute + 'user'
+let createAccount = baseApiRoute + 'accounts'
+let uploadURL = baseApiRoute + 'image'
