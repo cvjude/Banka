@@ -14,6 +14,9 @@ class ParameterValidation {
     const param = Number(req.params.param);
 
     const error = util.validateJoi({ param }, schema.checkParam);
+    if (param.toString().length > 10) {
+      return util.errorstatus(res, 400, 'AccountNumber should be 10 digits');
+    }
     if (error) {
       return util.errorstatus(res, 400, error);
     }

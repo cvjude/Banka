@@ -44,6 +44,10 @@ class AccountValidation {
     status = status.toLowerCase();
     const accountNumber = Number(req.params.accountNumber);
 
+    if (accountNumber.toString().length > 10) {
+      return util.errorstatus(res, 400, 'AccountNumber should be 10 digits');
+    }
+
     const validateObject = {
       status, accountNumber,
     };

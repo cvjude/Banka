@@ -104,25 +104,22 @@ class AccountController {
     */
 
   static async getAllUserAccounts(req, res) {
-    const { email } = req.body;
+    const { email, loggedinUser } = req.body;
     let accounts;
+
     try {
-      const owner = await dbMethods.readFromDb('users', '*', { email });
+      if (loggedinUser.type === 'client') {
+        accounts = await pool.query(queries.join.userAndAccount, [email, loggedinUser.id]);
+      } else accounts = await pool.query(queries.join.accountsByEmail, [email]);
 
-      if (!owner[0]) {
-        return util.errorstatus(res, 404, 'User not found');
+      if (!accounts.rows[0]) {
+        return util.errorstatus(res, 404, 'Accounts not found');
       }
-
-      accounts = await dbMethods.readFromDb('accounts', '*', { owner: owner[0].id });
     } catch (error) {
       return util.errorstatus(res, 500, 'SERVER ERROR');
     }
 
-    if (!accounts[0]) {
-      return util.errorstatus(res, 404, 'User has no account');
-    }
-
-    const datas = accounts.map((account) => {
+    const datas = accounts.rows.map((account) => {
       const {
         createdon, accountnumber, type, status, balance,
       } = account;

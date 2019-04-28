@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "version": "1.0",
+    "version": "2.0",
     "title": "Banka",
     "description": "Banka is a light-weight core banking application that powers banking operations like account creation, customer deposit and withdrawals. This app is meant to support a single bank, where users can signup and create bank accounts online, but must visit the branch to withdraw or deposit money."
   },
@@ -67,6 +67,77 @@
             "bearerAuth": []
           }
         ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/users"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/responce"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/signup/{isAdmin}": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Sign up a new admin or user, Authorized for Admin",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "isAdmin",
+            "in": "path",
+            "required": true,
+            "description": "false for a staff and true for an admin",
+            "schema": {
+              "type": "string",
+              "minimum": 10
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "firstName": {
+                    "type": "string"
+                  },
+                  "lastName": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": "Created",
@@ -340,6 +411,17 @@
         "security": [
           {
             "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "description": "active for all active, and dormant for al dormant",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {

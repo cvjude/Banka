@@ -8,6 +8,15 @@ const accountli = document.querySelector('.accountsLiTag');
 const transactionsDiv = document.querySelector('.transactions');
 const transactHeader = document.querySelector('.transactheader');
 
+if(!token) {
+    goToPage('index.html');
+}
+
+const logout = document.querySelector('.logout');
+logout.addEventListener('click', () => {
+    signout();
+});
+
 btn[2].addEventListener('click', async (event) => {
     event.preventDefault();
     if(input.value){
@@ -156,12 +165,10 @@ const getUserDetails = async () => {
     </div>`
     const imagePlace = document.querySelector('.profileimg');
     const imageTag = document.querySelector('#profileimg')
-    // formatHtml(imagePlace, 'src', profilePic)
     
     var image = new Image;
-    image.crossOrigin="anonymous"; /* THIS WILL MAKE THE IMAGE CROSS-ORIGIN */
+    image.crossOrigin="anonymous";
     image.src = profilePic;
-    // pictureDiv.appendChild(image);
     
     imagePlace.replaceChild(image, imageTag);
     
@@ -176,7 +183,7 @@ window.addEventListener('load', async function() {
     if (!email) {
         return false;
     }
-    const account = await loadAccountDetails(baseApiRoute + `user/${email}/accounts`, 'detailed');
+    const account = await loadAccountDetails(baseApiRoute + `user/${email}/accounts`, 'detailed','client');
     await loadTranactionDetails(account, 'first');
 })
 

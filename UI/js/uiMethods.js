@@ -19,10 +19,6 @@ const fetchCall = async (url, method, data = undefined) => {
     }
 };
 
-const loggedUser = () => {
-    return ;
-}
-
 const removeClass = (tag, className) => {
     tag.classList.remove(className);
 };
@@ -30,6 +26,11 @@ const removeClass = (tag, className) => {
 const addClass = (tag, className) => {
     tag.classList.add(className);
 };
+
+const signout = () => {
+    localStorage.removeItem('token');
+    goToPage('index.html');
+}
 
 const goToPage = (url) => {
     window.location.href = url;
@@ -73,10 +74,6 @@ const showError = (tag, messageType, errorType, errorMessage) => {
     addClass(tag, 'grow-error');
 }
 
-
-const formatError = () => {
-}
-
 const months = [
     "January",
     "February",
@@ -99,20 +96,6 @@ const formatDate = (thedate) => {
     const year = date.getFullYear();
     return { day, month, year };
 }
-// const fullAccountSchema =
-// `
-//     <div>
-//         <dt>Account number:</dt>
-//         <dd>${accountNumber}</dd>
-//         <dt>Balance:</dt>
-//         <dd>${balance}</dd>
-//         <dt>Created:</dt> 
-//         <dd>${date.day}th ${date.month} ${date.year}</dd>
-//         <dt>Transactions conducted:</dt>
-//         <dd>${count}</dd>
-//     </div>
-//     <div class = "before b${status}">${status}</div>
-//     `;
 
 const bodyError = `
 <div class = wrong>
@@ -165,36 +148,122 @@ const transactionHeaderSchema = (data) => {
     </ul>
     `
 }
-const singleAccountSchema = (data) => {
+const singleAccountSchema = (data, type) => {
     const { accountNumber, status, balance } = data;
-    return `<li id = ${accountNumber}>
-        <div id = ${status}>
-            <dt>Account number:</dt>
-            <dd>${accountNumber}</dd>
-            <dt>Balance:</dt>
-            <dd>${balance}</dd>
-        </div>
-        <div class = "before b${status}">${status}</div>
-    </li>`
+    console.log(type);
+    if (type === 'client'){
+      return  `
+        <li id = ${accountNumber}>
+            <div id = ${status}>
+                <dt>Account number:</dt>
+                <dd>${accountNumber}</dd>
+                <dt>Balance:</dt>
+                <dd>${balance}</dd>
+            </div>
+            <div class = "before b${status}">${status}</div>
+        </li>
+        `
+    } else if(type === 'admin'){
+        return `
+        <li id = ${accountNumber}>
+            <div id = ${status}>
+                <dt>Account number:</dt>
+                <dd>${accountNumber}</dd>
+                <dt>Balance:</dt>
+                <dd>${balance}</dd>
+                <div class = detials>
+                    <div class = "btn btn-custom">Details</div>
+                </div>
+            </div>
+            <div class="accoutli">
+                <div class = "before b${status}">${status}</div>
+            </div>
+        </li>
+        `
+    } else {
+        return `
+        <li id = ${accountNumber}>
+            <div id = ${status}>
+                <dt>Account number:</dt>
+                <dd>${accountNumber}</dd>
+                <dt>Balance:</dt>
+                <dd>${balance}</dd>
+                <div class = detials>
+                    <div id = d${accountNumber} class = "btn btn-custom"><div id = dl${accountNumber}> Details</div></div>
+                    <div id = t${accountNumber} class = "btn btn-custom"><div id = tl${accountNumber}> Transact</div></div>
+                </div>
+            </div>
+            <div class="accoutli">
+                <div class = "before b${status}">${status}</div>
+            </div>
+        </li>
+        `
+    }
 }
 
-const detailedAccountSchema = (datas, transactions) => {
+const detailedAccountSchema = (datas, transactions, type) => {
     const { accountNumber, status, createdOn } = datas;
     const date = formatDate(createdOn);
-    return `
-    <li id = ${accountNumber}>
-        <div id = ${status}>
-            <dt>Account number:</dt>
-            <dd>${accountNumber}</dd>
-            <dt>Balance:</dt>
-            <dd>${status}</dd>
-            <dt>Created:</dt> 
-            <dd>${date.day}th ${date.month} ${date.year}</dd>
-            <dt>Transactions conducted:</dt>
-            <dd>${transactions}</dd>
-        </div>
-        <div class = "before b${status}">${status}</div>
-    </li>`
+    if (type === 'client'){
+        return  `
+          <li id = ${accountNumber}>
+            <div id = ${status}>
+                <dt>Account number:</dt>
+                <dd>${accountNumber}</dd>
+                <dt>Balance:</dt>
+                <dd>${status}</dd>
+                <dt>Created:</dt> 
+                <dd>${date.day}th ${date.month} ${date.year}</dd>
+                <dt>Transactions conducted:</dt>
+                <dd>${transactions}</dd>
+            </div>
+              <div class = "before b${status}">${status}</div>
+          </li>
+          `
+      } else if(type === 'admin'){
+          return `
+          <li id = ${accountNumber}>
+              <div id = ${status}>
+                  <dt>Account number:</dt>
+                  <dd>${accountNumber}</dd>
+                  <dt>Balance:</dt>
+                  <dd>${status}</dd>
+                  <dt>Created:</dt> 
+                  <dd>${date.day}th ${date.month} ${date.year}</dd>
+                  <dt>Transactions conducted:</dt>
+                  <dd>${transactions}</dd>
+                  <div class = detials>
+                      <div class = "btn btn-custom">Details</div>
+                  </div>
+              </div>
+              <div class="accoutli">
+                  <div class = "before b${status}">${status}</div>
+              </div>
+          </li>
+          `
+      } else {
+          return `
+          <li id = ${accountNumber}>
+            <div id = ${status}>
+                <dt>Account number:</dt>
+                <dd>${accountNumber}</dd>
+                <dt>Balance:</dt>
+                <dd>${status}</dd>
+                <dt>Created:</dt> 
+                <dd>${date.day}th ${date.month} ${date.year}</dd>
+                <dt>Transactions conducted:</dt>
+                <dd>${transactions}</dd>
+                <div class = detials>
+                    <div id = "detail" class = "btn btn-custom">Details</div>
+                    <div id = "trans"class = "btn btn-custom">Transact</div>
+                </div>
+            </div>
+            <div class="accoutli">
+                <div class = "before b${status}">${status}</div>
+            </div>
+          </li>
+          `
+      }
 }
 
 const TransactionSchema = (data) => {
@@ -242,8 +311,7 @@ const TransactionDetailsShema = (datas) => {
     </div>`
 }
 
-const loadAccountDetails = async (url, detailType = 'nonDetailed') => {
-    console.log(url);
+const loadAccountDetails = async (url, detailType = 'nonDetailed', types) => {
     const fetched = await fetchCall(url, 'GET');
 
     if(!fetched || fetched.statusCode === 500) {
@@ -268,13 +336,13 @@ const loadAccountDetails = async (url, detailType = 'nonDetailed') => {
     let accounthtml = ''
     for (const datas of data) {
         if(detailType === 'nonDetailed')
-            accounthtml +=  singleAccountSchema(datas);
-        else {       
+            accounthtml +=  singleAccountSchema(datas, types);
+        else {     
             const fetched = await fetchCall(baseApiRoute + `/accounts/${datas.accountNumber}/transactions`, 'GET');
             let transactions;
             if(fetched.responseObj.data) { transactions = fetched.responseObj.data.length}
             else transactions = 0;
-            accounthtml += detailedAccountSchema(datas, transactions);
+            accounthtml += detailedAccountSchema(datas, transactions, types);
         }
     };
     accountli.innerHTML = accounthtml;

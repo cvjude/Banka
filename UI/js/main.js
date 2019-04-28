@@ -9,6 +9,15 @@ const transactHeader = document.querySelector('.transactheader');
 const body = document.querySelector('main');
 let email;
 
+if(!token) {
+    goToPage('index.html');
+}
+
+const logout = document.querySelector('.logout');
+logout.addEventListener('click', () => {
+    signout();
+});
+
 const getUserDetails = async () => {
     const response = await fetchCall(getUser, 'GET');
     if(!response) {
@@ -18,10 +27,9 @@ const getUserDetails = async () => {
     const { responseObj, statusCode } = response; 
     const {firstName, lastName, email, profilePic} = responseObj.data;
     formatHtml(userName, 'textContent', `${firstName} ${lastName}`)
-    // formatHtml(profilepic, 'src', profilePic)
     
     var image = new Image;
-    image.crossOrigin="anonymous"; /* THIS WILL MAKE THE IMAGE CROSS-ORIGIN */
+    image.crossOrigin="anonymous";
     image.src = profilePic;
     pictureDiv.appendChild(image);
 
@@ -34,7 +42,7 @@ window.addEventListener('load', async function() {
     if (!email) {
         return false;
     }
-    const account = await loadAccountDetails(baseApiRoute + `user/${email}/accounts`);
+    const account = await loadAccountDetails(baseApiRoute + `user/${email}/accounts`, undefined,'client');
     await loadTranactionDetails(account);
 })
 

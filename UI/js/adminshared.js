@@ -2,10 +2,10 @@ adddialog = document.querySelector('#addaccount');
 
 let close = document.querySelectorAll('.close')
 close[1].addEventListener('click',(event) => {
-    accountdialog.close()
-    accountdialog.classList.remove('dialog-scale');
+    removeClass(accountdialog, 'dialog-scale');
+    setTimeout(function(){ accountdialog.close(); }, 300);
 })
 close[0].addEventListener('click',(event) => {
-    adddialog.close()
-    adddialog.classList.remove('dialog-scale');
+    removeClass(adddialog, 'dialog-scale');
+    setTimeout(function(){ adddialog.close(); }, 300);
 })
