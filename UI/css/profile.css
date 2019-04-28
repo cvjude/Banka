@@ -209,6 +209,10 @@ select:focus{
     padding-bottom: 1.5em;
 }
 
+.notransaction{
+    height: 30vh;
+}
+
 @media only screen and (max-width: 790px){
     
     .username{
@@ -222,10 +226,7 @@ select:focus{
 
 @media only screen and (max-width: 480px){
     dialog{
-        width: 300px;
-        height: 300px;
-        margin-top: -150px;
-        margin-left: -150px;
+        width: 310px;
     }
     
     .username{
@@ -243,6 +244,10 @@ select:focus{
 
     .profileimg{
         margin: auto;
+    }
+
+    .transactions {
+        min-height: 30vh;
     }
 }
 

@@ -7,7 +7,7 @@ const patterns = {
     firstName: /^[a-zA-Z]{3,}$/,
     lastName: /^[a-zA-Z]{3,}$/,
     signupEmail: /^([\w.-]+)@([a-zA-Z\d]{3,8})\.([a-z]{3,8})$/,
-    signupPassword: /^.{4,15}$/,
+    signupPassword: /^\w{6,}$/,
     openingbalance: /^\d{3,}$/,
     amount: /^\d{1,}$/,
 };

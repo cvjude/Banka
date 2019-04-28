@@ -46,9 +46,10 @@ main .container{
 }
 
 .userprofile img{
-    height: 200px;
+    height: 250px;
     width: 200px;
     margin-bottom: 15px;
+    box-shadow: 4px 8px 10px -4px rgba(0,0,0,0.5);
 }
 
 .advert{
@@ -56,7 +57,7 @@ main .container{
     width: 200px;
     height: 75vh;
     margin-top: 20px;
-    margin-top: 8vh;
+    margin-top: 7vh;
     background: linear-gradient(135deg, rgba(242, 66, 89, 0.8) 33.3%,
      rgba(0,0,0,0.2) 0,
      rgba(0,0,0,0.2) 66.6%, rgba(242, 66, 89, 0.8) 0);
@@ -130,6 +131,7 @@ dd + dt::before {
     top: 50px;
     background: white;
     z-index: 1;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 
 .before::before{
@@ -191,6 +193,7 @@ dd + dt::before {
 .accounts ul li{
     font-size: .8em;
     text-align: left;
+    text-transform: capitalize;
     padding: 10px 5px;
     border-bottom: 1px solid silver;
     border-left: 2px solid #F24259;
@@ -310,6 +313,40 @@ footer .container{
     .info{
         grid-column: 2/5;
     }
+}
+
+.notransaction{
+    display: flex;
+    height: 60vh;
+}
+
+.noaccount{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.noaccount > div > p,
+.notransaction > div{
+    color: rgba(0,0,0,0.6);
+    font-size: 15px;
+    text-transform: initial;
+    font-family: 'Segoe UI',
+}
+
+.noaccount > div,
+.notransaction > div {
+    margin: auto;
+}
+
+.noaccount > p{
+    padding: 5px;
+}
+
+.notransaction > div > p {
+    font-size: 17px;
+    text-align: center;
 }
 
 @media only screen and (max-width: 790px){

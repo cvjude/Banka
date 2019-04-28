@@ -109,7 +109,7 @@ signupForm.addEventListener('submit',async (event) => {
   const { data } = responseObj;
   localStorage.setItem('token', data.token);
   showError(signupErrorDiv, 'success','Registered Successful', 'Welcome');
-  setTimeout(function(){ navigate(data); }, 2000)
+  setTimeout(function(){ goToPage('main.html'); }, 2000)
 });
 
 signinForm.addEventListener('submit', async (event) => {
@@ -139,7 +139,7 @@ signinForm.addEventListener('submit', async (event) => {
     removeClass(signinFormbutton, 'spinner');
     formatCss(signinFormlink,'color','#fff');
     signinFormbutton.disabled = false;
-    if(statusCode === 400) {    
+    if(statusCode === 401) {    
       return showError(LoginErrorDiv, 'error', 'Login Error', 'The email or password was not correct');
     }
     showError(LoginErrorDiv, 'error', 'Network Error', 'The connection to server was lost');
