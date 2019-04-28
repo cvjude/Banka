@@ -50,8 +50,8 @@ class ParameterValidation {
   * @memberof Controllers
   */
   static isAdmin(req, res, next) {
-    const { isAdmin } = req.params;
-
+    let { isAdmin } = req.params;
+    isAdmin = isAdmin.toLowerCase();
     const error = util.validateJoi({ isAdmin }, schema.isAdmin);
     if (error) {
       return util.errorstatus(res, 400, error);

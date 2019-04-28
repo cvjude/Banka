@@ -323,15 +323,20 @@ footer .container{
     height: 100%;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
-.noaccount > p ,
+.noaccount > div > p,
 .notransaction > div{
-    margin: auto;
     color: rgba(0,0,0,0.6);
     font-size: 15px;
     text-transform: initial;
     font-family: 'Segoe UI',
+}
+
+.noaccount > div,
+.notransaction > div {
+    margin: auto;
 }
 
 .noaccount > p{
