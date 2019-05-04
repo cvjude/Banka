@@ -10,7 +10,6 @@ const profile = document.querySelector('.userprofile');
 
 let presentAccount;
 
-
 if(!token) {
     goToPage('index.html');
 }

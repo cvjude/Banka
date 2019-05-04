@@ -109,7 +109,7 @@ signupForm.addEventListener('submit',async (event) => {
   const { data } = responseObj;
   localStorage.setItem('token', data.token);
   showError(signupErrorDiv, 'success','Registered Successful', 'Welcome');
-  setTimeout(function(){ navigate(data); }, 2000)
+  setTimeout(function(){ goToPage('main.html'); }, 2000)
 });
 
 signinForm.addEventListener('submit', async (event) => {
