@@ -1,5 +1,5 @@
-// const devUrl = 'http://localhost:5001/';
-const devUrl = 'https://jbankapp.herokuapp.com/';
+const devUrl = 'http://localhost:5001/';
+// const devUrl = 'https://jbankapp.herokuapp.com/';
 const api = 'api/v2/';
 
 const baseApiRoute = devUrl + api;

@@ -5,6 +5,10 @@ main .container{
     justify-content: space-between;
 }
 
+dialog{
+    padding: 10px 5px 10px 5px;
+}
+
 .transactions{
     height: 74.5vh;
 }
@@ -203,6 +207,6 @@ main .container{
 
     .info{
         /* display: none; */
-        margin-top: 100px;
+        margin-top: 200px;
     }
 }

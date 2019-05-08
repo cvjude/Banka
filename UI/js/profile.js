@@ -17,7 +17,7 @@ logout.addEventListener('click', () => {
     signout();
 });
 
-btn[2].addEventListener('click', async (event) => {
+btn[1].addEventListener('click', async (event) => {
     event.preventDefault();
     if(input.value){
         await drawOnCanvas(input.files[0])
@@ -28,8 +28,9 @@ console.log(btn)
 
 
 
-btn[0].addEventListener('click', (event) => {
+btn[2].addEventListener('click', (event) => {
     event.preventDefault();
+    error.style.display = 'none';
     dialog.showModal();
         dialog.classList.add('dialog-scale');
 })
@@ -77,33 +78,27 @@ close.addEventListener('click',async (event) => {
     setTimeout(function(){ dialog.close(); }, 300);
 })
 
-accountForm = document.querySelector('.accountform');
-error = document.querySelector('.error');
-let createAccountBtn = document.querySelector('.accountBtn');
-let accountLink = document.querySelector('#accountlink');
-let AccountDiv = document.querySelector('.accountMessage');
+const accountForm = document.querySelector('.accountform');
+const error = document.querySelector('.emessage');
+const createAccountBtn = document.querySelector('.accountBtn');
+const accountLink = document.querySelector('#accountlink');
 let accountFlag = false;
+error.style.display = 'none';
 
 accountForm.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    let input = accountForm.querySelector('input');
-    if(input.className === 'valid' && input.value < 999.99){
-        return error.style.display = 'block';
-    }
-      
-    const option = accountForm.querySelectorAll('option') 
-    const type = option[1].textContent;
-    let openingBalance = input.value;
+    event.preventDefault();  
+    const option = accountForm.querySelector('select') 
+    const type = option.value;
     addClass(createAccountBtn, 'spinner');
     formatCss(accountLink,'color','#F24259');
 
     createAccountBtn.disabled = true;
-    const response = await fetchCall(createAccount, 'POST', { type, openingBalance })
+    const response = await fetchCall(createAccount, 'POST', { type })
     
     if(!response) {
         removeClass(createAccountBtn, 'spinner');
         formatCss(accountLink,'color','#fff');
-        showError(AccountDiv, 'error', 'Network Error', 'Connection to the server was lost');
+        showError(error, 'error', 'Network Error', 'Connection to the server was lost');
         createAccountBtn.disabled = false;
         return false;
     }
@@ -113,24 +108,25 @@ accountForm.addEventListener('submit', async (event) => {
     if(statusCode !== 201){
         removeClass(createAccountBtn, 'spinner');
         formatCss(accountLink,'color','#fff');
-        showError(AccountDiv, 'error', 'Network Error', 'The connection to server was lost');
+        showError(error, 'error', 'Network Error', 'The connection to server was lost');
         createAccountBtn.disabled = false;
         return false;
       }
-    showError(AccountDiv, 'success', 'Press 0k to continue', `Account number: ${data.accountNumber}`);
+    showError(error, 'success', 'Press 0k to continue', `Account number: ${data.accountNumber}`);
     removeClass(createAccountBtn, 'spinner');
     formatCss(accountLink,'color','#fff');
     formatHtml(accountLink,'textContent','Ok');
     accountFlag = true;
     createAccountBtn.disabled = false;
-    error.style.display = 'none';
+    error.style.display = 'block';
 });
 
 createAccountBtn.addEventListener('click', async() => {
     if(accountFlag === true) {
+        error.style.display = 'none';
         removeClass(dialog, 'dialog-scale');
         setTimeout(function(){ dialog.close(); }, 300);
-        const account = await loadAccountDetails(baseApiRoute + `user/${email}/accounts`, 'detailed');
+        const account = await loadAccountDetails(baseApiRoute + `user/${email}/accounts`, 'detailed', 'client');
         await loadTranactionDetails(account, 'first');
         formatHtml(accountLink,'textContent','Create');
         input.value = '';

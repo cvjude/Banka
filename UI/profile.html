@@ -13,26 +13,18 @@
 </head>
 
 <body>
-
-    <button class = "accountbtn btn btn-custom addbtn">+</button>
-
     <dialog>
         <div class = "form-container">
             <form class = "accountform" action = "">
                 <span class = "close">X</span>
                 <h4>Create Account</h4>
-                <div class = "accountMessage emessage"></div>
+                <div class = "emessage"></div>
                 <div class = form_inputs>
                     <select name="accounttype">
                         <option disabled>Select account type</option>
                         <option value="Savings">Savings</option>
                         <option value="Current">Current</option>
                     </select>
-                </div>
-                <div class = form_inputs>
-                    <input type="text" name = "openingbalance" required>
-                    <label class = "form-label" for = "openingbalance">Opening Balance</label>
-                    <div class = error>should be in digits with an amount of at least 999.99</div>
                 </div>
                 <button class= "form_button accountBtn">
                     <a class = "btn btn-custom"><p id = accountlink >Create</p></a>
@@ -62,7 +54,7 @@
             <section class = userprofile>
                 <h4>User detials</h4>
                 <div class = "username">
-                    <div class = "profileimg applyshadow">
+                    <div class = "profileimg">
                         <img id = "profileimg" src="./img/user.jpg" alt="Upload image">
                         <form action="">
                             <label class = "imglab" for="upload">
@@ -83,6 +75,7 @@
 
             <section class = accounts>
                 <h4>Accounts</h4>
+                <button class = "accountbtn btn btn-custom addbtn">+</button>
                 <div class = accountpane>
                     
                     <ul class = accountsLiTag>

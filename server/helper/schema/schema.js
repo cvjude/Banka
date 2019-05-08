@@ -2,9 +2,9 @@ import Joi from 'joi';
 
 const schema = {
   signup: Joi.object().keys({
-    firstName: Joi.string().regex(/[A-Za-z]/).min(3)
+    firstName: Joi.string().regex(/^[A-Za-z]{3,}$/)
       .required(),
-    lastName: Joi.string().regex(/[A-Za-z]/).min(3)
+    lastName: Joi.string().regex(/^[A-Za-z]{3,}$/)
       .required(),
     email: Joi.string().email().required()
       .trim(),
@@ -20,7 +20,6 @@ const schema = {
   account: Joi.object().keys({
     type: Joi.string().valid('savings', 'current')
       .required(),
-    openingBalance: Joi.number().required(),
   }),
 
   setAccount: Joi.object().keys({

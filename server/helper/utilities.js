@@ -19,7 +19,7 @@ class Utilities {
           let { message } = singleErrors;
           message = message.replace(/"/gi, '');
           if (message.includes('[A-Za-z]')) {
-            message = `${singleErrors.path[0]} should be a string`;
+            message = `${singleErrors.path[0]} should be a string with at least 3 characters`;
           }
           if (message.includes('/https:\\/\\/i\\.imgur\\.com\\/.+/')) {
             message = `${singleErrors.path[0]} should be of form https://i.imgur.com/image.extension`;
