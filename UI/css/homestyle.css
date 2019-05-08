@@ -8,6 +8,10 @@
     position: relative;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 .h-100vh {
     height: 100vh;
 }

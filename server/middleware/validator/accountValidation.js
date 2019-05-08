@@ -12,12 +12,9 @@ class AccountValidation {
   */
   static validateAccountCreationDetails(req, res, next) {
     let { type } = req.body;
-    const { openingBalance } = req.body;
     type = type.toLowerCase();
 
-    const validateObject = {
-      type, openingBalance,
-    };
+    const validateObject = { type };
 
     const error = util.validateJoi(validateObject, schema.account);
     if (error) {

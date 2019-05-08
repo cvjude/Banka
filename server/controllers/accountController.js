@@ -15,10 +15,10 @@ class AccountController {
     */
 
   static async createAccount(req, res) {
-    const { type, openingBalance, loggedinUser } = req.body;
+    const { type, loggedinUser } = req.body;
     const status = 'active';
     const owner = loggedinUser.id;
-    let accountNumber;
+    let accountNumber; const openingBalance = 0;
 
     try {
       const { accountnumber } = await dbMethods.getLastDbMember('accounts', 'accountnumber', 'accountnumber');
@@ -161,7 +161,7 @@ class AccountController {
     }
 
     const {
-      createdon, email, accountnumber, type, status, balance,
+      createdon, email, accountnumber, type, status, balance, firstname, lastname,
     } = Accountdetails.rows[0];
 
     return util.successStatus(res, 200, 'data', {
@@ -171,6 +171,8 @@ class AccountController {
       type,
       status,
       balance,
+      firstName: firstname,
+      lastName: lastname,
     });
   }
 

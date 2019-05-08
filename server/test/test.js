@@ -89,7 +89,7 @@ describe('Banka App', () => {
         .post(`${baseUrl}/auth/signup`)
         .send(users[2])
         .end((err, res) => {
-          expect(res.body.error[0]).to.equal('lastName should be a string');
+          expect(res.body.error[0]).to.equal('lastName should be a string with at least 3 characters');
           expect(res.statusCode).to.equal(400);
           done();
         });
@@ -100,7 +100,7 @@ describe('Banka App', () => {
         .post(`${baseUrl}/auth/signup`)
         .send(users[3])
         .end((err, res) => {
-          expect(res.body.error[0]).to.equal('firstName should be a string');
+          expect(res.body.error[0]).to.equal('firstName should be a string with at least 3 characters');
           expect(res.statusCode).to.equal(400);
           done();
         });

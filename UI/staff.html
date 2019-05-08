@@ -18,14 +18,15 @@
 
     <dialog id = addaccount>
         <div class = "form-container">
-            <form class = "accountform" action = "">
+            <form class = "accountform" id = "transactForm"action = "">
                 <span class = "close">X</span>
-                <h4>Transact</h4>
+                <p class = accountHeader>Transact</p>
+                <div class = "transactMessage emessage"></div>
                 <div class = form_inputs>
                     <select name="accounttype">
                         <option disabled>Select Transaction Type</option>
-                        <option value="Savings">Credit</option>
-                        <option value="Current">Debit</option>
+                        <option value="credit">Credit</option>
+                        <option value="debit">Debit</option>
                     </select>
                 </div>
                 <div class = form_inputs>
@@ -38,8 +39,8 @@
                     <label class = "form-label" for = "amount">Amount</label>
                     <div class = error>should be in digits, of the form xxx.xx</div>
                 </div>
-                <button class = dialogbtn>
-                        <div class = "btn btn-custom">Perform</div>
+                <button class = "dialogbtn transactBtn">
+                        <div class = "btn btn-custom transactLink">Perform</div>
                 </button>
             </form>
         </div>
@@ -47,26 +48,10 @@
 
     <dialog id = showaccount>
         <div class = "form-container">
-            <form class = "accountform" action = "">
-                <span class = "close">X</span>
-                <h4>Account details</h4>
-                <span>
-                <dt>Owner:</dt>
-                <dd>John Dehi</dd>
-                <dt>Account number:</dt>
-                <dd>000001</dd>
-                <dt>Balance:</dt>
-                <dd>65000.00</dd>
-                <dt>Created:</dt> 
-                <dd>1th september 2017</dd>
-                <dt>Transactions conducted:</dt>
-                <dd>10</dd>
-                <dt>Opening balance:</dt>
-                <dd>1000.00</dd>
-                </span>
-                <div class = dialogbtn>
-                    <div class = "btn btn-custom">Delete</div>
-                </div>
+            <span class = "close">X</span>
+            <form class = "accountform" id = "accountDetails"action = "">
+                
+                
             </form>
         </div>
     </dialog>

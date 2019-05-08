@@ -150,7 +150,6 @@ const transactionHeaderSchema = (data) => {
 }
 const singleAccountSchema = (data, type) => {
     const { accountNumber, status, balance } = data;
-    console.log(type);
     if (type === 'client'){
       return  `
         <li id = ${accountNumber}>
@@ -389,3 +388,91 @@ const loadTranactionDetails = async (account, details = 'notFirst') => {
     removeClass(transactionsDiv, 'spinner1');
     transactionsDiv.innerHTML = transacthtml;
 };
+
+const SingleAccount = (datas, transactions, type) => {
+    const { accountNumber, createdOn, firstName, lastName, balance } = datas;
+    const date = formatDate(createdOn);
+    if(type === 'staff'){
+          return `
+            <h4>Account details</h4>
+          <span>
+            <dt>Owner:</dt>
+            <dd>${firstName} ${lastName}</dd>
+            <dt>Account number:</dt>
+            <dd>${accountNumber}</dd>
+            <dt>Balance</dt>
+            <dd>${balance}</dd>
+            <dt>Created:</dt> 
+            <dd>${date.day}th ${date.month} ${date.year}</dd>
+            <dt>Transactions conducted:</dt>
+            <dd>${transactions}</dd>
+         </span>
+            <div class = "dialogbtn deleteBtn">
+                <div class = "btn btn-custom deleteLink" id = ${accountNumber}>Delete</div>
+            </div>
+          `
+      } else {
+          return `
+          <li id = ${accountNumber}>
+            <div id = ${status}>
+                <dt>Account number:</dt>
+                <dd>${accountNumber}</dd>
+                <dt>Balance:</dt>
+                <dd>${status}</dd>
+                <dt>Created:</dt> 
+                <dd>${date.day}th ${date.month} ${date.year}</dd>
+                <dt>Transactions conducted:</dt>
+                <dd>${transactions}</dd>
+                <div class = detials>
+                    <div id = "detail" class = "btn btn-custom">Details</div>
+                    <div id = "trans"class = "btn btn-custom">Transact</div>
+                </div>
+            </div>
+            <div class="accoutli">
+                <div class = "before b${status}">${status}</div>
+            </div>
+          </li>
+          `
+      }
+}
+
+const loadAccountDetail = async (url, types, tag) => {
+    const fetched = await fetchCall(url, 'GET');
+
+    if(!fetched || fetched.statusCode === 500) {
+        tag.innerHTML = accountErrorNetwork;
+        return false;
+    }
+
+    const { responseObj, statusCode } = fetched
+    const { data } = responseObj;
+
+    if(!data) {
+        removeClass(accountform, 'spinner')
+        tag.innerHTML = noAccountErrorSchema;
+        return false;
+    }
+
+    if(statusCode !== 200) {
+        removeClass(accountform, 'spinner')
+        tag.innerHTML = noAccountErrorSchema;
+        return false;
+    }
+    
+    const fetchedTransaction = await fetchCall(baseApiRoute + `/accounts/${data.accountNumber}/transactions`, 'GET');
+    let transactions;
+    if(fetchedTransaction.responseObj.data) { transactions = fetchedTransaction.responseObj.data.length}
+    else transactions = 0;
+    removeClass(accountform, 'spinner')
+    tag.innerHTML = await SingleAccount(data, transactions, types);
+};
+
+const formatForm = (tag) => {
+    event.preventDefault();
+    let inputs = tag.querySelectorAll('input');
+    const elements = Array.from(inputs)
+    const valid = elements.find(element => {
+      return element.className === 'invalid';
+    });
+    return { valid, inputs };
+  }

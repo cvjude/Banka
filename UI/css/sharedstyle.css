@@ -284,13 +284,14 @@ select{
 	color: #655;
     outline: none;
     z-index: 1;
-    transition: top .5s ease;
+    transition: top .3s ease;
 }
 
 .form_inputs input:focus + label,
 .form_inputs input:valid + label,
 input[value=""] + label{
-    top: -20px;
+    top: -15px;
+    font-size: 1em;
     z-index: 2;
 }
 

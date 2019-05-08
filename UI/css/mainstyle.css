@@ -49,7 +49,10 @@ main .container{
     height: 250px;
     width: 200px;
     margin-bottom: 15px;
-    box-shadow: 4px 8px 10px -4px rgba(0,0,0,0.5);
+}
+
+.profileimg {
+    border: .2px solid silver;
 }
 
 .advert{
@@ -95,6 +98,14 @@ main .container{
 }
 
 dt, dd { display: inline; }
+
+dt {
+    font-weight: 450;
+}
+
+dd {
+    float: right;
+}
 
 dd + dt::before {
     content: '\A';
@@ -187,6 +198,7 @@ dd + dt::before {
     display: inline-block;
     overflow: auto;
     width: 100%;
+    padding-bottom: 30px;
     height: 10em;
 }
 

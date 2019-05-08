@@ -5,7 +5,15 @@
     border:none;
     justify-content: space-between;
     min-width: 200px;
+}
 
+.accountHeader{
+    margin-bottom: 10px;
+    text-align: center;
+    font-weight: 450;
+    text-transform: capitalize;
+    color: grey;
+    font-size: 1.2em;
 }
 
 .dialogbtn span{
