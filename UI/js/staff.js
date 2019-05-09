@@ -35,7 +35,7 @@ const getUserDetails = async () => {
                 <div>S</div>
             </div>
         </div>
-        <p class = "black">staff ${firstName}</p>
+        <p class = "black">Staff ${firstName}</p>
         <small>${email}</small>
     `;
     return email;
@@ -58,6 +58,9 @@ accountli.addEventListener('click', async (events) => {
         event.tagName === 'LI')
     const accountNumber = tag.id;
     const status = tag.children[1].textContent;
+    if(status.includes('active'))
+        status = 'active';
+    else status = 'dormant';
     if (events.target.id === `dl${accountNumber}`) {
         
         accountdialog.showModal();
@@ -174,10 +177,9 @@ accountdialog.addEventListener('click', async (event) => {
         
         const account = await loadAccountDetails(baseApiRoute + '/accounts', undefined,'staff');
         await loadTranactionDetails(account);
-        
-        removeClass(accountdialog, 'dialog-scale');
-        setTimeout(function(){ accountdialog.close(); }, 300);
+  
+        setTimeout(function(){ removeClass(dialog, 'dialog-scale'); }, 1500);
+        setTimeout(function(){ dialog.close(); }, 2000);
         deleteBtn.disabled = false;
     }
 })
-

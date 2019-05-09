@@ -171,7 +171,7 @@ const singleAccountSchema = (data, type) => {
                 <dt>Balance:</dt>
                 <dd>${balance}</dd>
                 <div class = detials>
-                    <div class = "btn btn-custom">Details</div>
+                <div id = d${accountNumber} class = "btn btn-custom"><div id = dl${accountNumber}> Details</div></div>
                 </div>
             </div>
             <div class="accoutli">
@@ -389,12 +389,21 @@ const loadTranactionDetails = async (account, details = 'notFirst') => {
     transactionsDiv.innerHTML = transacthtml;
 };
 
-const SingleAccount = (datas, transactions, type) => {
+const SingleAccount = (datas, transactions, type, status = 'active') => {
     const { accountNumber, createdOn, firstName, lastName, balance } = datas;
     const date = formatDate(createdOn);
+    let stat = ''
+
+    if(status === 'active') {
+        stat = 'Deactivate';
+    }
+    else {
+        stat = 'Activate'
+    }
+
     if(type === 'staff'){
           return `
-            <h4>Account details</h4>
+        <h4>Account details</h4>
           <span>
             <dt>Owner:</dt>
             <dd>${firstName} ${lastName}</dd>
@@ -407,36 +416,38 @@ const SingleAccount = (datas, transactions, type) => {
             <dt>Transactions conducted:</dt>
             <dd>${transactions}</dd>
          </span>
-            <div class = "dialogbtn deleteBtn">
+            <div class = "staffdialogbtn deleteBtn">
                 <div class = "btn btn-custom deleteLink" id = ${accountNumber}>Delete</div>
             </div>
           `
       } else {
           return `
-          <li id = ${accountNumber}>
-            <div id = ${status}>
-                <dt>Account number:</dt>
-                <dd>${accountNumber}</dd>
-                <dt>Balance:</dt>
-                <dd>${status}</dd>
-                <dt>Created:</dt> 
-                <dd>${date.day}th ${date.month} ${date.year}</dd>
-                <dt>Transactions conducted:</dt>
-                <dd>${transactions}</dd>
-                <div class = detials>
-                    <div id = "detail" class = "btn btn-custom">Details</div>
-                    <div id = "trans"class = "btn btn-custom">Transact</div>
-                </div>
+          <h4>Account details</h4>
+          <span>
+            <dt>Owner:</dt>
+            <dd>${firstName} ${lastName}</dd>
+            <dt>Account number:</dt>
+            <dd>${accountNumber}</dd>
+            <dt>Balance</dt>
+            <dd>${balance}</dd>
+            <dt>Created:</dt> 
+            <dd>${date.day}th ${date.month} ${date.year}</dd>
+            <dt>Transactions conducted:</dt>
+            <dd>${transactions}</dd>
+          </span>
+          <div class = dialogButtons>
+            <div class = "dialogbtn deleteBtn">
+                <div class = "btn btn-custom deleteLink" id = ${accountNumber}>Delete</div>
             </div>
-            <div class="accoutli">
-                <div class = "before b${status}">${status}</div>
+            <div class = "dialogbtn deactiveBtn">
+                <div class = "btn btn-custom deactiveLink" id = ${accountNumber}>${stat}</div>
             </div>
-          </li>
+          </div>
           `
       }
 }
 
-const loadAccountDetail = async (url, types, tag) => {
+const loadAccountDetail = async (url, types, tag, status) => {
     const fetched = await fetchCall(url, 'GET');
 
     if(!fetched || fetched.statusCode === 500) {
@@ -464,7 +475,7 @@ const loadAccountDetail = async (url, types, tag) => {
     if(fetchedTransaction.responseObj.data) { transactions = fetchedTransaction.responseObj.data.length}
     else transactions = 0;
     removeClass(accountform, 'spinner')
-    tag.innerHTML = await SingleAccount(data, transactions, types);
+    tag.innerHTML = await SingleAccount(data, transactions, types, status);
 };
 
 const formatForm = (tag) => {
