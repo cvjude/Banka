@@ -183,4 +183,3 @@ accountdialog.addEventListener('click', async (event) => {
         deleteBtn.disabled = false;
     }
 })
-
