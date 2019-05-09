@@ -1,10 +1,10 @@
-.dialogbtn{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
+.staffdialogbtn{
     border:none;
-    justify-content: space-between;
-    min-width: 200px;
+}
+
+.staffdialogbtn > div{
+    border:none;
+    width: 100%;
 }
 
 .accountHeader{
@@ -16,13 +16,22 @@
     font-size: 1.2em;
 }
 
-.dialogbtn span{
-    min-width: 100px;
+.dialogButtons {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.deactiveLink, .deleteLink {
+    margin: 0;
+}
+
+.dialogbtn{
+    /* display: inline-block; */
 }
 
 .dialogbtn div{
-    margin: auto;
-    width: 100%;
+    width: 100px;
 }
 
 #opendialog:hover{
