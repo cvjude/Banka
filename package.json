@@ -7,12 +7,14 @@
   },
   "main": "index.js",
   "scripts": {
-    "create": "babel-node server/migrations/createTable.js",
-    "drop": "babel-node server/migrations/dropTables.js",
+    "create": "cross-env NODE_ENV=production babel-node server/migrations/createTable.js",
+    "createtest": "cross-env NODE_ENV=test babel-node server/migrations/createTable.js",
+    "drop": "cross-env NODE_ENV=production babel-node server/migrations/dropTables.js",
+    "droptest": "cross-env NODE_ENV=test babel-node server/migrations/dropTables.js",
     "test": "cross-env NODE_ENV=test nyc --require @babel/register  mocha server/test --exit",
-    "testdev": "npm run drop & npm run drop && npm run create && cross-env NODE_ENV=test nyc --require @babel/register  mocha server/test --exit && npm run drop",
-    "start": "rimraf dist/ && babel  ./server -d dist && node dist/app.js",
-    "startdev": "nodemon --exec babel-node server/app.js",
+    "testdev": "npm run droptest && npm run createtest && cross-env NODE_ENV=test nyc --require @babel/register  mocha server/test --exit && npm run droptest",
+    "start": "cross-env NODE_ENV=production rimraf dist/ && babel  ./server -d dist && node dist/app.js",
+    "startdev": "cross-env NODE_ENV=production nodemon --exec babel-node server/app.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {

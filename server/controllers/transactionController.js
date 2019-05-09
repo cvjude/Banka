@@ -7,9 +7,9 @@ import pool from '../config/config';
 
 const calulateBalance = (type, balance, amount) => {
   if (type === 'debit') {
-    return balance - amount;
+    return balance - Math.abs(amount);
   }
-  return balance + amount;
+  return balance + Math.abs(amount);
 };
 
 class TransactionController {

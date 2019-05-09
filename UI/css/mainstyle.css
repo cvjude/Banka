@@ -52,6 +52,10 @@ main .container{
     box-shadow: 4px 8px 10px -4px rgba(0,0,0,0.5);
 }
 
+.profileimg {
+    border: .2px solid silver;
+}
+
 .advert{
     grid-column: 6/7;
     width: 200px;
@@ -96,6 +100,14 @@ main .container{
 
 dt, dd { display: inline; }
 
+dt {
+    font-weight: 450;
+}
+
+dd {
+    float: right;
+}
+
 dd + dt::before {
     content: '\A';
     white-space: pre;
@@ -123,7 +135,8 @@ dd + dt::before {
     right: 0;
     left: 0px;
     padding-left: 20px; 
-    margin-left: 20px; 
+    margin-left: 20px;
+    text-transform: capitalize; 
 }
 
 .transactheader{
@@ -187,6 +200,7 @@ dd + dt::before {
     display: inline-block;
     overflow: auto;
     width: 100%;
+    padding-bottom: 30px;
     height: 10em;
 }
 

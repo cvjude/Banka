@@ -150,7 +150,6 @@ const transactionHeaderSchema = (data) => {
 }
 const singleAccountSchema = (data, type) => {
     const { accountNumber, status, balance } = data;
-    console.log(type);
     if (type === 'client'){
       return  `
         <li id = ${accountNumber}>
@@ -172,7 +171,7 @@ const singleAccountSchema = (data, type) => {
                 <dt>Balance:</dt>
                 <dd>${balance}</dd>
                 <div class = detials>
-                    <div class = "btn btn-custom">Details</div>
+                <div id = d${accountNumber} class = "btn btn-custom"><div id = dl${accountNumber}> Details</div></div>
                 </div>
             </div>
             <div class="accoutli">
@@ -389,3 +388,102 @@ const loadTranactionDetails = async (account, details = 'notFirst') => {
     removeClass(transactionsDiv, 'spinner1');
     transactionsDiv.innerHTML = transacthtml;
 };
+
+const SingleAccount = (datas, transactions, type, status = 'active') => {
+    const { accountNumber, createdOn, firstName, lastName, balance } = datas;
+    const date = formatDate(createdOn);
+    let stat = ''
+
+    if(status === 'active') {
+        stat = 'Deactivate';
+    }
+    else {
+        stat = 'Activate'
+    }
+
+    if(type === 'staff'){
+          return `
+        <h4>Account details</h4>
+          <span>
+            <dt>Owner:</dt>
+            <dd>${firstName} ${lastName}</dd>
+            <dt>Account number:</dt>
+            <dd>${accountNumber}</dd>
+            <dt>Balance</dt>
+            <dd>${balance}</dd>
+            <dt>Created:</dt> 
+            <dd>${date.day}th ${date.month} ${date.year}</dd>
+            <dt>Transactions conducted:</dt>
+            <dd>${transactions}</dd>
+         </span>
+            <div class = "staffdialogbtn deleteBtn">
+                <div class = "btn btn-custom deleteLink" id = ${accountNumber}>Delete</div>
+            </div>
+          `
+      } else {
+          return `
+          <h4>Account details</h4>
+          <span>
+            <dt>Owner:</dt>
+            <dd>${firstName} ${lastName}</dd>
+            <dt>Account number:</dt>
+            <dd>${accountNumber}</dd>
+            <dt>Balance</dt>
+            <dd>${balance}</dd>
+            <dt>Created:</dt> 
+            <dd>${date.day}th ${date.month} ${date.year}</dd>
+            <dt>Transactions conducted:</dt>
+            <dd>${transactions}</dd>
+          </span>
+          <div class = dialogButtons>
+            <div class = "dialogbtn deleteBtn">
+                <div class = "btn btn-custom deleteLink" id = ${accountNumber}>Delete</div>
+            </div>
+            <div class = "dialogbtn deactiveBtn">
+                <div class = "btn btn-custom deactiveLink" id = ${accountNumber}>${stat}</div>
+            </div>
+          </div>
+          `
+      }
+}
+
+const loadAccountDetail = async (url, types, tag, status) => {
+    const fetched = await fetchCall(url, 'GET');
+
+    if(!fetched || fetched.statusCode === 500) {
+        tag.innerHTML = accountErrorNetwork;
+        return false;
+    }
+
+    const { responseObj, statusCode } = fetched
+    const { data } = responseObj;
+
+    if(!data) {
+        removeClass(accountform, 'spinner')
+        tag.innerHTML = noAccountErrorSchema;
+        return false;
+    }
+
+    if(statusCode !== 200) {
+        removeClass(accountform, 'spinner')
+        tag.innerHTML = noAccountErrorSchema;
+        return false;
+    }
+    
+    const fetchedTransaction = await fetchCall(baseApiRoute + `/accounts/${data.accountNumber}/transactions`, 'GET');
+    let transactions;
+    if(fetchedTransaction.responseObj.data) { transactions = fetchedTransaction.responseObj.data.length}
+    else transactions = 0;
+    removeClass(accountform, 'spinner')
+    tag.innerHTML = await SingleAccount(data, transactions, types, status);
+};
+
+const formatForm = (tag) => {
+    event.preventDefault();
+    let inputs = tag.querySelectorAll('input');
+    const elements = Array.from(inputs)
+    const valid = elements.find(element => {
+      return element.className === 'invalid';
+    });
+    return { valid, inputs };
+  }

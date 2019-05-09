@@ -12,7 +12,7 @@ directories:
 
 before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
-  - npm run create
+  - npm run createtest
 
 script:
   - npm run test 
