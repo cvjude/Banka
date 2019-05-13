@@ -57,7 +57,7 @@ accountli.addEventListener('click', async (events) => {
     tag = events.path.find((event) =>
         event.tagName === 'LI')
     const accountNumber = tag.id;
-    const status = tag.children[1].textContent;
+    let status = tag.children[1].textContent;
     if(status.includes('active'))
         status = 'active';
     else status = 'dormant';
