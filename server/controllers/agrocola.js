@@ -17,9 +17,20 @@ class AgroColaController {
 
     let response;
     try {
-      response = axios.post(`http://api.agrocola.com:8080/api/v1/${path}`);
-    } catch (err) {
-      return util.errorstatus(res, 400, 'req', err);
+      response = await axios.post(
+        `http://api.agrocola.com:8080/api/v1/${path}`,
+        req.body,
+      );
+    } catch (error) {
+      console.log(error.response);
+      if (error.response) {
+        return util.successStatus(res, 400, 'error', error.response.data);
+        // console.log(error.response.data);
+      }
+      if (error.request) {
+        return util.successStatus(res, 400, 'error', error.request);
+      }
+      return util.successStatus(res, 400, 'error', error.message);
     }
 
     return util.successStatus(res, 201, 'req', response.data);
